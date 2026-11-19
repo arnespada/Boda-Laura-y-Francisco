@@ -1,608 +1,820 @@
 <!DOCTYPE html>
-<html lang="es"><head><base href="https://1970807615-atari-embeds.googleusercontent.com/embeds/a7eacaf78f1e3ba463385dc9185669ab/inner-frame-minified.html?jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.es.RgGbPqkP4qc.O%2Fd%3D1%2Frs%3DAHpOoo-MKCVvOjBPfekWEswN0cuMQf1MmQ%2Fm%3D__features__" target="_blank">
-      <script>
-        (function() {
-          if (window.__atariInitRender) {
-            window.__atariInitRender(false);
-            return;
-          }
-          var isLiquid = false;
-          var guardsInstalled = false;
-          var LOCAL_DOWNLOAD_URL_RE = /^(?:blob|data):/i;
-          var PROTOCOL_RELATIVE_RE = /^[\/\\]{2}/;
-          var FORBIDDEN_TAG_RE = /^(?:iframe|frame|object|embed)$/i;
-          var XLINK_NS = 'http://www.w3.org/1999/xlink';
-          var origPreventDefault = Event.prototype.preventDefault;
-          var origStopPropagation = Event.prototype.stopPropagation;
-          var origStopImmediatePropagation =
-              Event.prototype.stopImmediatePropagation;
-          var origAddEventListener = EventTarget.prototype.addEventListener;
-          var origRemoveEventListener =
-              EventTarget.prototype.removeEventListener;
-          var origWindowStop = window.stop ? window.stop.bind(window) : null;
-          var origElementRemove = Element.prototype.remove;
-          var origGetAttribute = Element.prototype.getAttribute;
-          var origGetAttributeNS = Element.prototype.getAttributeNS;
-          var origHasAttribute = Element.prototype.hasAttribute;
-          var origHasAttributeNS = Element.prototype.hasAttributeNS;
-          var origSetAttribute = Element.prototype.setAttribute;
-          var origSetAttributeNS = Element.prototype.setAttributeNS;
-          var origSetAttributeNode = Element.prototype.setAttributeNode;
-          var origSetAttributeNodeNS = Element.prototype.setAttributeNodeNS;
-          var origRemoveAttribute = Element.prototype.removeAttribute;
-          var origRemoveAttributeNS = Element.prototype.removeAttributeNS;
-          var origComposedPath = Event.prototype.composedPath;
-          var origCreateElement = Document.prototype.createElement;
-          var origCreateElementNS = Document.prototype.createElementNS;
-          var validatingEvents =
-              typeof WeakSet !== 'undefined' ? new WeakSet() : null;
-          var activeDeferredListeners = null;
-          var inProgrammaticClick = 0;
+<html lang="es" data-scribe-recorder-ready="true"><head><script data-bard-client-injected="true">(function(firebaseConfig, initialAuthToken, appId) {
+        window.__firebase_config = firebaseConfig;
+        window.__initial_auth_token = initialAuthToken;
+        window.__app_id = appId;
+            })("\n{\n  \"apiKey\": \"AIzaSyCqyCcs2R2e7AegGjvFAwG98wlamtbHvZY\",\n  \"authDomain\": \"bard-frontend.firebaseapp.com\",\n  \"projectId\": \"bard-frontend\",\n  \"storageBucket\": \"bard-frontend.firebasestorage.app\",\n  \"messagingSenderId\": \"175205271074\",\n  \"appId\": \"1:175205271074:web:2b7bd4d34d33bf38e6ec7b\"\n}\n","eyJhbGciOiJSUzI1NiIsImtpZCI6IjExNjRiNzdiNDMzZDdhMDAyMWI4NjE4YjhjYTU3ZTMyZGI5MWUxMTMiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJmaXJlYmFzZS1hZG1pbnNkay1mYnN2Y0BiYXJkLWZyb250ZW5kLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwiYXVkIjoiaHR0cHM6Ly9pZGVudGl0eXRvb2xraXQuZ29vZ2xlYXBpcy5jb20vZ29vZ2xlLmlkZW50aXR5LmlkZW50aXR5dG9vbGtpdC52MS5JZGVudGl0eVRvb2xraXQiLCJ1aWQiOiIxMzMwNTU1NzQyNjUyOTk1NTU2NyIsImlzcyI6ImZpcmViYXNlLWFkbWluc2RrLWZic3ZjQGJhcmQtZnJvbnRlbmQuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJjbGFpbXMiOnsiYXBwSWQiOiJjXzdkMGNhODRiZTVmNWQzZWZfaW52aXRhY2lvbl9ib2RhX2xhdXJhX2ZyYW5jaXNjby5odG1sLTUzNyJ9LCJleHAiOjE3OTUxMjk1NjAsImlhdCI6MTc5NTEyNTk2MCwiYWxnIjoiUlMyNTYifQ.UCwKImQZZFnzshJnkxSBasNzxhkwDANpchEXIemkNqXNepWf7FDVW0V6R9C9cqm36f1FlYVpK7lU-E81Ng7XZyNjhg9jc7K_VgPQRVISGOUsK4SgfzmCPyv2O0BwOvLGrAsEl1V9TzCH5DuSboH7sG0J9ibAl7c7v6xV_Ooke1IOfxB8z3ULPcuHVqtGbPPmD2Jjf8jzIkMB3WrNWEcQUMPzy6rQ2LP8yxQoH4WF5nlMSsnNaXko7euNxEv8WhaDg23p7TY2px9Ac1P8rC3DpqlEm76vr8vIQM9nbukr14Hi1bxodKYG7W05UVn7NKbONL9aMdGNzvR5Hm6rklZTOg","c_7d0ca84be5f5d3ef_invitacion_boda_laura_francisco.html-537")</script><script data-bard-client-injected="true">
+  document.addEventListener('input', (event) => {
+    if (event.target && (event.target.isContentEditable || event.target.hasAttribute('contenteditable'))) {
+      const clonedDoc = document.cloneNode(true);
+      const injectedScripts = clonedDoc.querySelectorAll('[data-bard-client-injected="true"]');
+      injectedScripts.forEach(el => el.remove());
+      window.parent.postMessage({
+        type: 'inlineEdit',
+        html: '<!DOCTYPE html>\n' + clonedDoc.documentElement.outerHTML
+      }, '*');
+    }
+  });
+</script><script data-bard-client-injected="true">(function(){'use strict';window.addEventListener("message",a=>{a.data&&a.data.type==="SUPPLEMENTAL_DATA_UPDATE"&&window.dispatchEvent(new CustomEvent("supplementaldataupdate",{detail:a.data.data}))});}).call(this);
+</script><script data-bard-client-injected="true">(function() {
+  const SCROLL_KEYS = new Set([
+    'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+    ' ', 'Spacebar', 'PageUp', 'PageDown', 'Home', 'End',
+  ]);
+  const HORIZONTAL_KEYS = new Set(['ArrowLeft', 'ArrowRight']);
 
-          function isLinkElement(el) {
-            var tag = el && el.tagName && el.tagName.toLowerCase();
-            return tag === 'a' || tag === 'area';
-          }
+  function isTextEntryTarget(target) {
+    if (!target) return false;
+    const tagName = target.tagName;
+    return tagName === 'INPUT' || tagName === 'TEXTAREA' ||
+        tagName === 'SELECT' || target.isContentEditable === true;
+  }
 
-          function hasLinkHref(link) {
-            return origHasAttribute.call(link, 'href') ||
-                origHasAttributeNS.call(link, XLINK_NS, 'href');
-          }
+  // An element absorbs the key only if it both overflows on the axis being
+  // scrolled and is configured to scroll on that axis. The cheap dimension
+  // test runs first because getComputedStyle forces a style recalc, and this
+  // runs on every keypress. Each axis is read from its own longhand: the
+  // 'overflow' shorthand serializes as two values when the axes differ, which
+  // is the common 'overflow-x: hidden; overflow-y: auto' pane.
+  function canScroll(node, horizontal) {
+    const overflows = horizontal ? node.scrollWidth > node.clientWidth
+                                 : node.scrollHeight > node.clientHeight;
+    if (!overflows) return false;
+    const style = window.getComputedStyle(node);
+    const overflow = horizontal ? style.overflowX : style.overflowY;
+    return overflow === 'auto' || overflow === 'scroll';
+  }
 
-          // Returns the href of an HTML or SVG link, which may only have the
-          // legacy xlink:href attribute.
-          function getLinkHref(link) {
-            return origGetAttribute.call(link, 'href') ||
-                origGetAttributeNS.call(link, XLINK_NS, 'href');
-          }
+  // Walks up from the event target so nested scrollers keep their behavior.
+  // <body> is included because pages that pin the root height make it the
+  // scroll container.
+  function hasScrollableAncestor(target, horizontal) {
+    let node = target;
+    while (node && node !== document.documentElement) {
+      if (canScroll(node, horizontal)) return true;
+      node = node.parentElement;
+    }
+    return false;
+  }
 
-          function removeLinkHref(link) {
-            origRemoveAttribute.call(link, 'href');
-            origRemoveAttributeNS.call(link, XLINK_NS, 'href');
-          }
+  function rootCanScroll(horizontal) {
+    const scroller = document.scrollingElement || document.documentElement;
+    if (!scroller) return false;
+    // Tolerate a pixel of rounding so subpixel layouts do not look scrollable.
+    return horizontal ? scroller.scrollWidth > window.innerWidth + 1
+                      : scroller.scrollHeight > window.innerHeight + 1;
+  }
 
-          // Returns whether the link downloads a file that the app created,
-          // which doesn't send data to other sites.
-          function isLocalDownloadLink(link, href) {
-            return origHasAttribute.call(link, 'download') &&
-                LOCAL_DOWNLOAD_URL_RE.test(href);
-          }
+  window.addEventListener('keydown', function(event) {
+    if (!SCROLL_KEYS.has(event.key)) return;
+    if (event.defaultPrevented) return;
+    // Alt and Meta turn arrows into browser history navigation, and Ctrl is
+    // reserved for shortcuts, so none of them are scroll intent.
+    if (event.altKey || event.metaKey || event.ctrlKey) return;
 
-          function isRefreshValue(val) {
-            return String(val || '').trim().toLowerCase() === 'refresh';
-          }
+    const target = event.target;
+    if (isTextEntryTarget(target)) return;
 
-          function purgeMetaRefresh(root) {
-            if (!root || !root.querySelectorAll) return;
-            var metas = root.querySelectorAll('meta[http-equiv]');
-            for (var i = 0; i < metas.length; i++) {
-              if (isRefreshValue(
-                  origGetAttribute.call(metas[i], 'http-equiv'))) {
-                origElementRemove.call(metas[i]);
-              }
-            }
-            var frames = root.querySelectorAll('iframe, frame, object, embed');
-            for (var j = 0; j < frames.length; j++) {
-              origElementRemove.call(frames[j]);
-            }
-          }
+    // Anything that can still absorb the scroll gets to keep it.
+    const horizontal = HORIZONTAL_KEYS.has(event.key);
+    if (rootCanScroll(horizontal)) return;
+    if (hasScrollableAncestor(target, horizontal)) return;
 
-          function getParentOrHost(node) {
-            if (!node) return null;
-            if (node.parentElement) return node.parentElement;
-            var parent = node.parentNode;
-            return parent && parent.host ? parent.host : null;
-          }
+    event.preventDefault();
+  }, {capture: true, passive: false});
+})();</script><script data-bard-client-injected="true">(function() {
+  // Ensure this script is executed only once
+  if (window.firebaseAuthBridgeScriptLoaded) {
+    return;
+  }
+  window.firebaseAuthBridgeScriptLoaded = true;
 
-          function findLinkFromNode(startNode, requireHref) {
-            var el = startNode;
-            while (el && el !== document) {
-              if (isLinkElement(el) && (!requireHref || hasLinkHref(el))) {
-                return el;
-              }
-              el = getParentOrHost(el);
-            }
-            return null;
-          }
+  let nextTokenPromiseId = 0;
 
-          function findLinkFromEvent(e) {
-            if (origComposedPath) {
-              try {
-                var path = origComposedPath.call(e);
-                for (var i = 0; i < path.length; i++) {
-                  var node = path[i];
-                  if (isLinkElement(node) && hasLinkHref(node)) {
-                    return node;
-                  }
-                }
-              } catch (err) {}
-            }
-            return findLinkFromNode(e.target, true);
-          }
+  // Stores { resolve, reject } for ongoing token requests
+  const pendingTokenPromises = {};
 
-          // Keeps the app from opening popups, navigating its frame, and
-          // adding meta refresh tags. document.open() keeps the window, its
-          // prototypes, and the document, so these are installed once per
-          // frame rather than on every render.
-          function installNavigationGuards() {
-            try {
-              Object.defineProperty(window, 'open', {
-                value: function() {
-                  return null;
-                },
-                writable: false,
-                configurable: false
-              });
-            } catch (err) {
-              window.open = function() {
-                return null;
-              };
-            }
-            if (window.navigation && window.navigation.addEventListener) {
-              origAddEventListener.call(
-                  window.navigation, 'navigate', function(e) {
-                    if (!e.cancelable || e.destination.sameDocument) return;
-                    if (e.downloadRequest !== null &&
-                        LOCAL_DOWNLOAD_URL_RE.test(e.destination.url)) {
-                      return;
-                    }
-                    origPreventDefault.call(e);
-                  }, true);
-            }
-            var iframeWinDesc = typeof HTMLIFrameElement !== 'undefined' &&
-                Object.getOwnPropertyDescriptor(
-                    HTMLIFrameElement.prototype, 'contentWindow');
-            if (iframeWinDesc && iframeWinDesc.get) {
-              Object.defineProperty(
-                  HTMLIFrameElement.prototype, 'contentWindow', {
-                    get: function() {
-                      return null;
-                    },
-                    configurable: false,
-                    enumerable: true
-                  });
-            }
-            var iframeDocDesc = typeof HTMLIFrameElement !== 'undefined' &&
-                Object.getOwnPropertyDescriptor(
-                    HTMLIFrameElement.prototype, 'contentDocument');
-            if (iframeDocDesc && iframeDocDesc.get) {
-              Object.defineProperty(
-                  HTMLIFrameElement.prototype, 'contentDocument', {
-                    get: function() {
-                      return null;
-                    },
-                    configurable: false,
-                    enumerable: true
-                  });
-            }
-            Document.prototype.createElement = function(tagName, options) {
-              if (FORBIDDEN_TAG_RE.test(String(tagName || ''))) {
-                return origCreateElement.call(this, 'div', options);
-              }
-              return origCreateElement.apply(this, arguments);
-            };
-            if (origCreateElementNS) {
-              Document.prototype.createElementNS = function(ns, qName, opts) {
-                var local = String(qName || '').split(':').pop();
-                if (FORBIDDEN_TAG_RE.test(local)) {
-                  return origCreateElement.call(this, 'div');
-                }
-                return origCreateElementNS.apply(this, arguments);
-              };
-            }
-            var origClick = HTMLElement.prototype.click;
-            HTMLElement.prototype.click = function() {
-              var link = findLinkFromNode(this, true);
-              if (link) {
-                var clickHref = (getLinkHref(link) || '').trim();
-                if (!clickHref.startsWith('#') &&
-                    !isLocalDownloadLink(link, clickHref)) {
-                  return;
-                }
-              }
-              inProgrammaticClick++;
-              try {
-                return origClick.apply(this, arguments);
-              } finally {
-                inProgrammaticClick--;
-              }
-            };
-            function isMetaRefreshAttr(el, name, value) {
-              return el && el.tagName &&
-                  el.tagName.toLowerCase() === 'meta' &&
-                  String(name || '').trim().toLowerCase() === 'http-equiv' &&
-                  isRefreshValue(value);
-            }
-            function validateIfActiveLink(el) {
-              if (!activeDeferredListeners || !isLinkElement(el) ||
-                  !hasLinkHref(el)) {
-                return;
-              }
-              var curHref = (getLinkHref(el) || '').trim();
-              if (!curHref.startsWith('#')) {
-                handleLiquidExternalLink(
-                    activeDeferredListeners.event, el, curHref,
-                    activeDeferredListeners.programmatic);
-              }
-            }
-            Element.prototype.setAttribute = function(name, value) {
-              if (isMetaRefreshAttr(this, name, value)) {
-                origElementRemove.call(this);
-                return;
-              }
-              var res = origSetAttribute.apply(this, arguments);
-              if (String(name || '').toLowerCase() === 'href') {
-                validateIfActiveLink(this);
-              }
-              return res;
-            };
-            if (origSetAttributeNS) {
-              Element.prototype.setAttributeNS = function(ns, name, value) {
-                var local = String(name || '');
-                if (local.includes(':')) local = local.split(':').pop();
-                if (isMetaRefreshAttr(this, local, value)) {
-                  origElementRemove.call(this);
-                  return;
-                }
-                var res = origSetAttributeNS.apply(this, arguments);
-                if (local.toLowerCase() === 'href') {
-                  validateIfActiveLink(this);
-                }
-                return res;
-              };
-            }
-            if (origSetAttributeNode) {
-              Element.prototype.setAttributeNode = function(attr) {
-                if (attr && isMetaRefreshAttr(this, attr.name, attr.value)) {
-                  origElementRemove.call(this);
-                  return null;
-                }
-                var res = origSetAttributeNode.apply(this, arguments);
-                if (attr && String(attr.name || '').toLowerCase() === 'href') {
-                  validateIfActiveLink(this);
-                }
-                return res;
-              };
-            }
-            if (origSetAttributeNodeNS) {
-              Element.prototype.setAttributeNodeNS = function(attr) {
-                var name = attr && (attr.localName || attr.name);
-                if (attr && isMetaRefreshAttr(this, name, attr.value)) {
-                  origElementRemove.call(this);
-                  return null;
-                }
-                var res = origSetAttributeNodeNS.apply(this, arguments);
-                if (String(name || '').toLowerCase() === 'href') {
-                  validateIfActiveLink(this);
-                }
-                return res;
-              };
-            }
-            function wrapHrefSetter(ctor) {
-              if (!ctor || !ctor.prototype) return;
-              var hrefDesc = Object.getOwnPropertyDescriptor(
-                  ctor.prototype, 'href');
-              if (hrefDesc && hrefDesc.set) {
-                Object.defineProperty(ctor.prototype, 'href', {
-                  get: hrefDesc.get,
-                  set: function(value) {
-                    hrefDesc.set.call(this, value);
-                    validateIfActiveLink(this);
-                  },
-                  configurable: true,
-                  enumerable: true
-                });
-              }
-            }
-            if (typeof HTMLAnchorElement !== 'undefined') {
-              wrapHrefSetter(HTMLAnchorElement);
-            }
-            if (typeof HTMLAreaElement !== 'undefined') {
-              wrapHrefSetter(HTMLAreaElement);
-            }
-            if (typeof HTMLMetaElement !== 'undefined') {
-              var desc = Object.getOwnPropertyDescriptor(
-                  HTMLMetaElement.prototype, 'httpEquiv');
-              if (desc && desc.set) {
-                Object.defineProperty(HTMLMetaElement.prototype, 'httpEquiv', {
-                  get: desc.get,
-                  set: function(value) {
-                    if (isRefreshValue(value)) {
-                      origElementRemove.call(this);
-                      return;
-                    }
-                    desc.set.call(this, value);
-                  },
-                  configurable: true,
-                  enumerable: true
-                });
-              }
-            }
-            Event.prototype.stopPropagation = function() {
-              if (validatingEvents && validatingEvents.has(this)) {
-                return;
-              }
-              return origStopPropagation.apply(this, arguments);
-            };
-            Event.prototype.stopImmediatePropagation = function() {
-              if (validatingEvents && validatingEvents.has(this)) {
-                return;
-              }
-              return origStopImmediatePropagation.apply(this, arguments);
-            };
-            var cancelBubbleDesc = Object.getOwnPropertyDescriptor(
-                Event.prototype, 'cancelBubble');
-            if (cancelBubbleDesc && cancelBubbleDesc.set) {
-              Object.defineProperty(Event.prototype, 'cancelBubble', {
-                get: cancelBubbleDesc.get,
-                set: function(val) {
-                  if (val && validatingEvents && validatingEvents.has(this)) {
-                    return;
-                  }
-                  cancelBubbleDesc.set.call(this, val);
-                },
-                configurable: true,
-                enumerable: true
-              });
-            }
-            function wrapAddEventListener(origFn) {
-              return function(type, listener, options) {
-                var res = origFn.apply(this, arguments);
-                if (activeDeferredListeners &&
-                    type === activeDeferredListeners.type) {
-                  origRemoveEventListener.call(
-                      window, activeDeferredListeners.type,
-                      activeDeferredListeners.fn, false);
-                  origAddEventListener.call(
-                      window, activeDeferredListeners.type,
-                      activeDeferredListeners.fn, false);
-                }
-                return res;
-              };
-            }
-            var origWinAdd = window.addEventListener || origAddEventListener;
-            EventTarget.prototype.addEventListener =
-                wrapAddEventListener(origAddEventListener);
-            if (typeof Window !== 'undefined' && Window.prototype) {
-              try {
-                Window.prototype.addEventListener =
-                    wrapAddEventListener(origWinAdd);
-              } catch (err) {}
-            }
-            try {
-              window.addEventListener = wrapAddEventListener(origWinAdd);
-            } catch (err) {}
-            function observeMutations(target) {
-              if (!target || typeof MutationObserver === 'undefined') return;
-              new MutationObserver(function(mutations) {
-                if (activeDeferredListeners) {
-                  for (var i = 0; i < mutations.length; i++) {
-                    var m = mutations[i];
-                    if (m.type === 'attributes' &&
-                        isLinkElement(m.target) &&
-                        hasLinkHref(m.target)) {
-                      var mHref = (getLinkHref(m.target) || '').trim();
-                      if (!mHref.startsWith('#')) {
-                        handleLiquidExternalLink(
-                            activeDeferredListeners.event, m.target, mHref,
-                            activeDeferredListeners.programmatic);
-                      }
-                    }
-                  }
-                }
-                purgeMetaRefresh(target);
-              }).observe(target, {
-                childList: true,
-                subtree: true,
-                attributes: true,
-                attributeFilter: ['http-equiv', 'href']
-              });
-            }
-            observeMutations(document);
-            if (Element.prototype.attachShadow) {
-              var origAttachShadow = Element.prototype.attachShadow;
-              Element.prototype.attachShadow = function() {
-                var sr = origAttachShadow.apply(this, arguments);
-                observeMutations(sr);
-                return sr;
-              };
-            }
-          }
+  // Listen for messages from the Host Application
+  window.addEventListener('message', function(event) {
 
-          // Returns the URL of an absolute or protocol-relative href, or null.
-          function parseAbsoluteUrl(href) {
-            var candidate =
-                PROTOCOL_RELATIVE_RE.test(href) ? 'https:' + href : href;
-            try {
-              return new URL(candidate);
-            } catch (err) {
-              return null;
-            }
-          }
+    const messageData = event.data;
 
-          // Opens the link in a new tab through the Google redirector, which
-          // warns users before they leave for another site.
-          function routeThroughRedirector(link, url) {
-            var redirectUrl = url.href;
-            if (url.origin !== 'https://www.google.com' ||
-                url.pathname !== '/url' ||
-                !url.searchParams.has('q')) {
-              redirectUrl = 'https://www.google.com/url?q=' +
-                  encodeURIComponent(url.href);
-            }
-            origSetAttribute.call(link, 'href', redirectUrl);
-            origRemoveAttributeNS.call(link, XLINK_NS, 'href');
-            origSetAttribute.call(link, 'target', '_blank');
-            origSetAttribute.call(link, 'rel', 'noopener noreferrer');
-          }
+  if (messageData && messageData.type === 'RESOLVE_NEW_FIREBASE_TOKEN') {
+      const { success, token, error, promiseId } = messageData ?? {};
+      if (pendingTokenPromises[promiseId]) {
+        if (success) {
+          pendingTokenPromises[promiseId].resolve(token);
+        } else {
+          pendingTokenPromises[promiseId].reject(new Error(error || 'Token refresh failed from host.'));
+        }
+        delete pendingTokenPromises[promiseId];
+      }
+    }
+  });
 
-          // Lets Liquid App links open web pages only through the redirector,
-          // and blocks links with other protocols, such as javascript:.
-          // Context menu events rewrite or remove the link attribute so that
-          // "Open link in new tab" also goes through the redirector or is
-          // disabled.
-          function handleLiquidExternalLink(e, link, href, programmatic) {
-            if (isLocalDownloadLink(link, href)) return;
-            if (programmatic || inProgrammaticClick > 0) {
-              removeLinkHref(link);
-              origPreventDefault.call(e);
-              origStopPropagation.call(e);
-              return;
-            }
-            var url = parseAbsoluteUrl(href);
-            var protocol = url ? url.protocol : '';
-            if (protocol === 'http:' || protocol === 'https:') {
-              routeThroughRedirector(link, url);
-            } else if (protocol !== 'mailto:' && protocol !== 'tel:') {
-              if (e.type === 'contextmenu') {
-                removeLinkHref(link);
+  // Expose a function for the Generated App to request a new Firebase token
+  window.requestNewFirebaseToken = function() {
+    const currentPromiseId = nextTokenPromiseId++;
+    const promise = new Promise((resolve, reject) => {
+      pendingTokenPromises[currentPromiseId] = { resolve, reject };
+    });
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({
+        type: 'REQUEST_NEW_FIREBASE_TOKEN',
+        promiseId: currentPromiseId
+      }, '*');
+    } else {
+      pendingTokenPromises[currentPromiseId].reject(new Error('No parent window to request token from.'));
+      delete pendingTokenPromises[currentPromiseId];
+    }
+    return promise;
+  };
+})();</script><script data-bard-client-injected="true">
+let realOriginalGetUserMedia = null;
+if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+  realOriginalGetUserMedia = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+}
+
+(function() {
+  if (navigator.mediaDevices && navigator.mediaDevices.__proto__) {
+    try {
+      Object.defineProperty(navigator.mediaDevices.__proto__, 'getUserMedia', {
+        get: function() {
+          return undefined; // Or throw an error
+        },
+        configurable: false
+      });
+    } catch (error) {
+      console.error("Error defining prototype getter:", error);
+    }
+  }
+})();
+
+(function() {
+  const pendingMediaResolvers = {};
+  let nextMediaPromiseId = 0;
+
+  function requestMediaPermissions(constraints) {
+    const mediaPromiseId = nextMediaPromiseId++;
+    const promise = new Promise((resolve, reject) => {
+      pendingMediaResolvers[mediaPromiseId] = (granted) => {
+        delete pendingMediaResolvers[mediaPromiseId];
+        resolve(granted);
+      };
+    });
+
+    window.parent.postMessage({
+      type: 'requestMediaPermission',
+      constraints: constraints,
+      promiseId: mediaPromiseId,
+    }, '*');
+
+    return promise;
+  }
+
+  let originalGetUserMedia = realOriginalGetUserMedia;
+
+  function interceptGetUserMedia() {
+    if (navigator.mediaDevices) {
+      Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {
+        value: function(constraints) {
+          return requestMediaPermissions(constraints).then((granted) => {
+            if (granted) {
+              if (originalGetUserMedia) {
+                return originalGetUserMedia(constraints);
               } else {
-                origPreventDefault.call(e);
-                origStopPropagation.call(e);
+                throw new Error("Original getUserMedia not available.");
               }
+            } else {
+              throw new DOMException('Permission denied', 'NotAllowedError');
             }
+          });
+        },
+        writable: false,
+        configurable: false
+      });
+    }
+  }
+
+  interceptGetUserMedia();
+
+  const observer = new MutationObserver(function(mutationsList, observer) {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'reconfigured' && mutation.name === 'getUserMedia' && mutation.object === navigator.mediaDevices) {
+        interceptGetUserMedia();
+      } else if (mutation.type === 'attributes' && mutation.attributeName === 'getUserMedia' && mutation.target === navigator.mediaDevices) {
+        interceptGetUserMedia();
+      } else if (mutation.type === 'childList' && mutation.addedNodes) {
+        mutation.addedNodes.forEach(node => {
+          if (node === navigator.mediaDevices) {
+            interceptGetUserMedia();
           }
+        });
+      }
+    }
+  });
 
-          function validateLiquidLinkAfterBubble(e, anchor, programmatic) {
-            if (validatingEvents) {
-              validatingEvents.add(e);
-            }
-            var state = {
-              type: e.type,
-              fn: onBubble,
-              event: e,
-              programmatic: programmatic
-            };
-            activeDeferredListeners = state;
-            function checkTarget(ev) {
-              var targetLink = anchor || findLinkFromEvent(ev);
-              if (!targetLink || !hasLinkHref(targetLink)) return;
-              var latestHref = (getLinkHref(targetLink) || '').trim();
-              if (!latestHref.startsWith('#')) {
-                handleLiquidExternalLink(
-                    ev, targetLink, latestHref, programmatic);
-              }
-            }
-            Promise.resolve().then(function() {
-              checkTarget(e);
-              if (activeDeferredListeners === state) {
-                activeDeferredListeners = null;
-              }
-            });
-            function onBubble(ev) {
-              origRemoveEventListener.call(window, ev.type, onBubble, false);
-              checkTarget(ev);
-            }
-            origAddEventListener.call(window, e.type, onBubble, false);
+  function interceptSpeechRecognition() {
+    if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
+      return;
+    }
+
+    const OriginalSpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    const SpeechRecognitionWrapper = function(...args) {
+      const recognizer = new OriginalSpeechRecognition(...args);
+      const originalStart = recognizer.start.bind(recognizer);
+
+      recognizer.start = function() {
+        requestMediaPermissions({ audio: true }).then(granted => {
+          if (granted) {
+            originalStart();
+          } else {
+            const errorEvent = new SpeechRecognitionErrorEvent('error');
+            errorEvent.error = 'not-allowed'; // This is the standard error for permission denial.
+            recognizer.dispatchEvent(errorEvent);
           }
+        });
+      };
 
-          function handleLinkClick(e) {
-            var programmatic = inProgrammaticClick > 0;
-            // Find the nearest ancestor link (handles nested icons, spans,
-            // svgs, and shadow DOM).
-            var anchor = findLinkFromEvent(e);
-            if (!anchor) {
-              if (isLiquid) {
-                validateLiquidLinkAfterBubble(e, null, programmatic);
-              }
-              return;
-            }
+      return recognizer;
+    };
 
-            if (isLiquid) {
-              validateLiquidLinkAfterBubble(e, anchor, programmatic);
-            }
-            var href = (getLinkHref(anchor) || '').trim();
-            if (!href.startsWith('#')) {
-              if (isLiquid) {
-                handleLiquidExternalLink(e, anchor, href, programmatic);
-              }
-              return;
-            }
-            if (e.type === 'contextmenu') return;
+    SpeechRecognitionWrapper.prototype = OriginalSpeechRecognition.prototype;
+    SpeechRecognitionWrapper.prototype.constructor = SpeechRecognitionWrapper;
 
-            // Prevent default <base target="_blank"> navigation to a new blank tab.
-            origPreventDefault.call(e);
-            if (!isLiquid) {
-              origStopPropagation.call(e);
-            }
+    if (window.SpeechRecognition) {
+      window.SpeechRecognition = SpeechRecognitionWrapper;
+    }
+    if (window.webkitSpeechRecognition) {
+      window.webkitSpeechRecognition = SpeechRecognitionWrapper;
+    }
+  }
 
-            // Handle empty anchor or top anchor.
-            if (href === '#' || href === '#top') {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              return;
-            }
+  interceptSpeechRecognition();
 
-            // Resolve target element by id, falling back to legacy name attribute.
-            var targetId = href.slice(1);
+  window.addEventListener('message', function(event) {
+    if (event.data) {
+      if (event.data.type === 'resolveMediaPermission') {
+        const { promiseId, granted } = event.data;
+        if (pendingMediaResolvers[promiseId]) {
+          pendingMediaResolvers[promiseId](granted);
+        }
+      }
+    }
+  });
+
+})();</script><script ws-interception-config="{&quot;parentOrigin&quot;:&quot;https://gemini.google.com&quot;,&quot;proxiedDomains&quot;:[]}" data-bard-client-injected="true">(function(){'use strict';var u=typeof Object.defineProperties=="function"?Object.defineProperty:function(b,d,e){if(b==Array.prototype||b==Object.prototype)return b;b[d]=e.value;return b};function v(b){b=["object"==typeof globalThis&&globalThis,b,"object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global];for(var d=0;d<b.length;++d){var e=b[d];if(e&&e.Math==Math)return e}throw Error("Cannot find global object");}var w=v(this);
+function y(b,d){if(d)a:{var e=w;b=b.split(".");for(var h=0;h<b.length-1;h++){var k=b[h];if(!(k in e))break a;e=e[k]}b=b[b.length-1];h=e[b];d=d(h);d!=h&&d!=null&&u(e,b,{configurable:!0,writable:!0,value:d})}}function z(b){function d(h){return b.next(h)}function e(h){return b.throw(h)}return new Promise(function(h,k){function m(n){n.done?h(n.value):Promise.resolve(n.value).then(d,e).then(m,k)}m(b.next())})}y("globalThis",function(b){return b||w});/*
+
+ Copyright The Closure Library Authors.
+ SPDX-License-Identifier: Apache-2.0
+*/
+function A(b,d){function e(){}e.prototype=d.prototype;b.i=d.prototype;b.prototype=new e;b.prototype.constructor=b;b.h=function(h,k,m){for(var n=Array(arguments.length-2),p=2;p<arguments.length;p++)n[p-2]=arguments[p];return d.prototype[k].apply(h,n)}};function B(b,d,e="*"){function h(a){if(typeof a==="string")return F.encode(a).buffer;if(a instanceof ArrayBuffer)return a.slice(0);if(ArrayBuffer.isView(a))return a.buffer.slice(a.byteOffset,a.byteOffset+a.byteLength);throw Error("Invalid data type");}function k(a){a=h(a);var f={type:"send",data:new Uint8Array(a)},g;(g=r)==null||g.postMessage(f,[a])}function m(){if(!r)throw Error("Data port not captured yet.");r.onmessage=a=>{if(a.data.type==="message"){a=new MessageEvent("message",{data:G.decode(a.data.data)});
+let f;(f=c.onmessage)==null||f.call(c,a);c.dispatchEvent(a)}}}function n(){if(!t)throw Error("Control port not captured yet.");t.onmessage=a=>{switch(a.data.type){case "open":l=1;var f=new Event("open"),g;(g=c.onopen)==null||g.call(c,f);c.dispatchEvent(f);q.forEach(H=>{k(H)});q=[];break;case "close":g=a.data;l=3;g=new CloseEvent("close",{code:g.code,reason:g.reason,wasClean:g.wasClean});(f=c.onclose)==null||f.call(c,g);c.dispatchEvent(g);break;case "error":l=3;f=new Event("error");let x;(x=c.onerror)==
+null||x.call(c,f);c.dispatchEvent(f)}}}function p(a){return z(function*(){var f=new MessageChannel;t=f.port1;var g=new MessageChannel;r=g.port1;n();m();window.parent.postMessage({type:"websocket_open",portOrdering:["control","data"],url:b,protocols:a||[],connectionId:I},e,[f.port2,g.port2])}())}var c=Reflect.construct(EventTarget,[],new.target);c.CONNECTING=0;c.OPEN=1;c.CLOSING=2;c.CLOSED=3;c.url=b;c.binaryType="arraybuffer";c.protocol="";c.extensions="";var l=0,t=null,r=null,q=[],F=new TextEncoder,
+G=new TextDecoder;c.onopen=null;c.onmessage=null;c.onclose=null;c.onerror=null;Object.defineProperty(c,"readyState",{get:()=>l,enumerable:!0,configurable:!0});Object.defineProperty(c,"bufferedAmount",{get:()=>{var a=0;q.forEach(f=>{a+=typeof f==="string"?f.length:f.byteLength});return a},enumerable:!0,configurable:!0});var I=function(){var a;return((a=globalThis.crypto)==null?0:a.randomUUID)?globalThis.crypto.randomUUID():"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,f=>{var g=Math.random()*
+16|0;return(f==="x"?g:g&3|8).toString(16)})}();c.send=a=>{if(l===1)a instanceof Blob?a.arrayBuffer().then(f=>{k(f)}):k(a);else if(l===0)if(typeof a==="string")q.push(a);else if(a instanceof ArrayBuffer||ArrayBuffer.isView(a))q.push(h(a));else throw Error("Sending Blob is not supported before the connection is open.");else console.debug("WebSocket send called in CLOSING or CLOSED state; ignored.")};c.close=(a=1E3,f="")=>{if(l!==2&&l!==3){l=2;a={type:"close",code:a,reason:f,wasClean:a===1E3};var g;
+(g=t)==null||g.postMessage(a)}};Promise.resolve().then(()=>p(d));return c}A(B,EventTarget);var C=document.currentScript,D=C==null?void 0:C.getAttribute("ws-interception-config");if(!D)throw Error("WebSocket Interceptor: Missing ws-interception-config attribute in the script tag.");var E=JSON.parse(D);if(!E.parentOrigin||typeof E.parentOrigin!=="string")throw Error("WebSocket Interceptor: Invalid parentOrigin in ws-interception-config");
+(function(b){var d=Object.getOwnPropertyDescriptor(window,"WebSocket");if(!d||d.writable||d.configurable)d=Object.assign(function(e,h){try{let k=(new URL(e)).hostname;if(b.proxiedDomains.some(m=>k===m||k.endsWith(`.${m}`)))return new B(e,h,b.parentOrigin)}catch(k){throw window.parent.postMessage({type:"websocket_blocked",url:e,reason:"blocked_invalid_url"},b.parentOrigin),new DOMException(`WebSocket connection to '${e}' is not allowed in Canvas.`,"SecurityError");}window.parent.postMessage({type:"websocket_blocked",
+url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMException(`WebSocket connection to '${e}' is not allowed in Canvas.`,"SecurityError");},{CONNECTING:0,OPEN:1,CLOSING:2,CLOSED:3}),Object.defineProperty(window,"WebSocket",{value:d,writable:!1,configurable:!1})})({proxiedDomains:E.proxiedDomains||[],parentOrigin:E.parentOrigin});}).call(this);
+</script><script data-bard-client-injected="true">((function(modelInformation) {
+  const originalFetch = window.fetch;
+  // TODO: b/421908508 - Move these out of the script and match all generative AI model calls.
+  let googleLlmBaseApiUrls = [
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.textModelName + ':streamGenerateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.textModelName + ':generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.imageModelName + ':predict',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.imageModelName + ':predictLongRunning',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.imageEditModelName + ':generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.imageTransformModelName + ':generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.videoModelName + ':predict',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.videoModelName + ':predictLongRunning',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.ttsModelName + ':generateContent',
+  ];
+  modelInformation.deprecatedTextModelNames.forEach((modelName) => {
+    googleLlmBaseApiUrls.push(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':streamGenerateContent',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent',
+    );
+  });
+  modelInformation.deprecatedImageModelNames.forEach((modelName) => {
+    googleLlmBaseApiUrls.push(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':predict',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':predictLongRunning',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':streamGenerateContent',
+    );
+  });
+  modelInformation.deprecatedGenerateImageModelNames.forEach((modelName) => {
+    googleLlmBaseApiUrls.push(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':streamGenerateContent',
+    );
+  });
+  modelInformation.deprecatedImageTransformModelNames.forEach((modelName) => {
+    googleLlmBaseApiUrls.push(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':streamGenerateContent',
+    );
+  });
+
+  const pendingFetchResolvers = {};
+  let nextPromiseId = 0;
+
+  function handleStringInput(input, optionsArgument) {
+    const actualUrl = input;
+    const fetchCallArgs = [actualUrl, optionsArgument];
+    const effectiveOptions = optionsArgument || {};
+    const bodyForApiKeyCheck = effectiveOptions.body;
+    const bodyForPostMessage = effectiveOptions.body;
+    return { actualUrl, fetchCallArgs, effectiveOptions, bodyForApiKeyCheck, bodyForPostMessage };
+  }
+
+  function handleRequestInput(input, optionsArgument) {
+    const actualUrl = input.url;
+    const fetchCallArgs = [input, optionsArgument];
+    const effectiveOptions = { method: input.method, headers: new Headers(input.headers) };
+    let bodyForApiKeyCheck;
+    let bodyForPostMessage;
+
+    if (optionsArgument) {
+      if (optionsArgument.method) effectiveOptions.method = optionsArgument.method;
+      if (optionsArgument.headers) effectiveOptions.headers = new Headers(optionsArgument.headers);
+      if ('body' in optionsArgument) {
+        bodyForApiKeyCheck = optionsArgument.body;
+        bodyForPostMessage = optionsArgument.body;
+      } else {
+        bodyForApiKeyCheck = undefined;
+        bodyForPostMessage = input.body;
+      }
+    } else {
+      bodyForApiKeyCheck = undefined;
+      bodyForPostMessage = input.body;
+    }
+    return { actualUrl, fetchCallArgs, effectiveOptions, bodyForApiKeyCheck, bodyForPostMessage };
+  }
+
+  window.fetch = function(input, optionsArgument) {
+    let actualUrl;
+    let fetchCallArgs;
+    let effectiveOptions = {};
+    let bodyForApiKeyCheck;
+    let bodyForPostMessage;
+
+    if (typeof input === 'string') {
+      ({actualUrl, fetchCallArgs, effectiveOptions, bodyForApiKeyCheck, bodyForPostMessage} = handleStringInput(input, optionsArgument));
+    } else if (input instanceof Request) {
+      ({actualUrl, fetchCallArgs, effectiveOptions, bodyForApiKeyCheck, bodyForPostMessage} = handleRequestInput(input, optionsArgument));
+    } else {
+      return originalFetch.apply(window, [input, optionsArgument]);
+    }
+
+    effectiveOptions.method = effectiveOptions.method || 'GET';
+    if (!effectiveOptions.headers) {
+      effectiveOptions.headers = new Headers();
+    }
+
+
+    if (typeof actualUrl === 'string' && googleLlmBaseApiUrls.some((url) => actualUrl.startsWith(url))) {
+      let apiKeyIsNull = true;
+
+      const regex = new RegExp("models/([^:]+)");
+      const modelNameMatch = actualUrl.match(regex);
+      const modelName = modelNameMatch ? modelNameMatch[1] : 'unspecified';
+
+
+      try {
+        const urlObject = new URL(actualUrl);  // Use URL object for robust parsing
+        const apiKeyParam = urlObject.searchParams.get('key');
+        if (apiKeyParam) {
+          apiKeyIsNull = false;
+        }
+      } catch (e) {
+        // Continue checks even if URL parsing fails
+      }
+
+      if (apiKeyIsNull && effectiveOptions.headers) {
+        const h = new Headers(effectiveOptions.headers);
+        const apiKeyHeaderValue = h.get('X-API-Key') || h.get('x-api-key');
+        if (apiKeyHeaderValue) {
+          apiKeyIsNull = false;
+          return originalFetch.apply(window, fetchCallArgs);
+        }
+      }
+
+      if (apiKeyIsNull && effectiveOptions.method && ['POST', 'PUT', 'PATCH'].includes(effectiveOptions.method.toUpperCase()) && typeof bodyForApiKeyCheck === 'string') {
+        try {
+          const bodyData = JSON.parse(bodyForApiKeyCheck);
+          if (bodyData && bodyData.apiKey) {
+            apiKeyIsNull = false;
+            return originalFetch.apply(window, fetchCallArgs);
+          }
+        } catch (e) {
+          // Ignore JSON parsing errors
+        }
+      }
+
+      if(apiKeyIsNull) {
+        const promiseId = nextPromiseId++;
+        const promise = new Promise((resolve) => {
+          pendingFetchResolvers[promiseId] = (resolvedResponse) => {
+            delete pendingFetchResolvers[promiseId];
+            resolve(resolvedResponse);
+          };
+        });
+
+        let serializedBodyForPostMessage;
+        if (typeof bodyForPostMessage === 'string' || bodyForPostMessage == null) {
+            serializedBodyForPostMessage = bodyForPostMessage;
+        } else if (bodyForPostMessage instanceof ReadableStream) {
+            serializedBodyForPostMessage = null;
+        } else {
             try {
-              targetId = decodeURIComponent(targetId);
-            } catch (err) {}
-
-            var targetEl = document.getElementById(targetId);
-            if (!targetEl) {
-              try {
-                var escaped = window.CSS && CSS.escape ? CSS.escape(targetId) : targetId.replace(/["\\]/g, '\\$&');
-                targetEl = document.querySelector('[name="' + escaped + '"]');
-              } catch (err) {}
+                serializedBodyForPostMessage = JSON.stringify(bodyForPostMessage);
+            } catch (e) {
+                serializedBodyForPostMessage = null;
             }
+        }
 
-            // Smoothly scroll to the target within the embed and update URL hash history.
-            if (targetEl) {
-              targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              if (window.history && window.history.pushState) {
-                window.history.pushState(null, '', href);
-              }
-            }
-          }
+        const messageOptions = {
+            method: effectiveOptions.method,
+            headers: Object.fromEntries(new Headers(effectiveOptions.headers).entries()),
+            body: serializedBodyForPostMessage
+        };
 
-          function initRender(nextIsLiquid) {
-            isLiquid = isLiquid || !!nextIsLiquid;
-            if (isLiquid) {
-              if (!guardsInstalled) {
-                guardsInstalled = true;
-                installNavigationGuards();
-              } else {
-                try {
-                  window.addEventListener =
-                      EventTarget.prototype.addEventListener;
-                } catch (err) {}
-              }
-              // document.open() removes the window's listeners, so this is
-              // added on every render.
-              origAddEventListener.call(window, 'beforeunload', function(e) {
-                origPreventDefault.call(e);
-                if (origWindowStop) {
-                  origWindowStop();
-                }
-              }, true);
-              purgeMetaRefresh(document);
-            }
-            // Listen during capturing phase to preempt <base target="_blank">.
-            origAddEventListener.call(
-                document, 'click', handleLinkClick, true);
-            if (isLiquid) {
-              origAddEventListener.call(
-                  document, 'auxclick', handleLinkClick, true);
-              origAddEventListener.call(
-                  document, 'contextmenu', handleLinkClick, true);
-            }
-          }
+        window.parent.postMessage({
+          type: 'requestFetch',
+          url: actualUrl,
+          modelName: modelName,
+          options: messageOptions,
+          promiseId: promiseId,
+        }, '*');
 
+        return promise;
+      }
+      return originalFetch.apply(window, fetchCallArgs);
+    }
+    return originalFetch.apply(window, fetchCallArgs);
+  };
+
+  window.addEventListener('message', function(event) {
+    if (event.data && event.data.type === 'resolveFetch') {
+      const { promiseId, response } = event.data;
+      if (pendingFetchResolvers[promiseId]) {
+        try {
+          const reconstructedResponse = new Response(response.body, {
+            status: response.status,
+            statusText: response.statusText,
+            headers: new Headers(response.headers),
+          });
+          pendingFetchResolvers[promiseId](reconstructedResponse);
+        } catch (error) {
+          pendingFetchResolvers[promiseId](new Response(null, { status: 500, statusText: "Interceptor Response Reconstruction Error" }));
+        }
+      }
+    }
+  });
+
+}))({"textModelName":"gemini-3-flash-preview","imageModelName":"imagen-4.0-generate-001","imageEditModelName":"gemini-3.1-flash-image","imageTransformModelName":"gemini-3-pro-image","videoModelName":"veo-2.0-generate-001","ttsModelName":"gemini-2.5-flash-preview-tts","deprecatedTextModelNames":["gemini-2.0-flash","gemini-2.5-flash","gemini-2.5-flash-preview-04-17","gemini-2.5-flash-preview-05-20","gemini-2.5-flash-preview-09-2025"],"deprecatedImageModelNames":["imagen-3.0-generate-001","imagen-3.0-generate-002"],"deprecatedGenerateImageModelNames":["gemini-2.5-flash-image-preview","gemini-2.5-flash-image","gemini-3.1-flash-image-preview"],"deprecatedImageTransformModelNames":["gemini-3-pro-image-preview-11-2025"]})</script><script data-bard-client-injected="true">(function() {
+  const OVERLAY_SELECTOR =
+    'dialog[open], [role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"], [role="combobox"]';
+
+  function isVisibleOverlay(element) {
+    if (element.closest('[hidden], [aria-hidden="true"], [inert]')) {
+      return false;
+    }
+    if (window.getComputedStyle(element).visibility === 'hidden') {
+      return false;
+    }
+    for (let cur = element; cur; cur = cur.parentElement) {
+      if (window.getComputedStyle(cur).display === 'none') {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function hasOpenOverlay() {
+    const candidates = document.querySelectorAll(OVERLAY_SELECTOR);
+    for (let i = 0; i < candidates.length; i++) {
+      if (isVisibleOverlay(candidates[i])) {
+        return true;
+      }
+    }
+    try {
+      if (document.querySelector('[popover]:popover-open')) {
+        return true;
+      }
+    } catch (e) {
+      // Ignore engines that do not support :popover-open.
+    }
+    return false;
+  }
+
+  function isNonEmptySearchInput(target) {
+    return (
+      Boolean(target) &&
+      target.tagName === 'INPUT' &&
+      typeof target.type === 'string' &&
+      target.type.toLowerCase() === 'search' &&
+      typeof target.value === 'string' &&
+      target.value.length > 0
+    );
+  }
+
+  function shouldIgnoreEscape(event) {
+    return (
+      event.key !== 'Escape' ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.shiftKey ||
+      event.isComposing ||
+      event.repeat ||
+      event.keyCode === 229 ||
+      isNonEmptySearchInput(event.target)
+    );
+  }
+
+  let shouldIgnoreCaptureState = false;
+
+  window.addEventListener(
+    'keydown',
+    function(event) {
+      if (event.key === 'Escape') {
+        shouldIgnoreCaptureState =
+          hasOpenOverlay() || isNonEmptySearchInput(event.target);
+      }
+    },
+    {capture: true},
+  );
+
+  window.addEventListener('keydown', function(event) {
+    if (
+      shouldIgnoreEscape(event) ||
+      event.defaultPrevented ||
+      shouldIgnoreCaptureState
+    ) {
+      return;
+    }
+    const wasBlockedOnCapture = shouldIgnoreCaptureState;
+    queueMicrotask(function() {
+      if (event.defaultPrevented || wasBlockedOnCapture) {
+        return;
+      }
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({'type': 'escapeKey'}, '*');
+      }
+    });
+  });
+})();</script><script data-bard-client-injected="true">(function() {
+  function normalizeSlug(str) {
+    try {
+      return str
+        .trim()
+        .toLowerCase()
+        .replace(/[^p{L}p{N}s_-]/gu, '')
+        .replace(/s+/g, '-');
+    } catch (e) {
+      return str
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9s_-]/g, '')
+        .replace(/s+/g, '-');
+    }
+  }
+
+  function findTargetElement(hash) {
+    if (!hash || hash === '#') {
+      return null;
+    }
+    const rawId = hash.startsWith('#') ? hash.slice(1) : hash;
+    let decodedId = rawId;
+    try {
+      decodedId = decodeURIComponent(rawId);
+    } catch (e) {
+      // Ignore URI malformed errors.
+    }
+
+    // 1. Direct ID match (raw and decoded).
+    let target = document.getElementById(rawId) || document.getElementById(decodedId);
+    if (target) {
+      return target;
+    }
+
+    // 2. Name attribute match (<a name="...">).
+    try {
+      if (typeof CSS !== 'undefined' && CSS.escape) {
+        target =
+          document.querySelector('[name="' + CSS.escape(rawId) + '"]') ||
+          document.querySelector('[name="' + CSS.escape(decodedId) + '"]');
+      } else {
+        const namedElements = document.getElementsByName(rawId);
+        if (namedElements && namedElements.length > 0) {
+          return namedElements[0];
+        }
+      }
+    } catch (e) {
+      // Ignore querySelector syntax errors.
+    }
+    if (target) {
+      return target;
+    }
+
+    // 3. Match heading text by slug (for Markdown TOCs where headings lack explicit IDs).
+    const targetSlug = normalizeSlug(decodedId);
+    if (targetSlug) {
+      for (const heading of document.querySelectorAll('h1, h2, h3, h4, h5, h6')) {
+        if (normalizeSlug(heading.textContent || '') === targetSlug) {
+          return heading;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  document.addEventListener('click', function(event) {
+    const target = event.target;
+    const anchor = target && typeof target.closest === 'function' ? target.closest('a') : null;
+    if (!anchor) {
+      return;
+    }
+
+    const href = anchor.getAttribute('href');
+    if (
+      !href ||
+      href.trim().toLowerCase().startsWith('javascript:') ||
+      anchor.hasAttribute('download')
+    ) {
+      return;
+    }
+
+    // Check if the link is an in-page hash / anchor link.
+    if (href.startsWith('#')) {
+      event.preventDefault();
+      const targetElement = findTargetElement(href);
+      if (targetElement) {
+        targetElement.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }
+      return;
+    }
+
+    // Check if the URL has the same origin/pathname but with a hash.
+    try {
+      const url = new URL(anchor.href, window.location.href);
+      if (
+        url.hash &&
+        url.origin === window.location.origin &&
+        url.pathname === window.location.pathname
+      ) {
+        event.preventDefault();
+        const targetElement = findTargetElement(url.hash);
+        if (targetElement) {
+          targetElement.scrollIntoView({behavior: 'smooth', block: 'start'});
+        }
+        return;
+      }
+    } catch (e) {
+      // Fall through if URL parsing fails.
+    }
+
+    // For all external or full navigation links, prevent iframe-level navigation
+    // (which breaks in AGSA WebView or sandboxed iframes) and ensure they open
+    // safely in a new tab/window.
+    if (anchor.target !== '_blank') {
+      event.preventDefault();
+      window.open(anchor.href, '_blank', 'noopener,noreferrer');
+    }
+  }, {capture: true});
+})();</script><script data-bard-client-injected="true">(function(){'use strict';function a(){window.parent.postMessage({type:"interaction"},"*")}window.addEventListener("click",a,{capture:!0,passive:!0});window.addEventListener("touchstart",a,{capture:!0,passive:!0});window.addEventListener("keydown",a,{capture:!0,passive:!0});}).call(this);
+</script><script data-bard-client-injected="true">(function() {
+  const originalConsoleLog = console.log;
+  const originalConsoleError = console.error;
+
+    /**
+   * Normalizes an error event or a promise rejection reason into a structured error object.
+   * @param {*} errorEventOrReason The error object or reason.
+   * @return {object} Structured error data { message, name, stack }.
+   */
+  function getErrorObject(errorEventOrReason) {
+    if (errorEventOrReason instanceof Error) {
+      return {
+        message: errorEventOrReason.message,
+        name: errorEventOrReason.name,
+        stack: errorEventOrReason.stack,
+      };
+    }
+    // Fallback for non-Error objects.
+    try {
+      return {
+        message: JSON.stringify(errorEventOrReason),
+        name: 'UnknownErrorType',
+        stack: null,
+      };
+    } catch (e) {
+      return {
+        message: String(errorEventOrReason),
+        name: 'UnknownErrorTypeNonStringifiable',
+        stack: null,
+      };
+    }
+  }
+
+  /**
+   * Converts an array of arguments (from log/error) into a single string.
+   * Handles Error objects specially to include their message and stack.
+   * @param {Array<*>} args - Arguments passed to console methods.
+   * @return {string} A string representation of the arguments.
+   */
+  function stringifyArgs(args) {
+    return args
+      .map((arg) => {
+        if (arg instanceof Error) {
+          const {message, stack} = arg;
+          return `Error: ${message}${stack ? ('\nStack: ' + stack) : ''}`;
+        }
+        if (typeof arg === 'object' && arg !== null) {
           try {
-            Object.defineProperty(window, '__atariInitRender', {
-              value: initRender,
-              writable: false,
-              configurable: false
-            });
-          } catch (err) {
-            window.__atariInitRender = initRender;
+            return JSON.stringify(arg);
+          } catch (error) {
+            return '[Circular Object]';
           }
-          initRender(false);
-        })();
-      </script>
-    
+        } else {
+          return String(arg);
+        }
+      })
+      .join(' ');
+  }
 
+  console.log = function(...args) {
+    const logString = stringifyArgs(args);
+    window.parent.postMessage({ type: 'log', message: logString }, '*');
+    originalConsoleLog.apply(console, args);
+  };
 
+  console.error = function(...args) {
+    let errorData;
+    if (args.length > 0 && args[0] instanceof Error) {
+      const err = args[0];
+      // If the first arg is an Error, capture its details.
+      errorData = {
+        type: 'error',
+        source: 'CONSOLE_ERROR',
+        ...getErrorObject(err),
+        rawArgsString: stringifyArgs(args.slice(1)),
+        timestamp: new Date().toISOString(),
+      };
+    } else {
+      // If not an Error object, treat all args as a general error message.
+      errorData = {
+        type: 'error',
+        source: 'CONSOLE_ERROR',
+        message: stringifyArgs(args),
+        name: 'ConsoleLoggedError',
+        stack: null,
+        timestamp: new Date().toISOString(),
+      };
+    }
+    window.parent.postMessage(errorData, '*');
+    originalConsoleError.apply(console, args);
+  };
+
+  // Listen for global unhandled synchronous errors.
+  window.addEventListener('error', function(event) {
+    const errorDetails = event.error ? getErrorObject(event.error) : {
+      message: event.message,
+      name: 'GlobalError',
+      stack: null,
+      filename: event.filename,
+      lineno: event.lineno,
+      colno: event.colno,
+    };
+
+    window.parent.postMessage({
+      type: 'error',
+      source: 'global',
+      ...errorDetails,
+      message: errorDetails.message || event.message,
+      timestamp: new Date().toISOString(),
+    }, '*');
+  });
+
+  // Listen for unhandled promise rejections (asynchronous errors).
+  window.addEventListener('unhandledrejection', function(event) {
+    const errorDetails = getErrorObject(event.reason);
+
+    window.parent.postMessage({
+      type: 'error',
+      source: 'unhandledrejection',
+      ...errorDetails,
+      message: errorDetails.message || 'Unhandled Promise Rejection',
+      timestamp: new Date().toISOString(),
+    }, '*');
+  });
+
+})();</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestra Boda — Laura Elena &amp; Francisco | Grand Mazamitla</title>
@@ -1881,15 +2093,15 @@
                                     <span class="countdown-unit">Días</span>
                                 </div>
                                 <div class="countdown-item">
-                                    <span id="cdHours" class="countdown-num">01</span>
+                                    <span id="cdHours" class="countdown-num">00</span>
                                     <span class="countdown-unit">Horas</span>
                                 </div>
                                 <div class="countdown-item">
-                                    <span id="cdMins" class="countdown-num">32</span>
+                                    <span id="cdMins" class="countdown-num">52</span>
                                     <span class="countdown-unit">Min</span>
                                 </div>
                                 <div class="countdown-item">
-                                    <span id="cdSecs" class="countdown-num">50</span>
+                                    <span id="cdSecs" class="countdown-num">01</span>
                                     <span class="countdown-unit">Seg</span>
                                 </div>
                             </div>
@@ -1993,23 +2205,23 @@
                             </div>
 
                             <div id="galleryThumbs" class="gallery-thumbs">
-                                <button type="button" class="thumb-btn is-active is-missing" data-index="0" aria-label="Salón de Eventos con Ventanales al Bosque">
+                                <button type="button" class="thumb-btn is-active" data-index="0" aria-label="Salón de Eventos con Ventanales al Bosque">
                                     <img src="1795119829825.png" alt="Salón de Eventos con Ventanales al Bosque">
                                     <span class="thumb-fallback">1</span>
                                 </button>
-                                <button type="button" class="thumb-btn is-missing" data-index="1" aria-label="Pasarela Techada entre Pinos">
+                                <button type="button" class="thumb-btn" data-index="1" aria-label="Pasarela Techada entre Pinos">
                                     <img src="1795119816102.png" alt="Pasarela Techada entre Pinos">
                                     <span class="thumb-fallback">2</span>
                                 </button>
-                                <button type="button" class="thumb-btn is-missing" data-index="2" aria-label="Suite Boutique de Dos Niveles">
+                                <button type="button" class="thumb-btn" data-index="2" aria-label="Suite Boutique de Dos Niveles">
                                     <img src="1795119801174.png" alt="Suite Boutique de Dos Niveles">
                                     <span class="thumb-fallback">3</span>
                                 </button>
-                                <button type="button" class="thumb-btn is-missing" data-index="3" aria-label="Habitación con Vista al Bosque">
+                                <button type="button" class="thumb-btn" data-index="3" aria-label="Habitación con Vista al Bosque">
                                     <img src="1795119786129.png" alt="Habitación con Vista al Bosque">
                                     <span class="thumb-fallback">4</span>
                                 </button>
-                                <button type="button" class="thumb-btn is-missing" data-index="4" aria-label="Terraza Privada en el Bosque">
+                                <button type="button" class="thumb-btn" data-index="4" aria-label="Terraza Privada en el Bosque">
                                     <img src="1795119771774.png" alt="Terraza Privada en el Bosque">
                                     <span class="thumb-fallback">5</span>
                                 </button>
@@ -2522,61 +2734,4 @@
         });
     </script>
 
-
-      <script>
-        (function() {
-          // The root element's background fills the whole page. As in CSS,
-          // the body's background is used when the root element has none.
-          function getPageBackgroundColor() {
-            var docStyle = window.getComputedStyle(document.documentElement);
-            var color = docStyle.backgroundColor;
-            if ((color === 'rgba(0, 0, 0, 0)' || color === 'transparent') &&
-                docStyle.backgroundImage === 'none' && document.body) {
-              color = window.getComputedStyle(document.body).backgroundColor;
-            }
-            return color || '';
-          }
-
-          var lastReportedColor = '';
-          function reportBackgroundColor() {
-            try {
-              var color = getPageBackgroundColor();
-              if (color === lastReportedColor) return;
-              lastReportedColor = color;
-              window.parent.postMessage({
-                type: 'ATARI_CODE_EMBED_BACKGROUND_COLOR',
-                backgroundColor: color
-              }, '*');
-            } catch (e) {}
-          }
-
-          // The page background usually changes through an attribute on html
-          // or body (for example a theme class), a style sheet in head, or the
-          // system color scheme.
-          if (typeof MutationObserver !== 'undefined') {
-            var observer = new MutationObserver(reportBackgroundColor);
-            observer.observe(document.documentElement, {attributes: true});
-            if (document.body) {
-              observer.observe(document.body, {attributes: true});
-            }
-            if (document.head) {
-              observer.observe(document.head, {
-                attributes: true,
-                childList: true,
-                subtree: true,
-                characterData: true
-              });
-            }
-          }
-          var colorSchemeQuery =
-              window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
-          if (colorSchemeQuery && colorSchemeQuery.addEventListener) {
-            colorSchemeQuery.addEventListener('change', reportBackgroundColor);
-          }
-          window.addEventListener('load', reportBackgroundColor);
-          window.addEventListener('transitionend', reportBackgroundColor);
-          window.addEventListener('animationend', reportBackgroundColor);
-          reportBackgroundColor();
-        })();
-      </script>
-    </body></html>
+</body></html>
