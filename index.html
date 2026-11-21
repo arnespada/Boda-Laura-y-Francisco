@@ -1,639 +1,36 @@
 <!DOCTYPE html>
-<html lang="es"><head><base href="https://340513925-atari-embeds.googleusercontent.com/embeds/928209f300890cc864ba5f6dbbfbf517/inner-frame-minified.html?jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.es.RgGbPqkP4qc.O%2Fd%3D1%2Frs%3DAHpOoo-MKCVvOjBPfekWEswN0cuMQf1MmQ%2Fm%3D__features__" target="_blank">
-      <script>
-        (function() {
-          if (window.__atariInitRender) {
-            window.__atariInitRender(false);
-            return;
-          }
-          var isLiquid = false;
-          var guardsInstalled = false;
-          var LOCAL_DOWNLOAD_URL_RE = /^(?:blob|data):/i;
-          var PROTOCOL_RELATIVE_RE = /^[\/\\]{2}/;
-          var FORBIDDEN_TAG_RE = /^(?:iframe|frame|object|embed)$/i;
-          var XLINK_NS = 'http://www.w3.org/1999/xlink';
-          var origPreventDefault = Event.prototype.preventDefault;
-          var origStopPropagation = Event.prototype.stopPropagation;
-          var origStopImmediatePropagation =
-              Event.prototype.stopImmediatePropagation;
-          var origAddEventListener = EventTarget.prototype.addEventListener;
-          var origRemoveEventListener =
-              EventTarget.prototype.removeEventListener;
-          var origWindowStop = window.stop ? window.stop.bind(window) : null;
-          var origElementRemove = Element.prototype.remove;
-          var origGetAttribute = Element.prototype.getAttribute;
-          var origGetAttributeNS = Element.prototype.getAttributeNS;
-          var origHasAttribute = Element.prototype.hasAttribute;
-          var origHasAttributeNS = Element.prototype.hasAttributeNS;
-          var origSetAttribute = Element.prototype.setAttribute;
-          var origSetAttributeNS = Element.prototype.setAttributeNS;
-          var origSetAttributeNode = Element.prototype.setAttributeNode;
-          var origSetAttributeNodeNS = Element.prototype.setAttributeNodeNS;
-          var origRemoveAttribute = Element.prototype.removeAttribute;
-          var origRemoveAttributeNS = Element.prototype.removeAttributeNS;
-          var origComposedPath = Event.prototype.composedPath;
-          var origCreateElement = Document.prototype.createElement;
-          var origCreateElementNS = Document.prototype.createElementNS;
-          var validatingEvents =
-              typeof WeakSet !== 'undefined' ? new WeakSet() : null;
-          var activeDeferredListeners = null;
-          var inProgrammaticClick = 0;
-
-          function isLinkElement(el) {
-            var tag = el && el.tagName && el.tagName.toLowerCase();
-            return tag === 'a' || tag === 'area';
-          }
-
-          function hasLinkHref(link) {
-            return origHasAttribute.call(link, 'href') ||
-                origHasAttributeNS.call(link, XLINK_NS, 'href');
-          }
-
-          // Returns the href of an HTML or SVG link, which may only have the
-          // legacy xlink:href attribute.
-          function getLinkHref(link) {
-            return origGetAttribute.call(link, 'href') ||
-                origGetAttributeNS.call(link, XLINK_NS, 'href');
-          }
-
-          function removeLinkHref(link) {
-            origRemoveAttribute.call(link, 'href');
-            origRemoveAttributeNS.call(link, XLINK_NS, 'href');
-          }
-
-          // Returns whether the link downloads a file that the app created,
-          // which doesn't send data to other sites.
-          function isLocalDownloadLink(link, href) {
-            return origHasAttribute.call(link, 'download') &&
-                LOCAL_DOWNLOAD_URL_RE.test(href);
-          }
-
-          function isRefreshValue(val) {
-            return String(val || '').trim().toLowerCase() === 'refresh';
-          }
-
-          function purgeMetaRefresh(root) {
-            if (!root || !root.querySelectorAll) return;
-            var metas = root.querySelectorAll('meta[http-equiv]');
-            for (var i = 0; i < metas.length; i++) {
-              if (isRefreshValue(
-                  origGetAttribute.call(metas[i], 'http-equiv'))) {
-                origElementRemove.call(metas[i]);
-              }
-            }
-            var frames = root.querySelectorAll('iframe, frame, object, embed');
-            for (var j = 0; j < frames.length; j++) {
-              origElementRemove.call(frames[j]);
-            }
-          }
-
-          function getParentOrHost(node) {
-            if (!node) return null;
-            if (node.parentElement) return node.parentElement;
-            var parent = node.parentNode;
-            return parent && parent.host ? parent.host : null;
-          }
-
-          function findLinkFromNode(startNode, requireHref) {
-            var el = startNode;
-            while (el && el !== document) {
-              if (isLinkElement(el) && (!requireHref || hasLinkHref(el))) {
-                return el;
-              }
-              el = getParentOrHost(el);
-            }
-            return null;
-          }
-
-          function findLinkFromEvent(e) {
-            if (origComposedPath) {
-              try {
-                var path = origComposedPath.call(e);
-                for (var i = 0; i < path.length; i++) {
-                  var node = path[i];
-                  if (isLinkElement(node) && hasLinkHref(node)) {
-                    return node;
-                  }
-                }
-              } catch (err) {}
-            }
-            return findLinkFromNode(e.target, true);
-          }
-
-          // Keeps the app from opening popups, navigating its frame, and
-          // adding meta refresh tags. document.open() keeps the window, its
-          // prototypes, and the document, so these are installed once per
-          // frame rather than on every render.
-          function installNavigationGuards() {
-            try {
-              Object.defineProperty(window, 'open', {
-                value: function() {
-                  return null;
-                },
-                writable: false,
-                configurable: false
-              });
-            } catch (err) {
-              window.open = function() {
-                return null;
-              };
-            }
-            if (window.navigation && window.navigation.addEventListener) {
-              origAddEventListener.call(
-                  window.navigation, 'navigate', function(e) {
-                    if (!e.cancelable || e.destination.sameDocument) return;
-                    if (e.downloadRequest !== null &&
-                        LOCAL_DOWNLOAD_URL_RE.test(e.destination.url)) {
-                      return;
-                    }
-                    origPreventDefault.call(e);
-                  }, true);
-            }
-            var iframeWinDesc = typeof HTMLIFrameElement !== 'undefined' &&
-                Object.getOwnPropertyDescriptor(
-                    HTMLIFrameElement.prototype, 'contentWindow');
-            if (iframeWinDesc && iframeWinDesc.get) {
-              Object.defineProperty(
-                  HTMLIFrameElement.prototype, 'contentWindow', {
-                    get: function() {
-                      return null;
-                    },
-                    configurable: false,
-                    enumerable: true
-                  });
-            }
-            var iframeDocDesc = typeof HTMLIFrameElement !== 'undefined' &&
-                Object.getOwnPropertyDescriptor(
-                    HTMLIFrameElement.prototype, 'contentDocument');
-            if (iframeDocDesc && iframeDocDesc.get) {
-              Object.defineProperty(
-                  HTMLIFrameElement.prototype, 'contentDocument', {
-                    get: function() {
-                      return null;
-                    },
-                    configurable: false,
-                    enumerable: true
-                  });
-            }
-            Document.prototype.createElement = function(tagName, options) {
-              if (FORBIDDEN_TAG_RE.test(String(tagName || ''))) {
-                return origCreateElement.call(this, 'div', options);
-              }
-              return origCreateElement.apply(this, arguments);
-            };
-            if (origCreateElementNS) {
-              Document.prototype.createElementNS = function(ns, qName, opts) {
-                var local = String(qName || '').split(':').pop();
-                if (FORBIDDEN_TAG_RE.test(local)) {
-                  return origCreateElement.call(this, 'div');
-                }
-                return origCreateElementNS.apply(this, arguments);
-              };
-            }
-            var origClick = HTMLElement.prototype.click;
-            HTMLElement.prototype.click = function() {
-              var link = findLinkFromNode(this, true);
-              if (link) {
-                var clickHref = (getLinkHref(link) || '').trim();
-                if (!clickHref.startsWith('#') &&
-                    !isLocalDownloadLink(link, clickHref)) {
-                  return;
-                }
-              }
-              inProgrammaticClick++;
-              try {
-                return origClick.apply(this, arguments);
-              } finally {
-                inProgrammaticClick--;
-              }
-            };
-            function isMetaRefreshAttr(el, name, value) {
-              return el && el.tagName &&
-                  el.tagName.toLowerCase() === 'meta' &&
-                  String(name || '').trim().toLowerCase() === 'http-equiv' &&
-                  isRefreshValue(value);
-            }
-            function validateIfActiveLink(el) {
-              if (!activeDeferredListeners || !isLinkElement(el) ||
-                  !hasLinkHref(el)) {
-                return;
-              }
-              var curHref = (getLinkHref(el) || '').trim();
-              if (!curHref.startsWith('#')) {
-                handleLiquidExternalLink(
-                    activeDeferredListeners.event, el, curHref,
-                    activeDeferredListeners.programmatic);
-              }
-            }
-            Element.prototype.setAttribute = function(name, value) {
-              if (isMetaRefreshAttr(this, name, value)) {
-                origElementRemove.call(this);
-                return;
-              }
-              var res = origSetAttribute.apply(this, arguments);
-              if (String(name || '').toLowerCase() === 'href') {
-                validateIfActiveLink(this);
-              }
-              return res;
-            };
-            if (origSetAttributeNS) {
-              Element.prototype.setAttributeNS = function(ns, name, value) {
-                var local = String(name || '');
-                if (local.includes(':')) local = local.split(':').pop();
-                if (isMetaRefreshAttr(this, local, value)) {
-                  origElementRemove.call(this);
-                  return;
-                }
-                var res = origSetAttributeNS.apply(this, arguments);
-                if (local.toLowerCase() === 'href') {
-                  validateIfActiveLink(this);
-                }
-                return res;
-              };
-            }
-            if (origSetAttributeNode) {
-              Element.prototype.setAttributeNode = function(attr) {
-                if (attr && isMetaRefreshAttr(this, attr.name, attr.value)) {
-                  origElementRemove.call(this);
-                  return null;
-                }
-                var res = origSetAttributeNode.apply(this, arguments);
-                if (attr && String(attr.name || '').toLowerCase() === 'href') {
-                  validateIfActiveLink(this);
-                }
-                return res;
-              };
-            }
-            if (origSetAttributeNodeNS) {
-              Element.prototype.setAttributeNodeNS = function(attr) {
-                var name = attr && (attr.localName || attr.name);
-                if (attr && isMetaRefreshAttr(this, name, attr.value)) {
-                  origElementRemove.call(this);
-                  return null;
-                }
-                var res = origSetAttributeNodeNS.apply(this, arguments);
-                if (String(name || '').toLowerCase() === 'href') {
-                  validateIfActiveLink(this);
-                }
-                return res;
-              };
-            }
-            function wrapHrefSetter(ctor) {
-              if (!ctor || !ctor.prototype) return;
-              var hrefDesc = Object.getOwnPropertyDescriptor(
-                  ctor.prototype, 'href');
-              if (hrefDesc && hrefDesc.set) {
-                Object.defineProperty(ctor.prototype, 'href', {
-                  get: hrefDesc.get,
-                  set: function(value) {
-                    hrefDesc.set.call(this, value);
-                    validateIfActiveLink(this);
-                  },
-                  configurable: true,
-                  enumerable: true
-                });
-              }
-            }
-            if (typeof HTMLAnchorElement !== 'undefined') {
-              wrapHrefSetter(HTMLAnchorElement);
-            }
-            if (typeof HTMLAreaElement !== 'undefined') {
-              wrapHrefSetter(HTMLAreaElement);
-            }
-            if (typeof HTMLMetaElement !== 'undefined') {
-              var desc = Object.getOwnPropertyDescriptor(
-                  HTMLMetaElement.prototype, 'httpEquiv');
-              if (desc && desc.set) {
-                Object.defineProperty(HTMLMetaElement.prototype, 'httpEquiv', {
-                  get: desc.get,
-                  set: function(value) {
-                    if (isRefreshValue(value)) {
-                      origElementRemove.call(this);
-                      return;
-                    }
-                    desc.set.call(this, value);
-                  },
-                  configurable: true,
-                  enumerable: true
-                });
-              }
-            }
-            Event.prototype.stopPropagation = function() {
-              if (validatingEvents && validatingEvents.has(this)) {
-                return;
-              }
-              return origStopPropagation.apply(this, arguments);
-            };
-            Event.prototype.stopImmediatePropagation = function() {
-              if (validatingEvents && validatingEvents.has(this)) {
-                return;
-              }
-              return origStopImmediatePropagation.apply(this, arguments);
-            };
-            var cancelBubbleDesc = Object.getOwnPropertyDescriptor(
-                Event.prototype, 'cancelBubble');
-            if (cancelBubbleDesc && cancelBubbleDesc.set) {
-              Object.defineProperty(Event.prototype, 'cancelBubble', {
-                get: cancelBubbleDesc.get,
-                set: function(val) {
-                  if (val && validatingEvents && validatingEvents.has(this)) {
-                    return;
-                  }
-                  cancelBubbleDesc.set.call(this, val);
-                },
-                configurable: true,
-                enumerable: true
-              });
-            }
-            function wrapAddEventListener(origFn) {
-              return function(type, listener, options) {
-                var res = origFn.apply(this, arguments);
-                if (activeDeferredListeners &&
-                    type === activeDeferredListeners.type) {
-                  origRemoveEventListener.call(
-                      window, activeDeferredListeners.type,
-                      activeDeferredListeners.fn, false);
-                  origAddEventListener.call(
-                      window, activeDeferredListeners.type,
-                      activeDeferredListeners.fn, false);
-                }
-                return res;
-              };
-            }
-            var origWinAdd = window.addEventListener || origAddEventListener;
-            EventTarget.prototype.addEventListener =
-                wrapAddEventListener(origAddEventListener);
-            if (typeof Window !== 'undefined' && Window.prototype) {
-              try {
-                Window.prototype.addEventListener =
-                    wrapAddEventListener(origWinAdd);
-              } catch (err) {}
-            }
-            try {
-              window.addEventListener = wrapAddEventListener(origWinAdd);
-            } catch (err) {}
-            function observeMutations(target) {
-              if (!target || typeof MutationObserver === 'undefined') return;
-              new MutationObserver(function(mutations) {
-                if (activeDeferredListeners) {
-                  for (var i = 0; i < mutations.length; i++) {
-                    var m = mutations[i];
-                    if (m.type === 'attributes' &&
-                        isLinkElement(m.target) &&
-                        hasLinkHref(m.target)) {
-                      var mHref = (getLinkHref(m.target) || '').trim();
-                      if (!mHref.startsWith('#')) {
-                        handleLiquidExternalLink(
-                            activeDeferredListeners.event, m.target, mHref,
-                            activeDeferredListeners.programmatic);
-                      }
-                    }
-                  }
-                }
-                purgeMetaRefresh(target);
-              }).observe(target, {
-                childList: true,
-                subtree: true,
-                attributes: true,
-                attributeFilter: ['http-equiv', 'href']
-              });
-            }
-            observeMutations(document);
-            if (Element.prototype.attachShadow) {
-              var origAttachShadow = Element.prototype.attachShadow;
-              Element.prototype.attachShadow = function() {
-                var sr = origAttachShadow.apply(this, arguments);
-                observeMutations(sr);
-                return sr;
-              };
-            }
-          }
-
-          // Returns the URL of an absolute or protocol-relative href, or null.
-          function parseAbsoluteUrl(href) {
-            var candidate =
-                PROTOCOL_RELATIVE_RE.test(href) ? 'https:' + href : href;
-            try {
-              return new URL(candidate);
-            } catch (err) {
-              return null;
-            }
-          }
-
-          // Opens the link in a new tab through the Google redirector, which
-          // warns users before they leave for another site.
-          function routeThroughRedirector(link, url) {
-            var redirectUrl = url.href;
-            if (url.origin !== 'https://www.google.com' ||
-                url.pathname !== '/url' ||
-                !url.searchParams.has('q')) {
-              redirectUrl = 'https://www.google.com/url?q=' +
-                  encodeURIComponent(url.href);
-            }
-            origSetAttribute.call(link, 'href', redirectUrl);
-            origRemoveAttributeNS.call(link, XLINK_NS, 'href');
-            origSetAttribute.call(link, 'target', '_blank');
-            origSetAttribute.call(link, 'rel', 'noopener noreferrer');
-          }
-
-          // Lets Liquid App links open web pages only through the redirector,
-          // and blocks links with other protocols, such as javascript:.
-          // Context menu events rewrite or remove the link attribute so that
-          // "Open link in new tab" also goes through the redirector or is
-          // disabled.
-          function handleLiquidExternalLink(e, link, href, programmatic) {
-            if (isLocalDownloadLink(link, href)) return;
-            if (programmatic || inProgrammaticClick > 0) {
-              removeLinkHref(link);
-              origPreventDefault.call(e);
-              origStopPropagation.call(e);
-              return;
-            }
-            var url = parseAbsoluteUrl(href);
-            var protocol = url ? url.protocol : '';
-            if (protocol === 'http:' || protocol === 'https:') {
-              routeThroughRedirector(link, url);
-            } else if (protocol !== 'mailto:' && protocol !== 'tel:') {
-              if (e.type === 'contextmenu') {
-                removeLinkHref(link);
-              } else {
-                origPreventDefault.call(e);
-                origStopPropagation.call(e);
-              }
-            }
-          }
-
-          function validateLiquidLinkAfterBubble(e, anchor, programmatic) {
-            if (validatingEvents) {
-              validatingEvents.add(e);
-            }
-            var state = {
-              type: e.type,
-              fn: onBubble,
-              event: e,
-              programmatic: programmatic
-            };
-            activeDeferredListeners = state;
-            function checkTarget(ev) {
-              var targetLink = anchor || findLinkFromEvent(ev);
-              if (!targetLink || !hasLinkHref(targetLink)) return;
-              var latestHref = (getLinkHref(targetLink) || '').trim();
-              if (!latestHref.startsWith('#')) {
-                handleLiquidExternalLink(
-                    ev, targetLink, latestHref, programmatic);
-              }
-            }
-            Promise.resolve().then(function() {
-              checkTarget(e);
-              if (activeDeferredListeners === state) {
-                activeDeferredListeners = null;
-              }
-            });
-            function onBubble(ev) {
-              origRemoveEventListener.call(window, ev.type, onBubble, false);
-              checkTarget(ev);
-            }
-            origAddEventListener.call(window, e.type, onBubble, false);
-          }
-
-          function handleLinkClick(e) {
-            var programmatic = inProgrammaticClick > 0;
-            // Find the nearest ancestor link (handles nested icons, spans,
-            // svgs, and shadow DOM).
-            var anchor = findLinkFromEvent(e);
-            if (!anchor) {
-              if (isLiquid) {
-                validateLiquidLinkAfterBubble(e, null, programmatic);
-              }
-              return;
-            }
-
-            if (isLiquid) {
-              validateLiquidLinkAfterBubble(e, anchor, programmatic);
-            }
-            var href = (getLinkHref(anchor) || '').trim();
-            if (!href.startsWith('#')) {
-              if (isLiquid) {
-                handleLiquidExternalLink(e, anchor, href, programmatic);
-              }
-              return;
-            }
-            if (e.type === 'contextmenu') return;
-
-            // Prevent default <base target="_blank"> navigation to a new blank tab.
-            origPreventDefault.call(e);
-            if (!isLiquid) {
-              origStopPropagation.call(e);
-            }
-
-            // Handle empty anchor or top anchor.
-            if (href === '#' || href === '#top') {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              return;
-            }
-
-            // Resolve target element by id, falling back to legacy name attribute.
-            var targetId = href.slice(1);
-            try {
-              targetId = decodeURIComponent(targetId);
-            } catch (err) {}
-
-            var targetEl = document.getElementById(targetId);
-            if (!targetEl) {
-              try {
-                var escaped = window.CSS && CSS.escape ? CSS.escape(targetId) : targetId.replace(/["\\]/g, '\\$&');
-                targetEl = document.querySelector('[name="' + escaped + '"]');
-              } catch (err) {}
-            }
-
-            // Smoothly scroll to the target within the embed and update URL hash history.
-            if (targetEl) {
-              targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              if (window.history && window.history.pushState) {
-                window.history.pushState(null, '', href);
-              }
-            }
-          }
-
-          function initRender(nextIsLiquid) {
-            isLiquid = isLiquid || !!nextIsLiquid;
-            if (isLiquid) {
-              if (!guardsInstalled) {
-                guardsInstalled = true;
-                installNavigationGuards();
-              } else {
-                try {
-                  window.addEventListener =
-                      EventTarget.prototype.addEventListener;
-                } catch (err) {}
-              }
-              // document.open() removes the window's listeners, so this is
-              // added on every render.
-              origAddEventListener.call(window, 'beforeunload', function(e) {
-                origPreventDefault.call(e);
-                if (origWindowStop) {
-                  origWindowStop();
-                }
-              }, true);
-              purgeMetaRefresh(document);
-            }
-            // Listen during capturing phase to preempt <base target="_blank">.
-            origAddEventListener.call(
-                document, 'click', handleLinkClick, true);
-            if (isLiquid) {
-              origAddEventListener.call(
-                  document, 'auxclick', handleLinkClick, true);
-              origAddEventListener.call(
-                  document, 'contextmenu', handleLinkClick, true);
-            }
-          }
-
-          try {
-            Object.defineProperty(window, '__atariInitRender', {
-              value: initRender,
-              writable: false,
-              configurable: false
-            });
-          } catch (err) {
-            window.__atariInitRender = initRender;
-          }
-          initRender(false);
-        })();
-      </script>
-    
-
-
+<html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuestra Boda — Laura Elena &amp; Francisco | Grand Mazamitla</title>
 
-    <!-- Tipografías editoriales de Google Fonts -->
+    <!-- Tipografías editoriales: Cormorant Garamond, Playfair Display y Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Montserrat:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
 
     <style>
         /* =====================================================================
-           1. VARIABLES DE DISEÑO EDITORIAL DE LUJO
+           1. VARIABLES DE DISEÑO BOTÁNICO MINIMALISTA
            ===================================================================== */
         :root {
-            --bg-linen: #ece6da;
-            --bg-linen-deep: #dfd7c7;
-            --paper-ivory: #FAF6EE;
-            --paper-warm: #F4EDE0;
-            --gold-deep: #9B7B3C;
-            --gold-bright: #C5A059;
-            --gold-btn: #8C6D2E;
-            --gold-btn-hover: #745924;
-            --olive-dark: #4A5D46;
-            --olive-hover: #3B4B38;
-            --sage-tint: #EEF3EC;
-            --sage-border: #C9D7C5;
-            --terracotta: #B66E52;
-            --ink-primary: #2B251E;
-            --ink-secondary: #5E554B;
-            --ink-muted: #7C7266;
-            --shadow-soft: 0 18px 42px rgba(43, 37, 30, 0.13), 0 4px 12px rgba(43, 37, 30, 0.06);
+            --bg-canvas: #ece7db;
+            --bg-canvas-deep: #e2dac9;
+            --paper-cream: #f7f4ec;
+            --paper-warm: #f1ebdd;
+            --gold-soft: #c5a869;
+            --gold-deep: #9c7e3e;
+            --gold-btn: #8f7132;
+            --gold-btn-hover: #775d27;
+            --forest-green: #4a5d4e;
+            --forest-hover: #3b4c3f;
+            --sage-tint: #eef3ee;
+            --sage-border: #cad6cc;
+            --terracotta: #b56f54;
+            --ink-primary: #2b2620;
+            --ink-secondary: #5c544a;
+            --ink-muted: #7c7368;
+            --shadow-card: 0 18px 40px rgba(43, 38, 32, 0.12), 0 4px 12px rgba(43, 38, 32, 0.05);
             --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
             --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
             --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -643,7 +40,7 @@
         }
 
         /* =====================================================================
-           2. RESET BASE Y TEXTURA DE FONDO
+           2. RESET Y FONDO TEXTURIZADO
            ===================================================================== */
         *, *::before, *::after {
             box-sizing: border-box;
@@ -655,10 +52,10 @@
             width: 100%;
             min-height: 100vh;
             overflow-x: hidden;
-            background-color: var(--bg-linen);
+            background-color: var(--bg-canvas);
             background-image:
-                radial-gradient(rgba(155, 123, 60, 0.06) 1px, transparent 0),
-                linear-gradient(160deg, #f3ede2 0%, var(--bg-linen) 55%, var(--bg-linen-deep) 100%);
+                radial-gradient(rgba(197, 168, 105, 0.08) 1px, transparent 0),
+                linear-gradient(160deg, #f3efe4 0%, var(--bg-canvas) 55%, var(--bg-canvas-deep) 100%);
             background-size: 22px 22px, 100% 100%;
             color: var(--ink-primary);
             font-family: var(--font-sans);
@@ -670,16 +67,16 @@
             font-family: inherit;
         }
 
-        /* Ninguna capa decorativa puede interceptar clics o toques */
+        /* Ningún adorno decorativo intercepta toques o clics */
         .decorative-layer,
-        .gold-double-frame,
-        .botanical-svg {
+        .gold-frame,
+        .botanical-corner {
             pointer-events: none !important;
             user-select: none;
         }
 
         /* =====================================================================
-           3. BARRA SUPERIOR FLOTANTE (#admin-bar)
+           3. BARRA SUPERIOR DE ADMINISTRACIÓN (#admin-bar)
            ===================================================================== */
         #admin-bar {
             position: fixed;
@@ -693,11 +90,11 @@
             gap: 10px;
             flex-wrap: wrap;
             padding: 10px 16px;
-            background: rgba(250, 246, 238, 0.94);
+            background: rgba(247, 244, 236, 0.95);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(155, 123, 60, 0.28);
-            box-shadow: 0 4px 18px rgba(43, 37, 30, 0.07);
+            border-bottom: 1px solid rgba(197, 168, 105, 0.4);
+            box-shadow: 0 4px 16px rgba(43, 38, 32, 0.07);
         }
 
         .admin-btn {
@@ -712,8 +109,8 @@
             letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
-            border: 1px solid var(--gold-bright);
-            transition: background 0.22s ease, color 0.22s ease, transform 0.2s ease, box-shadow 0.22s ease;
+            border: 1px solid var(--gold-soft);
+            transition: background 0.2s ease, color 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -722,20 +119,20 @@
         }
 
         .admin-btn-primary {
-            background: var(--olive-dark);
-            border-color: var(--olive-dark);
-            color: var(--paper-ivory);
+            background: var(--forest-green);
+            border-color: var(--forest-green);
+            color: var(--paper-cream);
         }
 
         .admin-btn-primary:hover {
-            background: var(--olive-hover);
+            background: var(--forest-hover);
             transform: translateY(-1px);
         }
 
         .admin-btn-outline {
-            background: var(--paper-ivory);
+            background: var(--paper-cream);
             color: var(--ink-primary);
-            border-color: rgba(155, 123, 60, 0.55);
+            border-color: rgba(197, 168, 105, 0.65);
         }
 
         .admin-btn-outline:hover,
@@ -746,25 +143,25 @@
         }
 
         .admin-btn-gold {
-            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold-deep) 100%);
+            background: linear-gradient(135deg, #d1b677 0%, var(--gold-deep) 100%);
             border-color: var(--gold-deep);
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(155, 123, 60, 0.3);
+            box-shadow: 0 4px 12px rgba(156, 126, 62, 0.32);
         }
 
         .admin-btn-gold:hover {
             transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(155, 123, 60, 0.42);
+            box-shadow: 0 6px 16px rgba(156, 126, 62, 0.42);
         }
 
         /* =====================================================================
-           4. ESCENARIO 3D Y MODOS DEL TRÍPTICO
+           4. ESCENARIO PRINCIPAL Y TRANSICIÓN DEL TRÍPTICO
            ===================================================================== */
         .stage {
             width: 100%;
             max-width: 1380px;
             margin: 0 auto;
-            padding: 82px 16px 52px;
+            padding: 82px 16px 48px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -773,19 +170,23 @@
             perspective: 2200px;
         }
 
+        /* Cuando se descarga sin #admin-bar, reduce el padding superior */
+        body.guest-mode .stage {
+            padding-top: 28px;
+        }
+
         .triptych-app {
             width: 100%;
             position: relative;
         }
 
-        /* Contenedor de Portada (Estado Cerrado) */
+        /* Portada Cerrada */
         .cover-stage {
             width: 100%;
-            max-width: 480px;
+            max-width: 470px;
             margin: 0 auto;
             display: block;
             transform-style: preserve-3d;
-            transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .triptych-app.is-open .cover-stage,
@@ -793,7 +194,7 @@
             display: none;
         }
 
-        /* Contenedor Interior (3 Paneles) */
+        /* Interior de 3 Paneles */
         .trifold-inside {
             display: none;
             width: 100%;
@@ -808,7 +209,7 @@
             align-items: stretch;
         }
 
-        /* Animación 3D de despliegue del tríptico en escritorio */
+        /* Animaciones 3D en escritorio */
         .triptych-app.is-open:not(.is-flat) .panel-left {
             transform-origin: right center;
             animation: unfoldLeft3D 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -823,7 +224,7 @@
             animation: unfoldRight3D 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        /* En Vista Plana no hay rotación 3D */
+        /* Vista plana sin animación 3D */
         .triptych-app.is-flat .panel-left,
         .triptych-app.is-flat .panel-center,
         .triptych-app.is-flat .panel-right {
@@ -832,7 +233,7 @@
         }
 
         @keyframes unfoldLeft3D {
-            0% { opacity: 0; transform: rotateY(-58deg) scale(0.96); }
+            0% { opacity: 0; transform: rotateY(-56deg) scale(0.96); }
             100% { opacity: 1; transform: rotateY(0deg) scale(1); }
         }
 
@@ -842,7 +243,7 @@
         }
 
         @keyframes unfoldRight3D {
-            0% { opacity: 0; transform: rotateY(58deg) scale(0.96); }
+            0% { opacity: 0; transform: rotateY(56deg) scale(0.96); }
             100% { opacity: 1; transform: rotateY(0deg) scale(1); }
         }
 
@@ -851,37 +252,69 @@
             to { opacity: 1; }
         }
 
+        /* Botón discreto para volver a la portada cuando está abierto */
+        .guest-close-wrap {
+            display: none;
+            justify-content: center;
+            margin-top: 22px;
+        }
+
+        .triptych-app.is-open .guest-close-wrap,
+        .triptych-app.is-flat .guest-close-wrap {
+            display: flex;
+        }
+
+        .guest-close-btn {
+            padding: 9px 22px;
+            border-radius: 999px;
+            border: 1px solid var(--gold-soft);
+            background: rgba(247, 244, 236, 0.9);
+            color: var(--ink-secondary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .guest-close-btn:hover {
+            background: var(--paper-cream);
+            color: var(--gold-deep);
+            border-color: var(--gold-deep);
+        }
+
         /* =====================================================================
-           5. PAPEL MARFIL TEXTURIZADO Y MARCO DOBLE DORADO
+           5. TARJETAS DE PAPEL CREMA CON MARCO DORADO DOBLE
            ===================================================================== */
         .paper-card {
             position: relative;
-            background-color: var(--paper-ivory);
+            background-color: var(--paper-cream);
             background-image:
-                radial-gradient(rgba(155, 123, 60, 0.08) 0.8px, transparent 0.8px),
-                linear-gradient(180deg, #FCF9F3 0%, var(--paper-ivory) 55%, var(--paper-warm) 100%);
+                radial-gradient(rgba(197, 168, 105, 0.08) 0.8px, transparent 0.8px),
+                linear-gradient(180deg, #faf8f2 0%, var(--paper-cream) 55%, var(--paper-warm) 100%);
             background-size: 16px 16px, 100% 100%;
             border-radius: var(--radius-card);
-            box-shadow: var(--shadow-soft);
+            box-shadow: var(--shadow-card);
             padding: 30px 24px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        .gold-double-frame {
+        .gold-frame {
             position: absolute;
             inset: 10px;
-            border: 1px solid rgba(155, 123, 60, 0.55);
+            border: 1px solid rgba(197, 168, 105, 0.65);
             border-radius: 10px;
             z-index: 1;
         }
 
-        .gold-double-frame::after {
+        .gold-frame::after {
             content: "";
             position: absolute;
             inset: 4px;
-            border: 0.75px solid rgba(197, 160, 89, 0.48);
+            border: 0.75px solid rgba(197, 168, 105, 0.42);
             border-radius: 7px;
         }
 
@@ -893,36 +326,36 @@
             flex: 1;
         }
 
-        .botanical-svg {
+        .botanical-corner {
             position: absolute;
             z-index: 2;
             opacity: 0.9;
         }
 
-        .botanical-tl { top: 10px; left: 10px; width: 112px; height: 112px; }
-        .botanical-br { bottom: 10px; right: 10px; width: 118px; height: 118px; }
-        .botanical-tr { top: 10px; right: 10px; width: 88px; height: 88px; }
+        .corner-tl { top: 10px; left: 10px; width: 108px; height: 108px; }
+        .corner-br { bottom: 10px; right: 10px; width: 112px; height: 112px; }
+        .corner-tr { top: 10px; right: 10px; width: 84px; height: 84px; }
 
         /* =====================================================================
            6. PORTADA VERTICAL DE LUJO
            ===================================================================== */
         .cover-card {
-            min-height: 620px;
+            min-height: 600px;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 52px 30px;
+            padding: 50px 28px;
             cursor: pointer;
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            transition: transform 0.32s ease, box-shadow 0.32s ease;
         }
 
         .cover-card:hover {
-            transform: translateY(-4px) rotateX(1.5deg);
-            box-shadow: 0 26px 54px rgba(43, 37, 30, 0.17), 0 8px 20px rgba(155, 123, 60, 0.14);
+            transform: translateY(-4px);
+            box-shadow: 0 24px 50px rgba(43, 38, 32, 0.16), 0 8px 18px rgba(197, 168, 105, 0.16);
         }
 
         .cover-kicker {
-            font-size: 0.72rem;
+            font-size: 0.74rem;
             font-weight: 600;
             letter-spacing: 0.32em;
             text-transform: uppercase;
@@ -930,12 +363,12 @@
             margin-bottom: 18px;
         }
 
-        .cover-names {
+        .cover-title {
             font-family: var(--font-serif);
-            font-size: clamp(2rem, 4.8vw, 2.65rem);
+            font-size: clamp(2.5rem, 6vw, 3.4rem);
             font-weight: 600;
             color: var(--ink-primary);
-            line-height: 1.18;
+            line-height: 1.1;
             letter-spacing: 0.02em;
         }
 
@@ -944,9 +377,17 @@
             font-family: var(--font-display);
             font-style: italic;
             font-weight: 400;
-            font-size: 2rem;
+            font-size: 2.1rem;
             color: var(--gold-deep);
-            margin: 6px 0;
+            margin: 4px 0;
+        }
+
+        .cover-full-sub {
+            margin-top: 12px;
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--ink-secondary);
         }
 
         .editorial-divider {
@@ -964,66 +405,58 @@
             content: "";
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
-        }
-
-        .cover-venue {
-            font-family: var(--font-serif);
-            font-size: 1.48rem;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--olive-dark);
-            margin-bottom: 6px;
+            background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
         }
 
         .cover-dates {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-weight: 500;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: var(--ink-secondary);
+            color: var(--forest-green);
             margin-bottom: 30px;
+            line-height: 1.65;
         }
 
         .cover-open-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 13px 30px;
+            gap: 8px;
+            min-height: 46px;
+            padding: 12px 32px;
             border-radius: 999px;
             border: 1px solid var(--gold-deep);
-            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold-btn) 100%);
+            background: linear-gradient(135deg, #d1b677 0%, var(--gold-btn) 100%);
             color: #ffffff;
             font-size: 0.78rem;
             font-weight: 600;
             letter-spacing: 0.16em;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 8px 22px rgba(140, 109, 46, 0.34);
-            transition: transform 0.22s ease, box-shadow 0.22s ease;
+            box-shadow: 0 8px 20px rgba(143, 113, 50, 0.34);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .cover-open-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 26px rgba(140, 109, 46, 0.44);
+            box-shadow: 0 12px 26px rgba(143, 113, 50, 0.44);
         }
 
         /* =====================================================================
-           7. ENCABEZADOS DE PANELES INTERIORES
+           7. ENCABEZADOS DE PANELES
            ===================================================================== */
         .panel-header {
             text-align: center;
             margin-bottom: 16px;
             padding-bottom: 12px;
-            border-bottom: 1px solid rgba(155, 123, 60, 0.25);
+            border-bottom: 1px solid rgba(197, 168, 105, 0.35);
         }
 
         .panel-kicker {
             font-size: 0.64rem;
             font-weight: 600;
-            letter-spacing: 0.24em;
+            letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--gold-deep);
             margin-bottom: 4px;
@@ -1031,7 +464,7 @@
 
         .panel-title {
             font-family: var(--font-serif);
-            font-size: 1.82rem;
+            font-size: 1.85rem;
             font-weight: 600;
             color: var(--ink-primary);
             line-height: 1.12;
@@ -1041,8 +474,8 @@
            8. PANEL 1: ITINERARIO, CUENTA REGRESIVA Y SEDE
            ===================================================================== */
         .countdown-box {
-            background: rgba(255, 255, 255, 0.65);
-            border: 1px solid rgba(155, 123, 60, 0.28);
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid rgba(197, 168, 105, 0.35);
             border-radius: var(--radius-md);
             padding: 10px 8px;
             margin-bottom: 14px;
@@ -1065,8 +498,8 @@
         }
 
         .cd-cell {
-            background: var(--paper-ivory);
-            border: 1px solid rgba(197, 160, 89, 0.35);
+            background: var(--paper-cream);
+            border: 1px solid rgba(197, 168, 105, 0.42);
             border-radius: 6px;
             padding: 6px 2px;
         }
@@ -1074,7 +507,7 @@
         .cd-num {
             display: block;
             font-family: var(--font-serif);
-            font-size: 1.4rem;
+            font-size: 1.42rem;
             font-weight: 700;
             color: var(--gold-deep);
             line-height: 1.05;
@@ -1095,9 +528,9 @@
         }
 
         .itinerary-item {
-            background: rgba(255, 255, 255, 0.62);
-            border: 1px solid rgba(155, 123, 60, 0.2);
-            border-left: 3px solid var(--gold-bright);
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(197, 168, 105, 0.28);
+            border-left: 3px solid var(--gold-soft);
             border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
             padding: 10px 12px;
         }
@@ -1105,7 +538,7 @@
         .itinerary-item.highlight {
             background: var(--sage-tint);
             border-color: var(--sage-border);
-            border-left: 3px solid var(--olive-dark);
+            border-left: 3px solid var(--forest-green);
         }
 
         .itinerary-day {
@@ -1117,7 +550,7 @@
         }
 
         .itinerary-item.highlight .itinerary-day {
-            color: var(--olive-dark);
+            color: var(--forest-green);
         }
 
         .itinerary-event {
@@ -1137,8 +570,8 @@
 
         .venue-card {
             margin-top: auto;
-            background: rgba(255, 255, 255, 0.72);
-            border: 1px solid rgba(155, 123, 60, 0.32);
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(197, 168, 105, 0.4);
             border-radius: var(--radius-md);
             padding: 14px 12px;
             text-align: center;
@@ -1154,7 +587,7 @@
 
         .venue-name {
             font-family: var(--font-serif);
-            font-size: 1.32rem;
+            font-size: 1.34rem;
             font-weight: 700;
             color: var(--ink-primary);
             margin-top: 2px;
@@ -1176,6 +609,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            min-height: 40px;
             padding: 9px 10px;
             border-radius: 999px;
             font-size: 0.66rem;
@@ -1184,17 +618,17 @@
             text-transform: uppercase;
             text-decoration: none;
             cursor: pointer;
-            transition: opacity 0.2s ease, transform 0.2s ease;
+            transition: opacity 0.2s ease, transform 0.18s ease;
         }
 
         .venue-btn-maps {
-            background: var(--olive-dark);
-            border: 1px solid var(--olive-dark);
+            background: var(--forest-green);
+            border: 1px solid var(--forest-green);
             color: #ffffff;
         }
 
         .venue-btn-ics {
-            background: var(--paper-ivory);
+            background: var(--paper-cream);
             border: 1px solid var(--gold-deep);
             color: var(--gold-deep);
         }
@@ -1205,20 +639,20 @@
         }
 
         /* =====================================================================
-           9. PANEL 2: NOMBRES Y GALERÍA DE GRAND MAZAMITLA
+           9. PANEL 2: NOMBRES Y GALERÍA DE 5 FOTOGRAFÍAS REALES
            ===================================================================== */
         .couple-header-box {
             text-align: center;
             padding: 12px 10px;
             margin-bottom: 14px;
-            background: rgba(255, 255, 255, 0.65);
-            border: 1px solid rgba(155, 123, 60, 0.28);
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid rgba(197, 168, 105, 0.35);
             border-radius: var(--radius-md);
         }
 
         .couple-full-names {
             font-family: var(--font-serif);
-            font-size: 1.18rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: var(--ink-primary);
             line-height: 1.3;
@@ -1226,10 +660,10 @@
 
         .couple-sub-date {
             font-size: 0.68rem;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: var(--olive-dark);
+            color: var(--forest-green);
             margin-top: 4px;
         }
 
@@ -1246,7 +680,7 @@
             aspect-ratio: 4 / 3;
             border-radius: var(--radius-md);
             overflow: hidden;
-            border: 1px solid rgba(155, 123, 60, 0.45);
+            border: 1px solid rgba(197, 168, 105, 0.55);
             background: var(--paper-warm);
             cursor: zoom-in;
         }
@@ -1256,62 +690,31 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.35s ease, opacity 0.25s ease;
+            transition: transform 0.35s ease;
         }
 
         .gallery-stage:hover .gallery-img {
             transform: scale(1.03);
         }
 
-        .gallery-fallback {
-            position: absolute;
-            inset: 0;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px 36px;
-            background: var(--paper-warm);
-            color: var(--ink-secondary);
-            z-index: 3;
-        }
-
-        .gallery-fallback.is-visible {
-            display: flex;
-        }
-
-        .gallery-fallback-title {
-            font-family: var(--font-serif);
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--ink-primary);
-            margin-bottom: 4px;
-        }
-
-        .gallery-fallback-sub {
-            font-size: 0.72rem;
-            color: var(--ink-muted);
-        }
-
         .gallery-arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 36px;
-            height: 36px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            border: 1px solid rgba(155, 123, 60, 0.35);
-            background: rgba(250, 246, 238, 0.92);
+            border: 1px solid rgba(197, 168, 105, 0.45);
+            background: rgba(247, 244, 236, 0.92);
             color: var(--ink-primary);
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             line-height: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 6;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
             transition: background 0.2s ease, transform 0.2s ease;
         }
 
@@ -1328,10 +731,10 @@
             top: 10px;
             right: 10px;
             z-index: 6;
-            padding: 5px 10px;
+            padding: 5px 11px;
             border-radius: 999px;
             border: none;
-            background: rgba(43, 37, 30, 0.72);
+            background: rgba(43, 38, 32, 0.72);
             color: #ffffff;
             font-size: 0.62rem;
             font-weight: 600;
@@ -1346,9 +749,9 @@
             right: 0;
             bottom: 0;
             z-index: 5;
-            padding: 22px 12px 9px;
-            background: linear-gradient(to top, rgba(31, 26, 21, 0.86), transparent);
-            color: #FAF6EE;
+            padding: 24px 12px 9px;
+            background: linear-gradient(to top, rgba(31, 27, 22, 0.86), transparent);
+            color: #f7f4ec;
             font-size: 0.74rem;
             font-weight: 500;
             pointer-events: none;
@@ -1363,18 +766,18 @@
         .thumb-btn {
             position: relative;
             aspect-ratio: 4 / 3;
-            border-radius: 6px;
-            border: 1.5px solid rgba(155, 123, 60, 0.35);
+            border-radius: 8px;
+            border: 2px solid rgba(197, 168, 105, 0.35);
             background: var(--paper-warm);
             overflow: hidden;
             cursor: pointer;
             padding: 0;
-            transition: border-color 0.2s ease, transform 0.2s ease;
+            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .thumb-btn.is-active {
             border-color: var(--gold-deep);
-            box-shadow: 0 0 0 1px var(--gold-deep);
+            box-shadow: 0 0 0 1.5px var(--gold-soft);
             transform: translateY(-1px);
         }
 
@@ -1383,30 +786,13 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            opacity: 0.85;
+            opacity: 0.82;
             transition: opacity 0.2s ease;
         }
 
-        .thumb-btn.is-active img {
+        .thumb-btn.is-active img,
+        .thumb-btn:hover img {
             opacity: 1;
-        }
-
-        .thumb-num {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-serif);
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--gold-deep);
-            background: var(--paper-warm);
-            z-index: 1;
-        }
-
-        .thumb-btn.has-img .thumb-num {
-            display: none;
         }
 
         .editorial-quote {
@@ -1417,15 +803,15 @@
             font-style: italic;
             font-size: 1.08rem;
             color: var(--ink-secondary);
-            line-height: 1.4;
+            line-height: 1.42;
         }
 
         /* =====================================================================
-           10. PANEL 3: ESTANCIA Y CONFIRMACIÓN DE ASISTENCIA (RSVP)
+           10. PANEL 3: ESTANCIA, RSVP (MÁX 2) Y CONTACTO DEL HOTEL
            ===================================================================== */
         .stay-summary {
-            background: linear-gradient(135deg, #F6EFE1 0%, #EFE5D1 100%);
-            border: 1px solid rgba(155, 123, 60, 0.45);
+            background: linear-gradient(135deg, #f5efe1 0%, #ede3cf 100%);
+            border: 1px solid rgba(197, 168, 105, 0.55);
             border-radius: var(--radius-md);
             padding: 12px 14px;
             text-align: center;
@@ -1442,7 +828,7 @@
 
         .stay-price {
             font-family: var(--font-serif);
-            font-size: 1.85rem;
+            font-size: 1.88rem;
             font-weight: 700;
             color: var(--ink-primary);
             line-height: 1.1;
@@ -1477,35 +863,34 @@
 
         .field-control {
             width: 100%;
-            min-height: 42px;
-            padding: 9px 12px;
+            min-height: 44px;
+            padding: 10px 12px;
             border-radius: var(--radius-sm);
-            border: 1px solid rgba(155, 123, 60, 0.42);
+            border: 1px solid rgba(197, 168, 105, 0.52);
             background: #ffffff;
             color: var(--ink-primary);
-            font-size: 0.84rem;
+            font-size: 0.85rem;
             outline: none;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .field-control:focus {
             border-color: var(--gold-deep);
-            box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.18);
+            box-shadow: 0 0 0 3px rgba(197, 168, 105, 0.2);
         }
 
         .field-control:disabled {
-            background: #f1ede6;
+            background: #f0ece4;
             color: var(--ink-muted);
             cursor: not-allowed;
         }
 
         textarea.field-control {
-            min-height: 78px;
+            min-height: 76px;
             resize: vertical;
             line-height: 1.45;
         }
 
-        /* Fila de dos columnas: Número de Personas + Total Estancia */
         .rsvp-two-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1530,30 +915,29 @@
             font-weight: 600;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--olive-dark);
+            color: var(--forest-green);
         }
 
         .total-stay-amount {
             font-family: var(--font-serif);
-            font-size: 1.38rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: var(--ink-primary);
             line-height: 1.15;
         }
 
-        /* Ocultar campo condicional limpiamente */
         .is-hidden {
             display: none !important;
         }
 
         .rsvp-feedback {
             display: none;
-            padding: 8px 11px;
+            padding: 9px 12px;
             border-radius: var(--radius-sm);
             font-size: 0.74rem;
-            background: #FDECEC;
-            border: 1px solid #F1C0BC;
-            color: #9A2F22;
+            background: #fdecec;
+            border: 1px solid #f1c0bc;
+            color: #9a2f22;
         }
 
         .rsvp-feedback.is-visible {
@@ -1570,8 +954,8 @@
 
         .btn-action {
             width: 100%;
-            min-height: 44px;
-            padding: 11px 14px;
+            min-height: 46px;
+            padding: 12px 14px;
             border-radius: var(--radius-sm);
             border: none;
             color: #ffffff;
@@ -1589,7 +973,7 @@
 
         .btn-confirm-couple {
             background: var(--gold-btn);
-            box-shadow: 0 4px 12px rgba(140, 109, 46, 0.28);
+            box-shadow: 0 4px 12px rgba(143, 113, 50, 0.28);
         }
 
         .btn-confirm-couple:hover {
@@ -1598,22 +982,22 @@
         }
 
         .btn-deposit-hotel {
-            background: var(--olive-dark);
-            box-shadow: 0 4px 12px rgba(74, 93, 70, 0.25);
+            background: var(--forest-green);
+            box-shadow: 0 4px 12px rgba(74, 93, 78, 0.25);
         }
 
         .btn-deposit-hotel:hover {
-            background: var(--olive-hover);
+            background: var(--forest-hover);
             transform: translateY(-1px);
         }
 
-        /* Recuadro informativo de contacto directo con el hotel */
+        /* Recuadro inferior: Atención de Hospedaje y Pagos */
         .hotel-support-box {
-            margin-top: 12px;
+            margin-top: 10px;
             padding: 12px 14px;
             border-radius: var(--radius-md);
             background: rgba(255, 255, 255, 0.78);
-            border: 1px dashed rgba(155, 123, 60, 0.55);
+            border: 1px dashed rgba(197, 168, 105, 0.7);
             text-align: center;
         }
 
@@ -1622,7 +1006,7 @@
             font-weight: 600;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: var(--olive-dark);
+            color: var(--forest-green);
             margin-bottom: 4px;
         }
 
@@ -1636,7 +1020,7 @@
         .hotel-support-phone {
             display: inline-block;
             font-family: var(--font-serif);
-            font-size: 1.05rem;
+            font-size: 1.08rem;
             font-weight: 700;
             color: var(--ink-primary);
             margin-top: 2px;
@@ -1652,15 +1036,15 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 36px;
-            padding: 7px 10px;
+            min-height: 38px;
+            padding: 8px 10px;
             border-radius: 999px;
             font-size: 0.65rem;
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             text-decoration: none;
-            transition: transform 0.18s ease, background 0.2s ease, color 0.2s ease;
+            transition: transform 0.18s ease, background 0.2s ease;
         }
 
         .hotel-contact-pill:hover {
@@ -1668,7 +1052,7 @@
         }
 
         .hotel-pill-call {
-            background: var(--paper-ivory);
+            background: var(--paper-cream);
             border: 1px solid var(--gold-deep);
             color: var(--gold-deep);
         }
@@ -1679,22 +1063,22 @@
 
         .hotel-pill-wa {
             background: var(--sage-tint);
-            border: 1px solid var(--olive-dark);
-            color: var(--olive-dark);
+            border: 1px solid var(--forest-green);
+            color: var(--forest-green);
         }
 
         .hotel-pill-wa:hover {
-            background: #e1ece0;
+            background: #e1ebe2;
         }
 
         /* =====================================================================
-           11. LIGHTBOX PARA AMPLIAR FOTOGRAFÍAS
+           11. LIGHTBOX A PANTALLA COMPLETA (CON FLECHAS Y CIERRE)
            ===================================================================== */
         .lightbox {
             position: fixed;
             inset: 0;
             z-index: 300;
-            background: rgba(24, 20, 16, 0.92);
+            background: rgba(24, 21, 17, 0.93);
             display: none;
             align-items: center;
             justify-content: center;
@@ -1708,10 +1092,18 @@
         .lightbox-inner {
             position: relative;
             width: 100%;
-            max-width: 920px;
+            max-width: 960px;
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+
+        .lightbox-media-wrap {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .lightbox-img {
@@ -1719,37 +1111,60 @@
             max-height: 80vh;
             object-fit: contain;
             border-radius: 10px;
-            border: 1.5px solid rgba(197, 160, 89, 0.65);
+            border: 1.5px solid rgba(197, 168, 105, 0.65);
             background: #141210;
         }
 
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--gold-soft);
+            background: rgba(247, 244, 236, 0.92);
+            color: var(--ink-primary);
+            font-size: 1.5rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .lightbox-nav.prev { left: 12px; }
+        .lightbox-nav.next { right: 12px; }
+
         .lightbox-caption {
             margin-top: 12px;
-            color: var(--paper-ivory);
-            font-size: 0.86rem;
+            color: var(--paper-cream);
+            font-size: 0.88rem;
             text-align: center;
         }
 
         .lightbox-close {
             position: absolute;
-            top: -16px;
+            top: -18px;
             right: -6px;
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            border: 1px solid var(--gold-bright);
-            background: var(--paper-ivory);
+            border: 1px solid var(--gold-soft);
+            background: var(--paper-cream);
             color: var(--ink-primary);
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             line-height: 1;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 10;
         }
 
         /* =====================================================================
-           12. ADAPTACIÓN RESPONSIVE PARA MÓVIL Y TABLET
+           12. ADAPTACIÓN 100% RESPONSIVA PARA MÓVIL Y TABLET
            ===================================================================== */
         @media (max-width: 980px) {
             #admin-bar {
@@ -1764,7 +1179,7 @@
             }
 
             .stage {
-                padding: 76px 12px 40px;
+                padding: 76px 12px 36px;
                 perspective: none;
             }
 
@@ -1774,11 +1189,10 @@
                 gap: 18px;
             }
 
-            /* En móvil se despliega verticalmente sin rotaciones 3D que puedan trabarse */
             .triptych-app.is-open:not(.is-flat) .panel-left,
             .triptych-app.is-open:not(.is-flat) .panel-center,
             .triptych-app.is-open:not(.is-flat) .panel-right {
-                animation: mobileReveal 0.42s ease forwards;
+                animation: mobileReveal 0.4s ease forwards;
             }
 
             @keyframes mobileReveal {
@@ -1787,7 +1201,7 @@
             }
 
             .cover-card {
-                min-height: 540px;
+                min-height: 520px;
                 padding: 40px 22px;
             }
 
@@ -1805,83 +1219,86 @@
                 align-items: center;
                 text-align: center;
             }
+
+            .lightbox-nav {
+                width: 38px;
+                height: 38px;
+            }
         }
     </style>
 </head>
-<body>
+<body class="guest-mode">
 
     <!-- =======================================================================
-         BARRA SUPERIOR FLOTANTE (#admin-bar)
+         BARRA SUPERIOR DE ADMINISTRACIÓN (Se elimina automáticamente al descargar)
          ======================================================================= -->
-    <nav id="admin-bar" aria-label="Controles de invitación">
-        <button type="button" id="btnToggleInvite" class="admin-btn admin-btn-primary" aria-expanded="false">Abrir Invitación</button>
-        <button type="button" id="btnViewMode" class="admin-btn admin-btn-outline" aria-pressed="false">Vista Plana</button>
-        
-    </nav>
+    
 
     <!-- =======================================================================
-         ESCENARIO PRINCIPAL DEL TRÍPTICO 3D
+         ESCENARIO PRINCIPAL DEL TRÍPTICO
          ======================================================================= -->
     <main class="stage">
         <div id="triptychApp" class="triptych-app">
 
             <!-- ===============================================================
-                 PORTADA DE LUJO (ESTADO CERRADO)
+                 PORTADA CERRADA
                  =============================================================== -->
             <section class="cover-stage" aria-label="Portada de la invitación">
                 <div id="coverCard" class="paper-card cover-card" role="button" tabindex="0" aria-label="Abrir invitación de boda">
-                    <div class="gold-double-frame decorative-layer" aria-hidden="true"></div>
+                    <div class="gold-frame decorative-layer" aria-hidden="true"></div>
 
-                    <!-- Ilustración botánica acuarela: rama de olivo y honguitos silvestres (Superior Izquierda) -->
-                    <svg class="botanical-svg botanical-tl decorative-layer" viewBox="0 0 140 140" aria-hidden="true">
-                        <path d="M16,120 Q34,64 98,18" fill="none" stroke="#4A5D46" stroke-width="1.8" stroke-linecap="round"></path>
-                        <ellipse cx="44" cy="70" rx="14" ry="5.2" transform="rotate(-38 44 70)" fill="#7E9478" opacity="0.82"></ellipse>
-                        <ellipse cx="66" cy="48" rx="13" ry="4.8" transform="rotate(-30 66 48)" fill="#4A5D46" opacity="0.78"></ellipse>
-                        <ellipse cx="86" cy="30" rx="11" ry="4.2" transform="rotate(-22 86 30)" fill="#96AA8F" opacity="0.82"></ellipse>
-                        <circle cx="52" cy="58" r="2.6" fill="#4A5D46" opacity="0.7"></circle>
-                        <path d="M26,56 Q27,42 26,34" stroke="#E7DBC5" stroke-width="5.8" stroke-linecap="round"></path>
-                        <path d="M13,36 Q26,16 39,36 Z" fill="#B66E52" opacity="0.88"></path>
-                        <circle cx="21" cy="29" r="1.6" fill="#FAF6EE"></circle>
-                        <circle cx="29" cy="27" r="1.3" fill="#FAF6EE"></circle>
-                        <path d="M45,48 Q46,40 45,35" stroke="#E7DBC5" stroke-width="4" stroke-linecap="round"></path>
-                        <path d="M37,37 Q45,25 53,37 Z" fill="#C98A6D" opacity="0.85"></path>
+                    <!-- Detalle botánico superior izquierdo: hojas y hongos silvestres -->
+                    <svg class="botanical-corner corner-tl decorative-layer" viewBox="0 0 140 140" aria-hidden="true">
+                        <path d="M16,120 Q34,64 98,18" fill="none" stroke="#4a5d4e" stroke-width="1.8" stroke-linecap="round"></path>
+                        <ellipse cx="44" cy="70" rx="14" ry="5" transform="rotate(-38 44 70)" fill="#7d9180" opacity="0.82"></ellipse>
+                        <ellipse cx="66" cy="48" rx="13" ry="4.6" transform="rotate(-30 66 48)" fill="#4a5d4e" opacity="0.78"></ellipse>
+                        <ellipse cx="86" cy="30" rx="11" ry="4" transform="rotate(-22 86 30)" fill="#96a899" opacity="0.82"></ellipse>
+                        <path d="M26,56 Q27,42 26,34" stroke="#e6dcc8" stroke-width="5.6" stroke-linecap="round"></path>
+                        <path d="M13,36 Q26,16 39,36 Z" fill="#b56f54" opacity="0.88"></path>
+                        <circle cx="21" cy="29" r="1.5" fill="#f7f4ec"></circle>
+                        <circle cx="29" cy="27" r="1.2" fill="#f7f4ec"></circle>
+                        <path d="M45,48 Q46,40 45,35" stroke="#e6dcc8" stroke-width="3.8" stroke-linecap="round"></path>
+                        <path d="M37,37 Q45,25 53,37 Z" fill="#c98b70" opacity="0.85"></path>
                     </svg>
 
-                    <!-- Ilustración botánica acuarela: rama de olivo y honguitos silvestres (Inferior Derecha) -->
-                    <svg class="botanical-svg botanical-br decorative-layer" viewBox="0 0 140 140" aria-hidden="true">
-                        <path d="M124,20 Q106,76 42,122" fill="none" stroke="#4A5D46" stroke-width="1.8" stroke-linecap="round"></path>
-                        <ellipse cx="96" cy="70" rx="14" ry="5.2" transform="rotate(-38 96 70)" fill="#7E9478" opacity="0.82"></ellipse>
-                        <ellipse cx="74" cy="92" rx="13" ry="4.8" transform="rotate(-30 74 92)" fill="#4A5D46" opacity="0.78"></ellipse>
-                        <ellipse cx="54" cy="110" rx="11" ry="4.2" transform="rotate(-22 54 110)" fill="#96AA8F" opacity="0.82"></ellipse>
-                        <path d="M108,118 Q109,102 108,94" stroke="#E7DBC5" stroke-width="6.2" stroke-linecap="round"></path>
-                        <path d="M93,97 Q108,74 123,97 Z" fill="#B66E52" opacity="0.88"></path>
-                        <circle cx="103" cy="88" r="1.8" fill="#FAF6EE"></circle>
-                        <circle cx="112" cy="86" r="1.4" fill="#FAF6EE"></circle>
-                        <path d="M88,118 Q89,109 88,104" stroke="#E7DBC5" stroke-width="4.2" stroke-linecap="round"></path>
-                        <path d="M79,106 Q88,94 97,106 Z" fill="#D1987A" opacity="0.86"></path>
+                    <!-- Detalle botánico inferior derecho: hojas y hongos silvestres -->
+                    <svg class="botanical-corner corner-br decorative-layer" viewBox="0 0 140 140" aria-hidden="true">
+                        <path d="M124,20 Q106,76 42,122" fill="none" stroke="#4a5d4e" stroke-width="1.8" stroke-linecap="round"></path>
+                        <ellipse cx="96" cy="70" rx="14" ry="5" transform="rotate(-38 96 70)" fill="#7d9180" opacity="0.82"></ellipse>
+                        <ellipse cx="74" cy="92" rx="13" ry="4.6" transform="rotate(-30 74 92)" fill="#4a5d4e" opacity="0.78"></ellipse>
+                        <ellipse cx="54" cy="110" rx="11" ry="4" transform="rotate(-22 54 110)" fill="#96a899" opacity="0.82"></ellipse>
+                        <path d="M108,118 Q109,102 108,94" stroke="#e6dcc8" stroke-width="6" stroke-linecap="round"></path>
+                        <path d="M93,97 Q108,74 123,97 Z" fill="#b56f54" opacity="0.88"></path>
+                        <circle cx="103" cy="88" r="1.7" fill="#f7f4ec"></circle>
+                        <circle cx="112" cy="86" r="1.3" fill="#f7f4ec"></circle>
+                        <path d="M88,118 Q89,109 88,104" stroke="#e6dcc8" stroke-width="4" stroke-linecap="round"></path>
+                        <path d="M79,106 Q88,94 97,106 Z" fill="#cf9578" opacity="0.86"></path>
                     </svg>
 
                     <div class="card-inner" style="align-items: center; justify-content: center;">
                         <p class="cover-kicker">Nuestra Boda</p>
 
-                        <h1 class="cover-names">
-                            Laura Elena González Hernández
+                        <h1 class="cover-title">
+                            Laura
                             <span class="cover-amp">&amp;</span>
-                            Francisco José Osuna Meza
+                            Francisco
                         </h1>
 
-                        <!-- Divisor editorial con honguito silvestre -->
+                        <p class="cover-full-sub">Laura Elena González Hernández &amp; Francisco José Osuna Meza</p>
+
                         <div class="editorial-divider decorative-layer" aria-hidden="true">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 20V11" stroke="#9B7B3C" stroke-width="1.6" stroke-linecap="round"></path>
-                                <path d="M6 12C6 7.4 18 7.4 18 12H6Z" fill="#B66E52" opacity="0.9"></path>
-                                <circle cx="10" cy="10" r="1" fill="#FAF6EE"></circle>
-                                <circle cx="14" cy="9.4" r="0.9" fill="#FAF6EE"></circle>
+                                <path d="M12 20V11" stroke="#9c7e3e" stroke-width="1.6" stroke-linecap="round"></path>
+                                <path d="M6 12C6 7.4 18 7.4 18 12H6Z" fill="#b56f54" opacity="0.9"></path>
+                                <circle cx="10" cy="10" r="1" fill="#f7f4ec"></circle>
+                                <circle cx="14" cy="9.4" r="0.9" fill="#f7f4ec"></circle>
                             </svg>
                         </div>
 
-                        <p class="cover-venue">Grand Mazamitla</p>
-                        <p class="cover-dates">22 al 24 de Octubre de 2027</p>
+                        <p class="cover-dates">
+                            22 · 23 · 24 de Octubre de 2027<br>
+                            Mazamitla, Jalisco
+                        </p>
 
                         <button type="button" id="btnCoverOpen" class="cover-open-btn">
                             Abrir Invitación
@@ -1896,42 +1313,42 @@
             <div class="trifold-inside" aria-label="Interior de la invitación">
 
                 <!-- ===========================================================
-                     PANEL IZQUIERDO: ITINERARIO Y SEDE
+                     PANEL 1 (IZQUIERDO): ITINERARIO Y SEDE
                      =========================================================== -->
                 <article class="paper-card panel-left" aria-label="Itinerario del fin de semana">
-                    <div class="gold-double-frame decorative-layer" aria-hidden="true"></div>
+                    <div class="gold-frame decorative-layer" aria-hidden="true"></div>
 
-                    <svg class="botanical-svg botanical-tl decorative-layer" style="width:76px;height:76px;" viewBox="0 0 120 120" aria-hidden="true">
-                        <path d="M12,92 Q28,48 78,14" fill="none" stroke="#4A5D46" stroke-width="1.6" stroke-linecap="round"></path>
-                        <ellipse cx="38" cy="54" rx="10" ry="4.2" transform="rotate(-38 38 54)" fill="#7E9478" opacity="0.8"></ellipse>
-                        <path d="M22,40 V26" stroke="#E7DBC5" stroke-width="4.2" stroke-linecap="round"></path>
-                        <path d="M13,28 Q22,14 31,28 Z" fill="#B66E52" opacity="0.86"></path>
+                    <svg class="botanical-corner corner-tl decorative-layer" style="width:74px;height:74px;" viewBox="0 0 120 120" aria-hidden="true">
+                        <path d="M12,92 Q28,48 78,14" fill="none" stroke="#4a5d4e" stroke-width="1.6" stroke-linecap="round"></path>
+                        <ellipse cx="38" cy="54" rx="10" ry="4" transform="rotate(-38 38 54)" fill="#7d9180" opacity="0.8"></ellipse>
+                        <path d="M22,40 V26" stroke="#e6dcc8" stroke-width="4" stroke-linecap="round"></path>
+                        <path d="M13,28 Q22,14 31,28 Z" fill="#b56f54" opacity="0.86"></path>
                     </svg>
 
                     <div class="card-inner">
                         <header class="panel-header">
-                            <p class="panel-kicker">22 al 24 de Octubre de 2027</p>
+                            <p class="panel-kicker">22 AL 24 DE OCTUBRE DE 2027</p>
                             <h2 class="panel-title">Itinerario</h2>
                         </header>
 
-                        <!-- Cuenta regresiva al gran día -->
+                        <!-- Cuenta regresiva en vivo -->
                         <div class="countdown-box" aria-live="polite">
-                            <p class="countdown-label">Cuenta regresiva · Sábado 23 de Octubre</p>
+                            <p class="countdown-label">Cuenta regresiva · Sábado 23 de Octubre de 2027</p>
                             <div class="countdown-grid">
                                 <div class="cd-cell">
                                     <span id="cdDays" class="cd-num">336</span>
                                     <span class="cd-unit">Días</span>
                                 </div>
                                 <div class="cd-cell">
-                                    <span id="cdHours" class="cd-num">21</span>
+                                    <span id="cdHours" class="cd-num">20</span>
                                     <span class="cd-unit">Horas</span>
                                 </div>
                                 <div class="cd-cell">
-                                    <span id="cdMins" class="cd-num">10</span>
+                                    <span id="cdMins" class="cd-num">58</span>
                                     <span class="cd-unit">Min</span>
                                 </div>
                                 <div class="cd-cell">
-                                    <span id="cdSecs" class="cd-num">47</span>
+                                    <span id="cdSecs" class="cd-num">35</span>
                                     <span class="cd-unit">Seg</span>
                                 </div>
                             </div>
@@ -1958,17 +1375,17 @@
                             </div>
                         </div>
 
-                        <!-- Sede y accesos rápidos -->
+                        <!-- Tarjeta de Sede Oficial -->
                         <div class="venue-card">
                             <p class="venue-tag">Sede Oficial</p>
                             <p class="venue-name">Grand Mazamitla</p>
                             <p class="venue-address">Gorriones 6, Fracc. Pinos de Mazamitla,<br>Mazamitla, Jalisco, C.P. 49500</p>
                             <div class="venue-actions">
-                                <a class="venue-btn venue-btn-maps" href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Boutique+Grand+Mazamitla+Mazamitla+Jalisco" target="_blank" rel="noopener noreferrer">
-                                    Google Maps
+                                <a class="venue-btn venue-btn-maps" href="https://www.google.com/maps/search/?api=1&amp;query=Grand+Mazamitla+Mountain+Hotel+Boutique+Mazamitla+Jalisco" target="_blank" rel="noopener noreferrer">
+                                    GOOGLE MAPS
                                 </a>
                                 <button type="button" id="btnDownloadIcs" class="venue-btn venue-btn-ics">
-                                    Guardar Fecha
+                                    GUARDAR FECHA
                                 </button>
                             </div>
                         </div>
@@ -1976,59 +1393,49 @@
                 </article>
 
                 <!-- ===========================================================
-                     PANEL CENTRAL: GALERÍA DE GRAND MAZAMITLA
+                     PANEL 2 (CENTRAL): GALERÍA DE GRAND MAZAMITLA
                      =========================================================== -->
                 <article class="paper-card panel-center" aria-label="Galería de Grand Mazamitla">
-                    <div class="gold-double-frame decorative-layer" aria-hidden="true"></div>
+                    <div class="gold-frame decorative-layer" aria-hidden="true"></div>
 
                     <div class="card-inner">
                         <header class="panel-header">
-                            <p class="panel-kicker">Nuestro Refugio en el Bosque</p>
+                            <p class="panel-kicker">NUESTRO REFUGIO EN EL BOSQUE</p>
                             <h2 class="panel-title">Grand Mazamitla</h2>
                         </header>
 
                         <div class="couple-header-box">
                             <p class="couple-full-names">Laura Elena González Hernández &amp; Francisco José Osuna Meza</p>
-                            <p class="couple-sub-date">22 · 23 · 24 de Octubre de 2027</p>
+                            <p class="couple-sub-date">22 · 23 · 24 DE OCTUBRE DE 2027</p>
                         </div>
 
-                        <!-- Galería interactiva con 5 imágenes locales -->
+                        <!-- Galería con URLs absolutas directas de GitHub Pages -->
                         <div class="gallery-wrapper">
                             <div id="galleryStage" class="gallery-stage" role="button" tabindex="0" aria-label="Ampliar fotografía actual">
-                                <img id="galleryMainImg" class="gallery-img" src="1795119829825.png" alt="1/5 · Salón de Eventos con Ventanales al Bosque" loading="lazy" style="display: none;">
+                                <img id="galleryMainImg" class="gallery-img" src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119829825.png" alt="1/5 · Salón de Eventos con Ventanales al Bosque" onerror="this.onerror=null;this.src='https://placehold.co/800x600/f7f4ec/4a5d4e?text=Grand+Mazamitla';">
 
-                                <div id="galleryFallback" class="gallery-fallback is-visible" aria-live="polite">
-                                    <p class="gallery-fallback-title">Imagen no disponible</p>
-                                    <p id="galleryFallbackName" class="gallery-fallback-sub">1795119829825.png</p>
-                                </div>
-
-                                <button type="button" id="btnZoomPhoto" class="gallery-zoom-pill" style="display: none;">Ampliar</button>
+                                <button type="button" id="btnZoomPhoto" class="gallery-zoom-pill">Ampliar</button>
                                 <button type="button" id="btnPrevPhoto" class="gallery-arrow prev" aria-label="Foto anterior">‹</button>
                                 <button type="button" id="btnNextPhoto" class="gallery-arrow next" aria-label="Foto siguiente">›</button>
                                 <div id="galleryCaption" class="gallery-caption">1/5 · Salón de Eventos con Ventanales al Bosque</div>
                             </div>
 
-                            <!-- Miniaturas / botones numerados 1 a 5 -->
+                            <!-- 5 Miniaturas reales con URLs directas -->
                             <div id="galleryThumbs" class="gallery-thumbs">
                                 <button type="button" class="thumb-btn is-active" data-index="0" aria-label="Ver foto 1">
-                                    <span class="thumb-num">1</span>
-                                    <img data-filename="1795119829825.png" alt="Salón de Eventos con Ventanales al Bosque" loading="lazy">
+                                    <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119829825.png" alt="1/5 · Salón de Eventos con Ventanales al Bosque" onerror="this.onerror=null;this.src='https://placehold.co/200x150/f7f4ec/4a5d4e?text=1';">
                                 </button>
                                 <button type="button" class="thumb-btn" data-index="1" aria-label="Ver foto 2">
-                                    <span class="thumb-num">2</span>
-                                    <img data-filename="1795119816102.png" alt="Cabañas y Arquitectura en el Bosque" loading="lazy">
+                                    <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119816102.png" alt="2/5 · Habitaciones y Suites entre Pinos" onerror="this.onerror=null;this.src='https://placehold.co/200x150/f7f4ec/4a5d4e?text=2';">
                                 </button>
                                 <button type="button" class="thumb-btn" data-index="2" aria-label="Ver foto 3">
-                                    <span class="thumb-num">3</span>
-                                    <img data-filename="1795119801174.png" alt="Áreas Verdes y Jardines" loading="lazy">
+                                    <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119801174.png" alt="3/5 · Terrazas con Vista a la Montaña" onerror="this.onerror=null;this.src='https://placehold.co/200x150/f7f4ec/4a5d4e?text=3';">
                                 </button>
                                 <button type="button" class="thumb-btn" data-index="3" aria-label="Ver foto 4">
-                                    <span class="thumb-num">4</span>
-                                    <img data-filename="1795119786129.png" alt="Interiores y Comodidad" loading="lazy">
+                                    <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119786129.png" alt="4/5 · Áreas Verdes y Jardines" onerror="this.onerror=null;this.src='https://placehold.co/200x150/f7f4ec/4a5d4e?text=4';">
                                 </button>
                                 <button type="button" class="thumb-btn" data-index="4" aria-label="Ver foto 5">
-                                    <span class="thumb-num">5</span>
-                                    <img data-filename="1795119771774.png" alt="Vistas Naturales de Mazamitla" loading="lazy">
+                                    <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119771774.png" alt="5/5 · Entorno Natural en Mazamitla" onerror="this.onerror=null;this.src='https://placehold.co/200x150/f7f4ec/4a5d4e?text=5';">
                                 </button>
                             </div>
                         </div>
@@ -2040,35 +1447,35 @@
                 </article>
 
                 <!-- ===========================================================
-                     PANEL DERECHO: ESTANCIA Y CONFIRMACIÓN DE ASISTENCIA (RSVP)
+                     PANEL 3 (DERECHO): ESTANCIA, RSVP Y CONTACTO DEL HOTEL
                      =========================================================== -->
                 <article class="paper-card panel-right" aria-label="Confirmación de asistencia y hospedaje">
-                    <div class="gold-double-frame decorative-layer" aria-hidden="true"></div>
+                    <div class="gold-frame decorative-layer" aria-hidden="true"></div>
 
-                    <svg class="botanical-svg botanical-tr decorative-layer" viewBox="0 0 120 120" aria-hidden="true">
-                        <path d="M108,90 Q92,46 42,14" fill="none" stroke="#4A5D46" stroke-width="1.6" stroke-linecap="round"></path>
-                        <ellipse cx="82" cy="54" rx="10" ry="4.2" transform="rotate(38 82 54)" fill="#7E9478" opacity="0.8"></ellipse>
-                        <path d="M98,40 V26" stroke="#E7DBC5" stroke-width="4.2" stroke-linecap="round"></path>
-                        <path d="M89,28 Q98,14 107,28 Z" fill="#B66E52" opacity="0.86"></path>
+                    <svg class="botanical-corner corner-tr decorative-layer" viewBox="0 0 120 120" aria-hidden="true">
+                        <path d="M108,90 Q92,46 42,14" fill="none" stroke="#4a5d4e" stroke-width="1.6" stroke-linecap="round"></path>
+                        <ellipse cx="82" cy="54" rx="10" ry="4" transform="rotate(38 82 54)" fill="#7d9180" opacity="0.8"></ellipse>
+                        <path d="M98,40 V26" stroke="#e6dcc8" stroke-width="4" stroke-linecap="round"></path>
+                        <path d="M89,28 Q98,14 107,28 Z" fill="#b56f54" opacity="0.86"></path>
                     </svg>
 
                     <div class="card-inner">
                         <header class="panel-header">
-                            <p class="panel-kicker">Estancia &amp; RSVP</p>
+                            <p class="panel-kicker">ESTANCIA &amp; RSVP</p>
                             <h2 class="panel-title">Confirmación de Asistencia</h2>
                         </header>
 
                         <div class="stay-summary">
-                            <p class="stay-kicker">Estancia Todo el Fin de Semana</p>
+                            <p class="stay-kicker">ESTANCIA TODO EL FIN DE SEMANA</p>
                             <p class="stay-price">$3,500.00 MXN</p>
                             <p class="stay-note">Por persona · Incluye hospedaje del 22 al 24 de octubre de 2027 en Grand Mazamitla.</p>
                         </div>
 
-                        <!-- Formulario RSVP con máximo estricto de 2 personas y mensaje condicional -->
+                        <!-- Formulario RSVP -->
                         <form id="rsvpForm" class="rsvp-form" novalidate="">
                             <div class="field-group">
                                 <label class="field-label" for="guestName">NOMBRE COMPLETO O FAMILIA</label>
-                                <input type="text" id="guestName" class="field-control" placeholder="Ej. Familia Pérez López" autocomplete="name" required="">
+                                <input type="text" id="guestName" class="field-control" placeholder="Ej. Familia Pérez López" autocomplete="name" required="" value="">
                             </div>
 
                             <div class="field-group">
@@ -2079,7 +1486,7 @@
                                 </select>
                             </div>
 
-                            <!-- Fila de dos columnas: Número de Personas (estrictamente 1 o 2) + Total Estancia -->
+                            <!-- Selector ESTRICTAMENTE máximo 2 personas + Total en vivo -->
                             <div class="rsvp-two-col">
                                 <div class="field-group" id="peopleFieldGroup" style="opacity: 1;">
                                     <label class="field-label" for="guestCount">NÚMERO DE PERSONAS</label>
@@ -2095,18 +1502,18 @@
                                 </div>
                             </div>
 
-                            <!-- Campo de mensaje visible ÚNICAMENTE cuando selecciona "Sí asistiré" -->
+                            <!-- Mensaje condicional (solo visible si elige "Sí asistiré") -->
                             <div class="field-group" id="messageFieldGroup">
                                 <label class="field-label" for="guestMessage">MENSAJE PARA LOS NOVIOS (OPCIONAL)</label>
                                 <textarea id="guestMessage" class="field-control" placeholder="Déjanos un mensaje, buenos deseos o alguna nota especial (ej. alergias)..."></textarea>
                             </div>
 
-                            <!-- Mensaje de validación sin usar alert() -->
+                            <!-- Aviso de validación en línea (sin alert()) -->
                             <div id="rsvpFeedback" class="rsvp-feedback" role="alert">
                                 Por favor escribe tu nombre completo o familia para continuar.
                             </div>
 
-                            <!-- Botones apilados de acción WhatsApp -->
+                            <!-- Botones de acción WhatsApp -->
                             <div class="rsvp-actions">
                                 <button type="button" id="btnConfirmCouple" class="btn-action btn-confirm-couple">
                                     CONFIRMAR CON LOS NOVIOS
@@ -2116,19 +1523,19 @@
                                 </button>
                             </div>
 
-                            <!-- Recuadro de atención directa de Grand Mazamitla Mountain Hotel Boutique -->
-                            <div class="hotel-support-box" aria-label="Contacto directo con Grand Mazamitla Mountain Hotel Boutique">
-                                <p class="hotel-support-title">Atención de Hospedaje y Pagos</p>
+                            <!-- Recuadro de atención directa del hotel -->
+                            <div class="hotel-support-box" aria-label="Atención de hospedaje y pagos">
+                                <p class="hotel-support-title">ATENCIÓN DE HOSPEDAJE Y PAGOS</p>
                                 <p class="hotel-support-text">
                                     ¿Tienes dudas respecto a las habitaciones, tarifas o esquemas de pago? Comunícate directamente con <strong>Grand Mazamitla Mountain Hotel Boutique</strong> al<br>
                                     <span class="hotel-support-phone">+52 33 5111 1018</span>
                                 </p>
                                 <div class="hotel-support-links">
-                                    <a href="tel:+523351111018" class="hotel-contact-pill hotel-pill-call">
-                                        Llamar al Hotel
+                                    <a href="tel:+523351111018" class="hotel-contact-pill hotel-pill-call" target="_blank" rel="noopener noreferrer">
+                                        LLAMAR AL HOTEL
                                     </a>
-                                    <a href="https://wa.me/523351111018?text=Hola%2C%20tengo%20dudas%20sobre%20las%20habitaciones%2C%20tarifas%20y%20esquemas%20de%20pago%20para%20la%20boda%20de%20Laura%20Elena%20y%20Francisco%20(22%20al%2024%20de%20octubre%20de%202027)." target="_blank" rel="noopener noreferrer" class="hotel-contact-pill hotel-pill-wa">
-                                        WhatsApp Hotel
+                                    <a href="https://wa.me/523351111018" target="_blank" rel="noopener noreferrer" class="hotel-contact-pill hotel-pill-wa">
+                                        WHATSAPP HOTEL
                                     </a>
                                 </div>
                             </div>
@@ -2136,6 +1543,13 @@
                     </div>
                 </article>
 
+            </div>
+
+            <!-- Botón discreto para volver a la portada (útil en versión descargada) -->
+            <div class="guest-close-wrap">
+                <button type="button" id="btnReturnCover" class="guest-close-btn">
+                    Volver a la Portada
+                </button>
             </div>
         </div>
     </main>
@@ -2145,28 +1559,38 @@
          ======================================================================= -->
     <div id="lightboxModal" class="lightbox" role="dialog" aria-modal="true" aria-label="Fotografía ampliada">
         <div class="lightbox-inner">
-            <button type="button" id="btnCloseLightbox" class="lightbox-close" aria-label="Cerrar">×</button>
-            <img id="lightboxImg" class="lightbox-img" src="" alt="Fotografía de Grand Mazamitla">
+            <button type="button" id="btnCloseLightbox" class="lightbox-close" aria-label="Cerrar visor">×</button>
+            <div class="lightbox-media-wrap">
+                <button type="button" id="btnLightboxPrev" class="lightbox-nav prev" aria-label="Foto anterior">‹</button>
+                <img id="lightboxImg" class="lightbox-img" src="" alt="Fotografía de Grand Mazamitla">
+                <button type="button" id="btnLightboxNext" class="lightbox-nav next" aria-label="Foto siguiente">›</button>
+            </div>
             <p id="lightboxCaption" class="lightbox-caption"></p>
         </div>
     </div>
 
     <!-- =======================================================================
-         JAVASCRIPT VANILLA MODULAR (LIMPIO Y ROBUSTO EN MÓVIL Y ESCRITORIO)
+         JAVASCRIPT VANILLA AUTOCONTENIDO (data-app-script="true")
          ======================================================================= -->
-    <script>
+    <script data-app-script="true">
         document.addEventListener('DOMContentLoaded', function () {
             'use strict';
 
             /* -----------------------------------------------------------------
-               1. CONTROLES DEL TRÍPTICO 3D, VISTA PLANA Y DESCARGA DE INDEX.HTML
+               1. CONTROLES DEL TRÍPTICO, VISTA PLANA Y DESCARGA LIMPIA
                ----------------------------------------------------------------- */
+            var adminBar = document.getElementById('admin-bar');
+            if (!adminBar) {
+                document.body.classList.add('guest-mode');
+            }
+
             var app = document.getElementById('triptychApp');
             var btnToggleInvite = document.getElementById('btnToggleInvite');
             var btnViewMode = document.getElementById('btnViewMode');
             var btnDownloadIndex = document.getElementById('btnDownloadIndex');
             var coverCard = document.getElementById('coverCard');
             var btnCoverOpen = document.getElementById('btnCoverOpen');
+            var btnReturnCover = document.getElementById('btnReturnCover');
 
             var isFlatMode = false;
 
@@ -2201,8 +1625,8 @@
 
             function toggleInvitation() {
                 if (!app) return;
-                var isCurrentlyOpen = app.classList.contains('is-open') || app.classList.contains('is-flat');
-                if (isCurrentlyOpen) {
+                var isOpen = app.classList.contains('is-open') || app.classList.contains('is-flat');
+                if (isOpen) {
                     closeInvitation();
                 } else {
                     openInvitation();
@@ -2235,39 +1659,68 @@
                 }
             }
 
+            /**
+             * Genera y descarga un archivo index.html 100% limpio para GitHub Pages:
+             * - Elimina #admin-bar por completo
+             * - Elimina cualquier <script> que no tenga data-app-script="true"
+             * - Deja el tríptico cerrado en portada y sin estados temporales/errores
+             */
             function downloadCleanIndex() {
                 try {
                     var clone = document.documentElement.cloneNode(true);
 
-                    // Dejar la invitación en estado cerrado inicial para invitados
+                    // 1. Eliminar completamente la barra de administración
+                    var clonedAdminBar = clone.querySelector('#admin-bar');
+                    if (clonedAdminBar && clonedAdminBar.parentNode) {
+                        clonedAdminBar.parentNode.removeChild(clonedAdminBar);
+                    }
+
+                    // 2. Eliminar cualquier script externo o inyectado sin data-app-script="true"
+                    var allScripts = clone.querySelectorAll('script');
+                    allScripts.forEach(function (scriptEl) {
+                        if (scriptEl.getAttribute('data-app-script') !== 'true') {
+                            if (scriptEl.parentNode) {
+                                scriptEl.parentNode.removeChild(scriptEl);
+                            }
+                        }
+                    });
+
+                    // 3. Configurar el modo invitado limpio y portada cerrada inicial
+                    var clonedBody = clone.querySelector('body');
+                    if (clonedBody) clonedBody.classList.add('guest-mode');
+
                     var clonedApp = clone.querySelector('#triptychApp');
                     if (clonedApp) clonedApp.classList.remove('is-open', 'is-flat');
 
-                    var clonedToggle = clone.querySelector('#btnToggleInvite');
-                    if (clonedToggle) {
-                        clonedToggle.textContent = 'Abrir Invitación';
-                        clonedToggle.setAttribute('aria-expanded', 'false');
-                    }
-
-                    var clonedView = clone.querySelector('#btnViewMode');
-                    if (clonedView) {
-                        clonedView.textContent = 'Vista Plana';
-                        clonedView.classList.remove('is-active');
-                        clonedView.setAttribute('aria-pressed', 'false');
-                    }
-
-                    // Eliminar únicamente el botón de descarga para la versión de invitados
-                    var clonedDownload = clone.querySelector('#btnDownloadIndex');
-                    if (clonedDownload && clonedDownload.parentNode) {
-                        clonedDownload.parentNode.removeChild(clonedDownload);
-                    }
-
-                    // Limpiar estados temporales del lightbox y validación
+                    // 4. Resetear estados interactivos y de formulario para iniciar limpio
                     var clonedLightbox = clone.querySelector('#lightboxModal');
                     if (clonedLightbox) clonedLightbox.classList.remove('is-visible');
 
                     var clonedFeedback = clone.querySelector('#rsvpFeedback');
                     if (clonedFeedback) clonedFeedback.classList.remove('is-visible');
+
+                    var clonedName = clone.querySelector('#guestName');
+                    if (clonedName) clonedName.setAttribute('value', '');
+
+                    var clonedMsg = clone.querySelector('#guestMessage');
+                    if (clonedMsg) clonedMsg.textContent = '';
+
+                    var clonedMsgGroup = clone.querySelector('#messageFieldGroup');
+                    if (clonedMsgGroup) clonedMsgGroup.classList.remove('is-hidden');
+
+                    var clonedTotal = clone.querySelector('#liveTotalAmount');
+                    if (clonedTotal) clonedTotal.textContent = '$3,500 MXN';
+
+                    // 5. Asegurar que la galería inicie en la foto 1
+                    var clonedMainImg = clone.querySelector('#galleryMainImg');
+                    if (clonedMainImg) {
+                        clonedMainImg.setAttribute('src', 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119829825.png');
+                        clonedMainImg.setAttribute('alt', '1/5 · Salón de Eventos con Ventanales al Bosque');
+                    }
+                    var clonedCaption = clone.querySelector('#galleryCaption');
+                    if (clonedCaption) {
+                        clonedCaption.textContent = '1/5 · Salón de Eventos con Ventanales al Bosque';
+                    }
 
                     var htmlString = '<!DOCTYPE html>\n' + clone.outerHTML;
                     var blob = new Blob([htmlString], { type: 'text/html;charset=utf-8' });
@@ -2281,10 +1734,10 @@
                     URL.revokeObjectURL(url);
 
                     if (btnDownloadIndex) {
-                        var originalLabel = btnDownloadIndex.textContent;
+                        var originalText = btnDownloadIndex.textContent;
                         btnDownloadIndex.textContent = '¡index.html descargado!';
                         setTimeout(function () {
-                            btnDownloadIndex.textContent = originalLabel;
+                            btnDownloadIndex.textContent = originalText;
                         }, 2200);
                     }
                 } catch (err) {
@@ -2295,6 +1748,7 @@
             if (btnToggleInvite) btnToggleInvite.addEventListener('click', toggleInvitation);
             if (btnViewMode) btnViewMode.addEventListener('click', toggleViewMode);
             if (btnDownloadIndex) btnDownloadIndex.addEventListener('click', downloadCleanIndex);
+            if (btnReturnCover) btnReturnCover.addEventListener('click', closeInvitation);
 
             if (coverCard) {
                 coverCard.addEventListener('click', openInvitation);
@@ -2314,17 +1768,17 @@
             }
 
             /* -----------------------------------------------------------------
-               2. CUENTA REGRESIVA EN VIVO (SÁBADO 23 DE OCTUBRE DE 2027, 17:00)
+               2. CUENTA REGRESIVA EN VIVO (SÁBADO 23 DE OCTUBRE DE 2027)
                ----------------------------------------------------------------- */
             try {
                 var cdDays = document.getElementById('cdDays');
                 var cdHours = document.getElementById('cdHours');
                 var cdMins = document.getElementById('cdMins');
                 var cdSecs = document.getElementById('cdSecs');
-                var weddingTarget = new Date(2027, 9, 23, 17, 0, 0).getTime();
+                var weddingDate = new Date(2027, 9, 23, 17, 0, 0).getTime();
 
-                function renderCountdown() {
-                    var diff = weddingTarget - Date.now();
+                function updateCountdown() {
+                    var diff = weddingDate - Date.now();
                     if (diff <= 0) {
                         cdDays.textContent = '0';
                         cdHours.textContent = '00';
@@ -2338,20 +1792,20 @@
                     cdSecs.textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
                 }
 
-                renderCountdown();
-                setInterval(renderCountdown, 1000);
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
             } catch (err) {
                 console.error('Error en cuenta regresiva:', err);
             }
 
             /* -----------------------------------------------------------------
-               3. GUARDAR FECHA EN CALENDARIO (.ICS)
+               3. DESCARGA DE EVENTO DE CALENDARIO (.ICS)
                ----------------------------------------------------------------- */
             try {
-                var btnIcs = document.getElementById('btnDownloadIcs');
-                if (btnIcs) {
-                    btnIcs.addEventListener('click', function () {
-                        var icsContent = [
+                var btnDownloadIcs = document.getElementById('btnDownloadIcs');
+                if (btnDownloadIcs) {
+                    btnDownloadIcs.addEventListener('click', function () {
+                        var icsLines = [
                             'BEGIN:VCALENDAR',
                             'VERSION:2.0',
                             'PRODID:-//Boda Laura Elena y Francisco//Grand Mazamitla//ES',
@@ -2360,44 +1814,57 @@
                             'DTSTART:20271022T160000',
                             'DTEND:20271024T130000',
                             'SUMMARY:Boda de Laura Elena y Francisco — Grand Mazamitla',
-                            'LOCATION:Grand Mazamitla, Gorriones 6, Fracc. Pinos de Mazamitla, Jalisco',
+                            'LOCATION:Grand Mazamitla Mountain Hotel Boutique, Gorriones 6, Fracc. Pinos de Mazamitla, Mazamitla, Jalisco, C.P. 49500',
                             'DESCRIPTION:Fin de semana de boda (22 al 24 de octubre de 2027). Viernes 22: Bienvenida y Recepción. Sábado 23: Ceremonia y Boda Principal. Domingo 24: Desayuno de Despedida.',
                             'END:VEVENT',
                             'END:VCALENDAR'
                         ].join('\r\n');
 
-                        var blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                        var blob = new Blob([icsLines], { type: 'text/calendar;charset=utf-8' });
                         var url = URL.createObjectURL(blob);
-                        var link = document.createElement('a');
-                        link.href = url;
-                        link.download = 'Boda_Laura_Elena_y_Francisco_2027.ics';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'Boda_Laura_Elena_y_Francisco_2027.ics';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
                         URL.revokeObjectURL(url);
                     });
                 }
             } catch (err) {
-                console.error('Error al generar .ics:', err);
+                console.error('Error al generar calendario .ics:', err);
             }
 
             /* -----------------------------------------------------------------
-               4. GALERÍA INTELIGENTE DE GRAND MAZAMITLA (resolveImageSrc + LIGHTBOX)
+               4. GALERÍA DIRECTA CON URLS ABSOLUTAS Y LIGHTBOX TÁCTIL
                ----------------------------------------------------------------- */
             try {
                 var photos = [
-                    { file: '1795119829825.png', caption: '1/5 · Salón de Eventos con Ventanales al Bosque', resolvedSrc: null, failed: false },
-                    { file: '1795119816102.png', caption: '2/5 · Cabañas y Arquitectura en el Bosque', resolvedSrc: null, failed: false },
-                    { file: '1795119801174.png', caption: '3/5 · Áreas Verdes y Jardines', resolvedSrc: null, failed: false },
-                    { file: '1795119786129.png', caption: '4/5 · Interiores y Comodidad', resolvedSrc: null, failed: false },
-                    { file: '1795119771774.png', caption: '5/5 · Vistas Naturales de Mazamitla', resolvedSrc: null, failed: false }
+                    {
+                        url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119829825.png',
+                        caption: '1/5 · Salón de Eventos con Ventanales al Bosque'
+                    },
+                    {
+                        url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119816102.png',
+                        caption: '2/5 · Habitaciones y Suites entre Pinos'
+                    },
+                    {
+                        url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119801174.png',
+                        caption: '3/5 · Terrazas con Vista a la Montaña'
+                    },
+                    {
+                        url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119786129.png',
+                        caption: '4/5 · Áreas Verdes y Jardines'
+                    },
+                    {
+                        url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119771774.png',
+                        caption: '5/5 · Entorno Natural en Mazamitla'
+                    }
                 ];
 
-                var currentPhotoIdx = 0;
+                var currentIdx = 0;
                 var galleryStage = document.getElementById('galleryStage');
                 var galleryMainImg = document.getElementById('galleryMainImg');
-                var galleryFallback = document.getElementById('galleryFallback');
-                var galleryFallbackName = document.getElementById('galleryFallbackName');
                 var galleryCaption = document.getElementById('galleryCaption');
                 var btnPrevPhoto = document.getElementById('btnPrevPhoto');
                 var btnNextPhoto = document.getElementById('btnNextPhoto');
@@ -2408,127 +1875,51 @@
                 var lightboxImg = document.getElementById('lightboxImg');
                 var lightboxCaption = document.getElementById('lightboxCaption');
                 var btnCloseLightbox = document.getElementById('btnCloseLightbox');
+                var btnLightboxPrev = document.getElementById('btnLightboxPrev');
+                var btnLightboxNext = document.getElementById('btnLightboxNext');
 
-                /**
-                 * Intenta cargar la imagen probando rutas relativas y ruta base de GitHub Pages.
-                 * Evita mostrar errores falsos si el repositorio sirve bajo /Boda-Laura-y-Francisco/.
-                 */
-                function resolveImageSrc(filename, onSuccess, onFail) {
-                    var candidates = [
-                        filename,
-                        './' + filename,
-                        '/Boda-Laura-y-Francisco/' + filename
-                    ];
-                    var attempt = 0;
+                function showPhoto(index) {
+                    currentIdx = (index + photos.length) % photos.length;
+                    var item = photos[currentIdx];
 
-                    function tryNext() {
-                        if (attempt >= candidates.length) {
-                            if (typeof onFail === 'function') onFail();
-                            return;
-                        }
-                        var src = candidates[attempt++];
-                        var tester = new Image();
-                        tester.onload = function () {
-                            if (typeof onSuccess === 'function') onSuccess(src);
-                        };
-                        tester.onerror = function () {
-                            tryNext();
-                        };
-                        tester.src = src;
+                    galleryMainImg.src = item.url;
+                    galleryMainImg.alt = item.caption;
+                    galleryCaption.textContent = item.caption;
+
+                    thumbButtons.forEach(function (btn, idx) {
+                        btn.classList.toggle('is-active', idx === currentIdx);
+                    });
+
+                    if (lightboxModal.classList.contains('is-visible')) {
+                        lightboxImg.src = item.url;
+                        lightboxImg.alt = item.caption;
+                        lightboxCaption.textContent = item.caption;
                     }
-
-                    tryNext();
                 }
 
-                // Cargar miniaturas de forma diferida para no saturar conexiones móviles
                 thumbButtons.forEach(function (btn, idx) {
-                    var imgEl = btn.querySelector('img');
-                    var item = photos[idx];
-                    if (imgEl && item) {
-                        resolveImageSrc(item.file, function (validSrc) {
-                            item.resolvedSrc = validSrc;
-                            item.failed = false;
-                            imgEl.src = validSrc;
-                            btn.classList.add('has-img');
-                            if (idx === currentPhotoIdx) {
-                                applyMainPhoto(idx);
-                            }
-                        }, function () {
-                            item.failed = true;
-                        });
-                    }
                     btn.addEventListener('click', function () {
                         showPhoto(idx);
                     });
                 });
 
-                function applyMainPhoto(index) {
-                    var item = photos[index];
-                    galleryCaption.textContent = item.caption;
-
-                    if (item.resolvedSrc) {
-                        galleryMainImg.src = item.resolvedSrc;
-                        galleryMainImg.alt = item.caption;
-                        galleryMainImg.style.display = 'block';
-                        btnZoomPhoto.style.display = 'inline-block';
-                        galleryFallback.classList.remove('is-visible');
-                    } else if (item.failed) {
-                        galleryMainImg.style.display = 'none';
-                        btnZoomPhoto.style.display = 'none';
-                        galleryFallbackName.textContent = item.file;
-                        galleryFallback.classList.add('is-visible');
-                    } else {
-                        galleryFallback.classList.remove('is-visible');
-                        resolveImageSrc(item.file, function (validSrc) {
-                            item.resolvedSrc = validSrc;
-                            item.failed = false;
-                            if (currentPhotoIdx === index) {
-                                galleryMainImg.src = validSrc;
-                                galleryMainImg.alt = item.caption;
-                                galleryMainImg.style.display = 'block';
-                                btnZoomPhoto.style.display = 'inline-block';
-                                galleryFallback.classList.remove('is-visible');
-                            }
-                        }, function () {
-                            item.failed = true;
-                            if (currentPhotoIdx === index) {
-                                galleryMainImg.style.display = 'none';
-                                btnZoomPhoto.style.display = 'none';
-                                galleryFallbackName.textContent = item.file;
-                                galleryFallback.classList.add('is-visible');
-                            }
-                        });
-                    }
-                }
-
-                function showPhoto(index) {
-                    currentPhotoIdx = (index + photos.length) % photos.length;
-                    thumbButtons.forEach(function (btn, idx) {
-                        btn.classList.toggle('is-active', idx === currentPhotoIdx);
-                    });
-                    applyMainPhoto(currentPhotoIdx);
-                }
-
-                showPhoto(0);
-
                 if (btnPrevPhoto) {
                     btnPrevPhoto.addEventListener('click', function (e) {
                         e.stopPropagation();
-                        showPhoto(currentPhotoIdx - 1);
+                        showPhoto(currentIdx - 1);
                     });
                 }
 
                 if (btnNextPhoto) {
                     btnNextPhoto.addEventListener('click', function (e) {
                         e.stopPropagation();
-                        showPhoto(currentPhotoIdx + 1);
+                        showPhoto(currentIdx + 1);
                     });
                 }
 
                 function openLightbox() {
-                    var item = photos[currentPhotoIdx];
-                    if (!item || !item.resolvedSrc) return;
-                    lightboxImg.src = item.resolvedSrc;
+                    var item = photos[currentIdx];
+                    lightboxImg.src = item.url;
                     lightboxImg.alt = item.caption;
                     lightboxCaption.textContent = item.caption;
                     lightboxModal.classList.add('is-visible');
@@ -2556,25 +1947,67 @@
                 }
 
                 if (btnCloseLightbox) btnCloseLightbox.addEventListener('click', closeLightbox);
+                if (btnLightboxPrev) {
+                    btnLightboxPrev.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        showPhoto(currentIdx - 1);
+                    });
+                }
+                if (btnLightboxNext) {
+                    btnLightboxNext.addEventListener('click', function (e) {
+                        e.stopPropagation();
+                        showPhoto(currentIdx + 1);
+                    });
+                }
                 if (lightboxModal) {
                     lightboxModal.addEventListener('click', function (e) {
                         if (e.target === lightboxModal) closeLightbox();
                     });
                 }
+
+                // Navegación por teclado en Lightbox
                 document.addEventListener('keydown', function (e) {
+                    if (!lightboxModal.classList.contains('is-visible')) return;
                     if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowLeft') showPhoto(currentIdx - 1);
+                    if (e.key === 'ArrowRight') showPhoto(currentIdx + 1);
                 });
+
+                // Soporte de deslizamiento táctil (swipe) en galería y lightbox
+                var touchStartX = 0;
+                function handleTouchStart(e) {
+                    if (e.changedTouches && e.changedTouches.length > 0) {
+                        touchStartX = e.changedTouches[0].screenX;
+                    }
+                }
+                function handleTouchEnd(e) {
+                    if (e.changedTouches && e.changedTouches.length > 0) {
+                        var deltaX = e.changedTouches[0].screenX - touchStartX;
+                        if (Math.abs(deltaX) > 45) {
+                            if (deltaX < 0) showPhoto(currentIdx + 1);
+                            else showPhoto(currentIdx - 1);
+                        }
+                    }
+                }
+                if (galleryStage) {
+                    galleryStage.addEventListener('touchstart', handleTouchStart, { passive: true });
+                    galleryStage.addEventListener('touchend', handleTouchEnd, { passive: true });
+                }
+                if (lightboxModal) {
+                    lightboxModal.addEventListener('touchstart', handleTouchStart, { passive: true });
+                    lightboxModal.addEventListener('touchend', handleTouchEnd, { passive: true });
+                }
             } catch (err) {
                 console.error('Error en galería:', err);
             }
 
             /* -----------------------------------------------------------------
-               5. FORMULARIO RSVP (MÁXIMO 2 PERSONAS + MENSAJE CONDICIONAL + WHATSAPP)
+               5. FORMULARIO RSVP (MÁX 2 PERSONAS + MENSAJE CONDICIONAL + WHATSAPP)
                ----------------------------------------------------------------- */
             try {
                 var PRICE_PER_PERSON = 3500;
-                var COUPLE_WHATSAPP_NUMBER = '523334627774';
-                var HOTEL_WHATSAPP_NUMBER = '523351111018';
+                var COUPLE_WA = '523334627774';
+                var HOTEL_WA = '523351111018';
 
                 var guestName = document.getElementById('guestName');
                 var guestAttendance = document.getElementById('guestAttendance');
@@ -2592,16 +2025,13 @@
                     return parsed === 2 ? 2 : 1;
                 }
 
-                function syncRsvpUI() {
-                    var isAttending = guestAttendance.value === 'si';
-
-                    if (isAttending) {
+                function syncRsvpState() {
+                    var attending = guestAttendance.value === 'si';
+                    if (attending) {
                         guestCount.disabled = false;
                         peopleFieldGroup.style.opacity = '1';
                         messageFieldGroup.classList.remove('is-hidden');
-
-                        var count = getValidatedCount();
-                        var total = count * PRICE_PER_PERSON;
+                        var total = getValidatedCount() * PRICE_PER_PERSON;
                         liveTotalAmount.textContent = '$' + total.toLocaleString('es-MX') + ' MXN';
                     } else {
                         guestCount.disabled = true;
@@ -2611,11 +2041,11 @@
                     }
                 }
 
-                guestAttendance.addEventListener('change', syncRsvpUI);
-                guestCount.addEventListener('change', syncRsvpUI);
-                syncRsvpUI();
+                guestAttendance.addEventListener('change', syncRsvpState);
+                guestCount.addEventListener('change', syncRsvpState);
+                syncRsvpState();
 
-                function validateName() {
+                function validateGuestName() {
                     var name = guestName.value.trim();
                     if (!name) {
                         rsvpFeedback.classList.add('is-visible');
@@ -2633,111 +2063,54 @@
                 });
 
                 btnConfirmCouple.addEventListener('click', function () {
-                    var name = validateName();
+                    var name = validateGuestName();
                     if (!name) return;
 
-                    var isAttending = guestAttendance.value === 'si';
+                    var attending = guestAttendance.value === 'si';
                     var count = getValidatedCount();
-                    var totalStr = '$' + (count * PRICE_PER_PERSON).toLocaleString('es-MX') + ' MXN';
-                    var customMsg = guestMessage.value.trim();
-                    var peopleLabel = count === 1 ? '1 persona' : '2 personas';
+                    var peopleText = count === 1 ? '1 persona' : '2 personas';
+                    var totalText = '$' + (count * PRICE_PER_PERSON).toLocaleString('es-MX') + ' MXN';
+                    var message = guestMessage.value.trim();
 
-                    var text = '';
-                    if (isAttending) {
-                        text = '¡Hola Laura Elena y Francisco! Confirmo asistencia a su boda en Grand Mazamitla (22 al 24 de octubre de 2027).\n' +
+                    var waText = '';
+                    if (attending) {
+                        waText = '¡Hola Laura Elena y Francisco! Confirmo asistencia a su boda en Grand Mazamitla (22 al 24 de octubre de 2027).\n' +
                             '• Invitado(s): ' + name + '\n' +
                             '• Asistencia: Sí asistiré\n' +
-                            '• Número de personas: ' + peopleLabel + '\n' +
-                            '• Total estancia: ' + totalStr;
-                        if (customMsg) {
-                            text += '\n• Mensaje: ' + customMsg;
+                            '• Número de personas: ' + peopleText + '\n' +
+                            '• Total estancia: ' + totalText;
+                        if (message) {
+                            waText += '\n• Mensaje: ' + message;
                         }
                     } else {
-                        text = '¡Hola Laura Elena y Francisco! Les aviso sobre su boda en Grand Mazamitla (22 al 24 de octubre de 2027).\n' +
+                        waText = '¡Hola Laura Elena y Francisco! Les escribo sobre su boda en Grand Mazamitla (22 al 24 de octubre de 2027).\n' +
                             '• Invitado(s): ' + name + '\n' +
                             '• Asistencia: No podré asistir\n' +
-                            'Les deseamos todo lo mejor en este gran día.';
+                            'Les deseamos toda la felicidad en este gran día.';
                     }
 
-                    window.open('https://wa.me/' + COUPLE_WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text), '_blank', 'noopener,noreferrer');
+                    window.open('https://wa.me/' + COUPLE_WA + '?text=' + encodeURIComponent(waText), '_blank', 'noopener,noreferrer');
                 });
 
                 btnDepositHotel.addEventListener('click', function () {
-                    var name = validateName();
+                    var name = validateGuestName();
                     if (!name) return;
 
                     var count = getValidatedCount();
-                    var totalStr = '$' + (count * PRICE_PER_PERSON).toLocaleString('es-MX') + ' MXN';
-                    var peopleLabel = count === 1 ? '1 persona' : '2 personas';
+                    var peopleText = count === 1 ? '1 persona' : '2 personas';
+                    var totalText = '$' + (count * PRICE_PER_PERSON).toLocaleString('es-MX') + ' MXN';
 
-                    var text = 'Hola Grand Mazamitla Mountain Hotel Boutique, soy invitado(a) de la boda de Laura Elena y Francisco (22 al 24 de octubre de 2027) y solicito los datos para reservar y abonar nuestra habitación.\n' +
+                    var waText = 'Hola Grand Mazamitla Mountain Hotel Boutique, soy invitado(a) de la boda de Laura Elena y Francisco (22 al 24 de octubre de 2027) y deseo reservar y abonar nuestra estancia.\n' +
                         '• Nombre: ' + name + '\n' +
-                        '• Personas: ' + peopleLabel + '\n' +
-                        '• Total estancia: ' + totalStr + ' ($3,500.00 MXN por persona)';
+                        '• Número de personas: ' + peopleText + '\n' +
+                        '• Total estancia: ' + totalText + ' ($3,500.00 MXN por persona)';
 
-                    window.open('https://wa.me/' + HOTEL_WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text), '_blank', 'noopener,noreferrer');
+                    window.open('https://wa.me/' + HOTEL_WA + '?text=' + encodeURIComponent(waText), '_blank', 'noopener,noreferrer');
                 });
             } catch (err) {
-                console.error('Error en formulario RSVP:', err);
+                console.error('Error en RSVP:', err);
             }
         });
     </script>
 
-
-      <script>
-        (function() {
-          // The root element's background fills the whole page. As in CSS,
-          // the body's background is used when the root element has none.
-          function getPageBackgroundColor() {
-            var docStyle = window.getComputedStyle(document.documentElement);
-            var color = docStyle.backgroundColor;
-            if ((color === 'rgba(0, 0, 0, 0)' || color === 'transparent') &&
-                docStyle.backgroundImage === 'none' && document.body) {
-              color = window.getComputedStyle(document.body).backgroundColor;
-            }
-            return color || '';
-          }
-
-          var lastReportedColor = '';
-          function reportBackgroundColor() {
-            try {
-              var color = getPageBackgroundColor();
-              if (color === lastReportedColor) return;
-              lastReportedColor = color;
-              window.parent.postMessage({
-                type: 'ATARI_CODE_EMBED_BACKGROUND_COLOR',
-                backgroundColor: color
-              }, '*');
-            } catch (e) {}
-          }
-
-          // The page background usually changes through an attribute on html
-          // or body (for example a theme class), a style sheet in head, or the
-          // system color scheme.
-          if (typeof MutationObserver !== 'undefined') {
-            var observer = new MutationObserver(reportBackgroundColor);
-            observer.observe(document.documentElement, {attributes: true});
-            if (document.body) {
-              observer.observe(document.body, {attributes: true});
-            }
-            if (document.head) {
-              observer.observe(document.head, {
-                attributes: true,
-                childList: true,
-                subtree: true,
-                characterData: true
-              });
-            }
-          }
-          var colorSchemeQuery =
-              window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
-          if (colorSchemeQuery && colorSchemeQuery.addEventListener) {
-            colorSchemeQuery.addEventListener('change', reportBackgroundColor);
-          }
-          window.addEventListener('load', reportBackgroundColor);
-          window.addEventListener('transitionend', reportBackgroundColor);
-          window.addEventListener('animationend', reportBackgroundColor);
-          reportBackgroundColor();
-        })();
-      </script>
-    </body></html>
+</body></html>
