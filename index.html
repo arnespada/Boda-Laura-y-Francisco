@@ -4,35 +4,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boda Laura Elena &amp; Francisco José · 22 al 24 de Octubre de 2027</title>
 
-    <!-- Tipografías editoriales de Google Fonts -->
+    <!-- Tipografías de papelería editorial -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Montserrat:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Montserrat:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
     <style>
         /* =====================================================================
-           1. VARIABLES DE DISEÑO Y PALETA BOTÁNICA DE PAPELERÍA FINA
+           1. PALETA BOTÁNICA Y VARIABLES DE DISEÑO
            ===================================================================== */
         :root {
-            --bg-cream: #F6F1E7;
-            --bg-cream-deep: #EAE1D0;
-            --card-ivory: #FCF9F2;
-            --card-warm: #F4EDE0;
-            --gold: #C6A467;
-            --gold-deep: #9A7B3E;
-            --gold-hover: #826630;
-            --gold-soft: rgba(198, 164, 103, 0.35);
-            --forest: #2E473B;
-            --forest-hover: #21352B;
-            --sage: #5A7061;
-            --sage-bg: #EEF3EE;
-            --sage-border: #C4D2C4;
-            --ink: #2C2A26;
-            --ink-soft: #545047;
-            --ink-muted: #787368;
-            --shadow-soft: 0 18px 42px rgba(46, 71, 59, 0.11), 0 4px 12px rgba(44, 42, 38, 0.05);
-            --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-            --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+            --bg-sand: #EFECE4;
+            --card-ivory: #FAF8F3;
+            --card-warm: #F3EEE2;
+            --gold: #B89B5E;
+            --gold-deep: #8C6D32;
+            --gold-hover: #735826;
+            --gold-soft: rgba(184, 155, 94, 0.35);
+            --forest: #3A4F3C;
+            --forest-hover: #2C3D2E;
+            --sage: #627564;
+            --sage-bg: #EDF2EC;
+            --sage-border: #C4D1C4;
+            --ink: #2C302A;
+            --ink-soft: #545952;
+            --ink-muted: #7B8078;
+            --shadow-card: 0 18px 40px rgba(44, 48, 42, 0.09), 0 4px 12px rgba(44, 48, 42, 0.05);
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
             --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --radius-card: 16px;
             --radius-md: 10px;
@@ -40,7 +38,7 @@
         }
 
         /* =====================================================================
-           2. RESET Y BASE ESTABLE
+           2. RESET Y ESTILOS BASE
            ===================================================================== */
         *, *::before, *::after {
             box-sizing: border-box;
@@ -56,12 +54,12 @@
         body {
             font-family: var(--font-sans);
             color: var(--ink);
-            background-color: var(--bg-cream);
+            background-color: var(--bg-sand);
             /* Textura sutil de papel artesanal */
             background-image:
-                radial-gradient(rgba(198, 164, 103, 0.14) 1px, transparent 1px),
-                radial-gradient(rgba(46, 71, 59, 0.04) 1px, transparent 1px),
-                linear-gradient(180deg, #F8F4EC 0%, #F2EBDD 100%);
+                radial-gradient(rgba(184, 155, 94, 0.16) 1px, transparent 1px),
+                radial-gradient(rgba(58, 79, 60, 0.045) 1px, transparent 1px),
+                linear-gradient(180deg, #F3F0E8 0%, #ECE8DE 100%);
             background-size: 26px 26px, 52px 52px, 100% 100%;
             background-position: 0 0, 13px 13px, 0 0;
             min-height: 100vh;
@@ -90,9 +88,9 @@
             top: 0;
             z-index: 900;
             width: 100%;
-            background: rgba(46, 71, 59, 0.96);
+            background: rgba(58, 79, 60, 0.96);
             backdrop-filter: blur(8px);
-            border-bottom: 1px solid rgba(198, 164, 103, 0.45);
+            border-bottom: 1px solid rgba(184, 155, 94, 0.5);
             padding: 10px 16px;
             display: flex;
             align-items: center;
@@ -102,7 +100,7 @@
         }
 
         .admin-bar-text {
-            color: #F6F1E7;
+            color: #FAF8F3;
             font-size: 0.74rem;
             letter-spacing: 0.03em;
             text-align: center;
@@ -110,10 +108,10 @@
 
         .btn-download-html {
             appearance: none;
-            border: 1px solid #DFC48C;
-            background: linear-gradient(135deg, #C6A467 0%, #A68445 100%);
+            border: 1px solid #DEC48C;
+            background: linear-gradient(135deg, #B89B5E 0%, #8C6D32 100%);
             color: #FFFFFF;
-            font-size: 0.74rem;
+            font-size: 0.72rem;
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
@@ -128,97 +126,148 @@
         }
 
         .btn-download-html:hover {
-            background: linear-gradient(135deg, #B59254 0%, #8E6E35 100%);
+            background: linear-gradient(135deg, #A4864A 0%, #735826 100%);
             transform: translateY(-1px);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.24);
         }
 
-        .btn-download-html:active {
-            transform: translateY(0);
-        }
-
         /* =====================================================================
-           4. CONTENEDOR PRINCIPAL
+           4. CONTENEDOR GENERAL
            ===================================================================== */
         .page-wrapper {
             width: 100%;
-            padding: 28px 16px 48px;
+            padding: 26px 16px 48px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         /* =====================================================================
-           5. VISTA 1: PORTADA BOTÁNICA (#cover-view)
+           5. VISTA 1: PORTADA (#cover-view)
            ===================================================================== */
         #cover-view {
             width: 100%;
             max-width: 520px;
-            margin: 10px auto 0;
+            margin: 6px auto 0;
         }
 
         .cover-card {
-            position: relative;
             background: var(--card-ivory);
             border-radius: var(--radius-card);
-            padding: 16px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid rgba(198, 164, 103, 0.45);
+            padding: 14px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(184, 155, 94, 0.45);
         }
 
         .cover-frame-outer {
             border: 1.5px solid var(--gold);
             border-radius: 12px;
-            padding: 6px;
+            padding: 5px;
         }
 
         .cover-frame-inner {
             position: relative;
-            border: 1px solid rgba(198, 164, 103, 0.55);
+            border: 1px solid rgba(184, 155, 94, 0.55);
             border-radius: 8px;
-            padding: 36px 26px 34px;
+            padding: 32px 24px 30px;
             text-align: center;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(246, 241, 231, 0.35) 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(239, 236, 228, 0.28) 100%);
         }
+
+        /* Detalles SVG de honguitos en esquinas de portada */
+        .cover-corner-svg {
+            position: absolute;
+            width: 34px;
+            height: 34px;
+            pointer-events: none;
+            opacity: 0.72;
+        }
+
+        .cover-corner-svg.tl { top: 8px; left: 8px; }
+        .cover-corner-svg.tr { top: 8px; right: 8px; transform: scaleX(-1); }
+        .cover-corner-svg.bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+        .cover-corner-svg.br { bottom: 8px; right: 8px; transform: scale(-1); }
 
         .cover-kicker {
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            letter-spacing: 0.24em;
+            letter-spacing: 0.28em;
             text-transform: uppercase;
             color: var(--sage);
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
-        .cover-illustration {
-            width: 100%;
-            max-width: 180px;
-            margin: 0 auto 14px;
+        /* Marco editorial para FOTO-BODA1.png en portada */
+        .cover-photo-frame {
+            margin: 0 auto 20px;
+            padding: 5px;
+            border: 1.5px solid var(--gold);
+            border-radius: 14px;
+            background: #FFFFFF;
+            box-shadow: 0 10px 24px rgba(44, 48, 42, 0.1);
+            cursor: pointer;
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
         }
 
-        .cover-illustration svg {
+        .cover-photo-frame:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(44, 48, 42, 0.15);
+        }
+
+        .cover-photo-inner {
+            position: relative;
+            border: 1px solid rgba(184, 155, 94, 0.55);
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 4 / 3;
+            background: var(--card-warm);
+        }
+
+        .cover-photo-inner img {
             width: 100%;
-            height: auto;
-            display: block;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 35%;
+            transition: transform 0.35s ease;
+        }
+
+        .cover-photo-frame:hover .cover-photo-inner img {
+            transform: scale(1.03);
+        }
+
+        .photo-zoom-hint {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+            background: rgba(58, 79, 60, 0.78);
+            color: #FAF8F3;
+            font-size: 0.56rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 4px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(4px);
         }
 
         .cover-names {
             font-family: var(--font-serif);
-            font-size: clamp(1.95rem, 5.2vw, 2.55rem);
+            font-size: clamp(1.85rem, 5vw, 2.45rem);
             font-weight: 600;
             line-height: 1.18;
             color: var(--forest);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .cover-amp {
             display: block;
             font-family: var(--font-serif);
             font-style: italic;
-            font-size: 1.85rem;
+            font-size: 1.75rem;
             font-weight: 400;
             color: var(--gold-deep);
-            margin: 4px 0;
+            margin: 3px 0;
         }
 
         .cover-divider {
@@ -226,7 +275,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin: 14px auto 16px;
+            margin: 12px auto 14px;
             max-width: 240px;
         }
 
@@ -244,43 +293,36 @@
             transform: rotate(45deg);
         }
 
-        .cover-date {
-            font-size: 0.78rem;
+        .cover-date-place {
+            font-size: 0.72rem;
             font-weight: 600;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
             color: var(--gold-deep);
-            margin-bottom: 6px;
-        }
-
-        .cover-venue {
-            font-family: var(--font-serif);
-            font-style: italic;
-            font-size: 1.25rem;
-            color: var(--ink-soft);
-            margin-bottom: 26px;
+            line-height: 1.55;
+            margin-bottom: 24px;
         }
 
         .btn-open-invite {
             appearance: none;
             border: 1px solid var(--forest);
             background: var(--forest);
-            color: #FCF9F2;
-            font-size: 0.76rem;
+            color: #FAF8F3;
+            font-size: 0.74rem;
             font-weight: 600;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            padding: 14px 30px;
+            padding: 14px 32px;
             border-radius: 999px;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(46, 71, 59, 0.22);
+            box-shadow: 0 8px 20px rgba(58, 79, 60, 0.22);
             transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .btn-open-invite:hover {
             background: var(--forest-hover);
             transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(46, 71, 59, 0.28);
+            box-shadow: 0 12px 24px rgba(58, 79, 60, 0.28);
         }
 
         /* =====================================================================
@@ -300,13 +342,12 @@
             width: 100%;
         }
 
-        /* Tarjeta de cada panel con doble marco interior */
         .panel-card {
             background: var(--card-ivory);
             border-radius: var(--radius-card);
-            padding: 12px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid rgba(198, 164, 103, 0.42);
+            padding: 11px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(184, 155, 94, 0.42);
             display: flex;
             flex-direction: column;
             min-width: 0;
@@ -314,7 +355,7 @@
 
         .panel-frame-outer {
             flex: 1;
-            border: 1.2px solid var(--gold);
+            border: 1.3px solid var(--gold);
             border-radius: 11px;
             padding: 5px;
             display: flex;
@@ -324,9 +365,9 @@
         .panel-frame-inner {
             position: relative;
             flex: 1;
-            border: 1px solid rgba(198, 164, 103, 0.48);
+            border: 1px solid rgba(184, 155, 94, 0.5);
             border-radius: 8px;
-            padding: 22px 18px 20px;
+            padding: 20px 17px 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -334,14 +375,13 @@
             min-width: 0;
         }
 
-        /* Esquinas decorativas sutiles */
         .corner-accent {
             position: absolute;
-            width: 14px;
-            height: 14px;
+            width: 13px;
+            height: 13px;
             pointer-events: none;
             border-color: var(--gold-deep);
-            opacity: 0.65;
+            opacity: 0.6;
         }
 
         .corner-accent.tl { top: 6px; left: 6px; border-top: 1.5px solid; border-left: 1.5px solid; border-top-left-radius: 4px; }
@@ -352,46 +392,46 @@
         .panel-body {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 13px;
             flex: 1;
         }
 
         .panel-header {
             text-align: center;
             padding-bottom: 10px;
-            border-bottom: 1px solid rgba(198, 164, 103, 0.35);
+            border-bottom: 1px solid rgba(184, 155, 94, 0.35);
         }
 
         .panel-kicker {
-            font-size: 0.63rem;
+            font-size: 0.62rem;
             font-weight: 600;
             letter-spacing: 0.18em;
             text-transform: uppercase;
             color: var(--gold-deep);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .panel-title {
             font-family: var(--font-serif);
-            font-size: 1.95rem;
+            font-size: 1.92rem;
             font-weight: 600;
             color: var(--forest);
             line-height: 1.12;
         }
 
         /* =====================================================================
-           7. PANEL IZQUIERDO: CUENTA REGRESIVA, ITINERARIO Y SEDE
+           7. PANEL IZQUIERDO: CUENTA REGRESIVA, ITINERARIO, FOTO 2 Y SEDE
            ===================================================================== */
         .countdown-box {
-            background: rgba(244, 237, 224, 0.6);
-            border: 1px solid rgba(198, 164, 103, 0.45);
+            background: rgba(243, 238, 226, 0.65);
+            border: 1px solid rgba(184, 155, 94, 0.45);
             border-radius: var(--radius-md);
-            padding: 12px 10px;
+            padding: 11px 10px;
             text-align: center;
         }
 
         .countdown-label {
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             font-weight: 600;
             letter-spacing: 0.14em;
             text-transform: uppercase;
@@ -407,15 +447,15 @@
 
         .cd-unit {
             background: #FFFFFF;
-            border: 1px solid rgba(198, 164, 103, 0.45);
+            border: 1px solid rgba(184, 155, 94, 0.42);
             border-radius: var(--radius-sm);
-            padding: 8px 4px;
+            padding: 7px 4px;
         }
 
         .cd-value {
             display: block;
             font-family: var(--font-serif);
-            font-size: 1.45rem;
+            font-size: 1.42rem;
             font-weight: 700;
             color: var(--forest);
             line-height: 1;
@@ -423,25 +463,26 @@
 
         .cd-name {
             display: block;
-            font-size: 0.54rem;
+            font-size: 0.53rem;
             font-weight: 600;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--ink-muted);
-            margin-top: 4px;
+            margin-top: 3px;
         }
 
         .itinerary-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 9px;
         }
 
         .itinerary-item {
             background: #FFFFFF;
-            border: 1px solid rgba(198, 164, 103, 0.42);
+            border: 1px solid rgba(184, 155, 94, 0.42);
+            border-left: 3.5px solid var(--gold);
             border-radius: var(--radius-md);
-            padding: 12px 13px;
+            padding: 11px 12px;
         }
 
         .itinerary-item.highlight {
@@ -454,15 +495,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .itinerary-day {
-            font-size: 0.62rem;
+            font-size: 0.61rem;
             font-weight: 700;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.11em;
             text-transform: uppercase;
             color: var(--gold-deep);
         }
@@ -474,94 +515,141 @@
         .time-badge {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            padding: 3px 9px;
+            padding: 2px 8px;
             border-radius: 999px;
-            background: rgba(198, 164, 103, 0.22);
-            border: 1px solid rgba(154, 123, 62, 0.48);
+            background: rgba(184, 155, 94, 0.2);
+            border: 1px solid rgba(140, 109, 50, 0.45);
             color: var(--gold-deep);
-            font-size: 0.65rem;
+            font-size: 0.63rem;
             font-weight: 700;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.05em;
             white-space: nowrap;
         }
 
         .itinerary-item.highlight .time-badge {
             background: var(--forest);
             border-color: var(--forest);
-            color: #FCF9F2;
+            color: #FAF8F3;
         }
 
         .itinerary-event {
             font-family: var(--font-serif);
-            font-size: 1.24rem;
+            font-size: 1.22rem;
             font-weight: 700;
             color: var(--ink);
-            line-height: 1.2;
-            margin-bottom: 4px;
+            line-height: 1.18;
+            margin-bottom: 3px;
         }
 
         .itinerary-desc {
-            font-size: 0.74rem;
+            font-size: 0.72rem;
             color: var(--ink-soft);
-            line-height: 1.45;
+            line-height: 1.44;
         }
 
-        /* Ilustraciones botánicas de honguitos */
-        .botanical-svg-wrap {
+        /* Fotografía vertical FOTO-BODA2.jpg con marco estilo arco editorial */
+        .vertical-couple-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin: 2px 0;
+        }
+
+        .arch-photo-frame {
+            width: 100%;
+            max-width: 245px;
+            padding: 5px;
+            border: 1.4px solid var(--gold);
+            border-radius: 120px 120px 12px 12px;
+            background: #FFFFFF;
+            box-shadow: 0 8px 20px rgba(44, 48, 42, 0.08);
+            cursor: pointer;
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .arch-photo-frame:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(44, 48, 42, 0.14);
+        }
+
+        .arch-photo-inner {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            max-height: 290px;
+            border-radius: 115px 115px 8px 8px;
+            overflow: hidden;
+            border: 1px solid rgba(184, 155, 94, 0.45);
+            background: var(--card-warm);
+        }
+
+        .arch-photo-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 42%;
+            transition: transform 0.35s ease;
+        }
+
+        .arch-photo-frame:hover .arch-photo-inner img {
+            transform: scale(1.03);
+        }
+
+        .couple-photo-caption {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 0.98rem;
+            color: var(--sage);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Divisor SVG fino de honguitos silvestres */
+        .mushroom-divider {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            padding: 4px 0;
-            margin: auto 0;
         }
 
-        .botanical-svg-wrap.left-mushrooms svg {
+        .mushroom-divider svg {
             width: 100%;
-            max-width: 210px;
-            max-height: 120px;
+            max-width: 190px;
             height: auto;
         }
 
-        .botanical-svg-wrap.center-mushrooms svg {
-            width: 100%;
-            max-width: 230px;
-            max-height: 125px;
-            height: auto;
-        }
-
-        /* Caja inferior de sede */
+        /* Sede oficial */
         .venue-box {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(198, 164, 103, 0.5);
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(184, 155, 94, 0.52);
             border-radius: var(--radius-md);
-            padding: 14px 13px;
+            padding: 13px 12px;
             text-align: center;
         }
 
         .venue-kicker {
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             font-weight: 700;
             letter-spacing: 0.16em;
             text-transform: uppercase;
             color: var(--gold-deep);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .venue-name {
             font-family: var(--font-serif);
-            font-size: 1.35rem;
+            font-size: 1.32rem;
             font-weight: 700;
             color: var(--forest);
             margin-bottom: 4px;
         }
 
         .venue-address {
-            font-size: 0.72rem;
+            font-size: 0.71rem;
             color: var(--ink-soft);
-            line-height: 1.42;
-            margin-bottom: 12px;
+            line-height: 1.4;
+            margin-bottom: 11px;
         }
 
         .btn-row-2 {
@@ -571,38 +659,38 @@
         }
 
         /* =====================================================================
-           8. PANEL CENTRAL: NOMBRES, GALERÍA 5 FOTOS, HONGUITOS, REGALOS
+           8. PANEL CENTRAL: GALERÍA, FOTO 1, HONGUITOS, MESA DE REGALOS
            ===================================================================== */
         .couple-banner {
             background: #FFFFFF;
-            border: 1px solid rgba(198, 164, 103, 0.48);
+            border: 1px solid rgba(184, 155, 94, 0.48);
             border-radius: var(--radius-md);
-            padding: 12px 10px;
+            padding: 11px 10px;
             text-align: center;
         }
 
         .couple-names-sm {
             font-family: var(--font-serif);
-            font-size: 1.18rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: var(--forest);
-            line-height: 1.25;
+            line-height: 1.22;
             margin-bottom: 4px;
         }
 
         .couple-dates-sm {
-            font-size: 0.62rem;
+            font-size: 0.6rem;
             font-weight: 600;
             letter-spacing: 0.16em;
             text-transform: uppercase;
             color: var(--gold-deep);
         }
 
-        /* Galería principal */
+        /* Galería interactiva de 5 fotos */
         .gallery-container {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 7px;
         }
 
         .gallery-stage {
@@ -611,8 +699,8 @@
             aspect-ratio: 4 / 3;
             border-radius: var(--radius-md);
             overflow: hidden;
-            background: #EAE1D0;
-            border: 1px solid rgba(198, 164, 103, 0.6);
+            background: var(--card-warm);
+            border: 1px solid rgba(184, 155, 94, 0.6);
         }
 
         .gallery-main-img {
@@ -629,17 +717,17 @@
 
         .gallery-expand-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 9px;
+            right: 9px;
             z-index: 3;
             border: 1px solid rgba(255, 255, 255, 0.55);
-            background: rgba(46, 71, 59, 0.82);
+            background: rgba(58, 79, 60, 0.84);
             color: #FFFFFF;
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             font-weight: 600;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-            padding: 6px 11px;
+            padding: 5px 10px;
             border-radius: 999px;
             cursor: pointer;
             backdrop-filter: blur(4px);
@@ -647,7 +735,7 @@
         }
 
         .gallery-expand-btn:hover {
-            background: var(--forest);
+            background: var(--forest-hover);
         }
 
         .gallery-nav {
@@ -655,11 +743,11 @@
             top: 50%;
             transform: translateY(-50%);
             z-index: 3;
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            border: 1px solid rgba(198, 164, 103, 0.7);
-            background: rgba(252, 249, 242, 0.92);
+            border: 1px solid rgba(184, 155, 94, 0.7);
+            background: rgba(250, 248, 243, 0.92);
             color: var(--forest);
             font-size: 1.15rem;
             line-height: 1;
@@ -667,7 +755,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.16);
             transition: background 0.18s ease, transform 0.18s ease;
         }
 
@@ -685,10 +773,10 @@
             right: 0;
             bottom: 0;
             z-index: 2;
-            padding: 24px 12px 10px;
-            background: linear-gradient(180deg, rgba(20, 28, 23, 0) 0%, rgba(20, 28, 23, 0.78) 100%);
+            padding: 22px 11px 9px;
+            background: linear-gradient(180deg, rgba(24, 30, 25, 0) 0%, rgba(24, 30, 25, 0.78) 100%);
             color: #FFFFFF;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 500;
             letter-spacing: 0.02em;
         }
@@ -705,7 +793,7 @@
             border-radius: 7px;
             overflow: hidden;
             aspect-ratio: 4 / 3;
-            background: #EAE1D0;
+            background: var(--card-warm);
             cursor: pointer;
             opacity: 0.72;
             transition: opacity 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
@@ -727,74 +815,142 @@
             transform: translateY(-1px);
         }
 
+        /* Fotografía horizontal FOTO-BODA1.png en panel central */
+        .horizontal-couple-frame {
+            padding: 5px;
+            border: 1.3px solid var(--gold);
+            border-radius: 12px;
+            background: #FFFFFF;
+            box-shadow: 0 6px 16px rgba(44, 48, 42, 0.07);
+            cursor: pointer;
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .horizontal-couple-frame:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(44, 48, 42, 0.12);
+        }
+
+        .horizontal-couple-inner {
+            position: relative;
+            aspect-ratio: 16 / 10;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(184, 155, 94, 0.45);
+            background: var(--card-warm);
+        }
+
+        .horizontal-couple-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 35%;
+            transition: transform 0.35s ease;
+        }
+
+        .horizontal-couple-frame:hover .horizontal-couple-inner img {
+            transform: scale(1.03);
+        }
+
+        .couple-badge-overlay {
+            position: absolute;
+            left: 10px;
+            bottom: 9px;
+            background: rgba(250, 248, 243, 0.9);
+            color: var(--forest);
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 0.96rem;
+            font-weight: 600;
+            padding: 3px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(184, 155, 94, 0.65);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Ilustración compacta de honguitos del bosque (~70px) */
+        .compact-mushrooms-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 2px 0;
+        }
+
+        .compact-mushrooms-wrap svg {
+            width: 100%;
+            max-width: 195px;
+            height: 70px;
+        }
+
         /* Tarjeta de Mesa de Regalos */
         .gift-card {
-            background: linear-gradient(135deg, #FFFFFF 0%, #F5EFE2 100%);
-            border: 1px solid rgba(198, 164, 103, 0.65);
+            background: linear-gradient(135deg, #FFFFFF 0%, #F4EFE4 100%);
+            border: 1px solid rgba(184, 155, 94, 0.65);
             border-radius: var(--radius-md);
-            padding: 14px 14px 13px;
+            padding: 13px 12px;
             text-align: center;
         }
 
         .gift-icon {
-            width: 28px;
-            height: 28px;
-            margin: 0 auto 6px;
+            width: 26px;
+            height: 26px;
+            margin: 0 auto 5px;
             color: var(--gold-deep);
         }
 
         .gift-title {
             font-family: var(--font-serif);
-            font-size: 1.28rem;
+            font-size: 1.24rem;
             font-weight: 700;
             color: var(--forest);
             line-height: 1.15;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .gift-badge {
             display: inline-block;
             padding: 3px 11px;
             border-radius: 999px;
-            background: rgba(154, 123, 62, 0.15);
-            border: 1px solid rgba(154, 123, 62, 0.45);
+            background: rgba(184, 155, 94, 0.18);
+            border: 1px solid rgba(140, 109, 50, 0.45);
             color: var(--gold-deep);
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             font-weight: 700;
             letter-spacing: 0.16em;
             text-transform: uppercase;
-            margin-bottom: 7px;
+            margin-bottom: 6px;
         }
 
         .gift-text {
-            font-size: 0.73rem;
+            font-size: 0.71rem;
             color: var(--ink-soft);
-            line-height: 1.46;
+            line-height: 1.44;
         }
 
         .panel-quote {
             text-align: center;
             font-family: var(--font-serif);
             font-style: italic;
-            font-size: 1.04rem;
+            font-size: 1.02rem;
             color: var(--sage);
-            line-height: 1.42;
-            padding-top: 4px;
+            line-height: 1.4;
+            padding-top: 2px;
         }
 
         /* =====================================================================
            9. PANEL DERECHO: TARIFA, AVISO HOSPEDAJE, RSVP Y ATENCIÓN HOTEL
            ===================================================================== */
         .price-card {
-            background: linear-gradient(135deg, #F5ECD9 0%, #EFE2C8 100%);
-            border: 1px solid rgba(198, 164, 103, 0.75);
+            background: linear-gradient(135deg, #F5EFE2 0%, #ECE2CD 100%);
+            border: 1px solid rgba(184, 155, 94, 0.75);
             border-radius: var(--radius-md);
             padding: 13px 12px;
             text-align: center;
         }
 
         .price-kicker {
-            font-size: 0.6rem;
+            font-size: 0.59rem;
             font-weight: 700;
             letter-spacing: 0.16em;
             text-transform: uppercase;
@@ -804,30 +960,30 @@
 
         .price-amount {
             font-family: var(--font-serif);
-            font-size: 1.72rem;
+            font-size: 1.7rem;
             font-weight: 700;
             color: var(--forest);
-            line-height: 1.15;
+            line-height: 1.12;
             margin-bottom: 4px;
         }
 
         .price-note {
-            font-size: 0.7rem;
+            font-size: 0.69rem;
             color: var(--ink-soft);
             line-height: 1.4;
         }
 
-        /* Aviso importante de hospedaje */
+        /* Recuadro de información importante de hospedaje */
         .lodging-notice {
-            background: #FBF8F1;
-            border: 1px solid rgba(198, 164, 103, 0.55);
+            background: #FFFFFF;
+            border: 1px solid rgba(184, 155, 94, 0.52);
             border-left: 3.5px solid var(--gold-deep);
             border-radius: var(--radius-md);
             padding: 11px 12px;
         }
 
         .lodging-notice-title {
-            font-size: 0.62rem;
+            font-size: 0.61rem;
             font-weight: 700;
             letter-spacing: 0.13em;
             text-transform: uppercase;
@@ -845,7 +1001,7 @@
         .lodging-notice li {
             position: relative;
             padding-left: 13px;
-            font-size: 0.72rem;
+            font-size: 0.71rem;
             color: var(--ink-soft);
             line-height: 1.4;
         }
@@ -880,7 +1036,7 @@
         }
 
         .form-label {
-            font-size: 0.62rem;
+            font-size: 0.61rem;
             font-weight: 700;
             letter-spacing: 0.12em;
             text-transform: uppercase;
@@ -890,18 +1046,18 @@
         .form-control {
             width: 100%;
             padding: 9px 11px;
-            border: 1px solid rgba(198, 164, 103, 0.7);
+            border: 1px solid rgba(184, 155, 94, 0.72);
             border-radius: var(--radius-sm);
             background: #FFFFFF;
             color: var(--ink);
-            font-size: 0.8rem;
+            font-size: 0.79rem;
             outline: none;
             transition: border-color 0.18s ease, box-shadow 0.18s ease;
         }
 
         .form-control:focus {
             border-color: var(--forest);
-            box-shadow: 0 0 0 3px rgba(46, 71, 59, 0.1);
+            box-shadow: 0 0 0 3px rgba(58, 79, 60, 0.11);
         }
 
         .form-control:disabled {
@@ -936,7 +1092,7 @@
         }
 
         .total-display-label {
-            font-size: 0.54rem;
+            font-size: 0.53rem;
             font-weight: 700;
             letter-spacing: 0.12em;
             text-transform: uppercase;
@@ -951,7 +1107,7 @@
             line-height: 1.1;
         }
 
-        /* Botones generales */
+        /* Botones */
         .btn {
             appearance: none;
             display: inline-flex;
@@ -961,7 +1117,7 @@
             text-decoration: none;
             padding: 11px 14px;
             border-radius: var(--radius-sm);
-            font-size: 0.68rem;
+            font-size: 0.67rem;
             font-weight: 700;
             letter-spacing: 0.11em;
             text-transform: uppercase;
@@ -1003,7 +1159,7 @@
         }
 
         .btn-outline-gold:hover {
-            background: #FAF5EA;
+            background: #F9F4E8;
             border-color: var(--gold-deep);
         }
 
@@ -1021,20 +1177,20 @@
         .btn-pill {
             border-radius: 999px;
             padding: 9px 10px;
-            font-size: 0.63rem;
+            font-size: 0.62rem;
         }
 
-        /* Caja inferior de atención de hospedaje y pagos */
+        /* Caja inferior: atención de hospedaje y pagos */
         .hotel-support-box {
             background: #FFFFFF;
-            border: 1px dashed rgba(198, 164, 103, 0.85);
+            border: 1px dashed rgba(184, 155, 94, 0.85);
             border-radius: var(--radius-md);
             padding: 12px;
             text-align: center;
         }
 
         .hotel-support-title {
-            font-size: 0.61rem;
+            font-size: 0.6rem;
             font-weight: 700;
             letter-spacing: 0.14em;
             text-transform: uppercase;
@@ -1044,12 +1200,12 @@
 
         .card-payment-note {
             background: #FAF5EA;
-            border: 1px solid rgba(198, 164, 103, 0.45);
+            border: 1px solid rgba(184, 155, 94, 0.45);
             border-left: 3px solid var(--gold-deep);
             border-radius: 7px;
             padding: 8px 10px;
             text-align: left;
-            font-size: 0.7rem;
+            font-size: 0.69rem;
             color: var(--ink-soft);
             line-height: 1.42;
             margin-bottom: 9px;
@@ -1060,7 +1216,7 @@
         }
 
         .hotel-contact-text {
-            font-size: 0.7rem;
+            font-size: 0.69rem;
             color: var(--ink-soft);
             line-height: 1.42;
             margin-bottom: 6px;
@@ -1093,7 +1249,7 @@
             letter-spacing: 0.16em;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(46, 71, 59, 0.08);
+            box-shadow: 0 4px 12px rgba(44, 48, 42, 0.08);
             transition: background 0.18s ease, transform 0.18s ease;
         }
 
@@ -1109,7 +1265,7 @@
             position: fixed;
             inset: 0;
             z-index: 1200;
-            background: rgba(18, 24, 20, 0.92);
+            background: rgba(20, 24, 21, 0.93);
             backdrop-filter: blur(6px);
             display: flex;
             flex-direction: column;
@@ -1133,13 +1289,13 @@
             max-height: 78vh;
             object-fit: contain;
             border-radius: 10px;
-            border: 1px solid rgba(198, 164, 103, 0.55);
+            border: 1px solid rgba(184, 155, 94, 0.55);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
 
         .lightbox-caption {
-            color: #F6F1E7;
-            font-size: 0.85rem;
+            color: #FAF8F3;
+            font-size: 0.86rem;
             text-align: center;
             letter-spacing: 0.03em;
         }
@@ -1152,9 +1308,9 @@
             height: 42px;
             border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.35);
-            background: rgba(46, 71, 59, 0.85);
+            background: rgba(58, 79, 60, 0.88);
             color: #FFFFFF;
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -1168,8 +1324,8 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            border: 1px solid rgba(198, 164, 103, 0.65);
-            background: rgba(252, 249, 242, 0.9);
+            border: 1px solid rgba(184, 155, 94, 0.65);
+            background: rgba(250, 248, 243, 0.92);
             color: var(--forest);
             font-size: 1.5rem;
             cursor: pointer;
@@ -1182,7 +1338,7 @@
         .lightbox-nav.next { right: 16px; }
 
         /* =====================================================================
-           11. NOTIFICACIÓN TOAST ELEGANTE (SIN ALERT)
+           11. NOTIFICACIÓN TOAST (SIN ALERT)
            ===================================================================== */
         .toast-notice {
             position: fixed;
@@ -1191,7 +1347,7 @@
             transform: translateX(-50%);
             z-index: 1300;
             background: var(--forest);
-            color: #FCF9F2;
+            color: #FAF8F3;
             border: 1px solid var(--gold);
             border-radius: 999px;
             padding: 11px 22px;
@@ -1203,7 +1359,7 @@
         }
 
         /* =====================================================================
-           12. DISEÑO RESPONSIVO (TABLET Y MÓVIL)
+           12. RESPONSIVIDAD (TABLET Y MÓVIL)
            ===================================================================== */
         @media (max-width: 1024px) {
             .triptych-grid {
@@ -1212,20 +1368,15 @@
                 margin: 0 auto;
                 gap: 22px;
             }
-
-            .botanical-svg-wrap.left-mushrooms svg,
-            .botanical-svg-wrap.center-mushrooms svg {
-                max-height: 105px;
-            }
         }
 
         @media (max-width: 480px) {
             .page-wrapper {
-                padding: 18px 12px 36px;
+                padding: 16px 12px 36px;
             }
 
             .cover-frame-inner {
-                padding: 28px 18px 26px;
+                padding: 26px 16px 24px;
             }
 
             .panel-frame-inner {
@@ -1253,49 +1404,57 @@
 </head>
 <body>
 
-    <!-- Barra discreta para exportar el archivo limpio para GitHub Pages -->
+    <!-- Barra discreta superior para descargar el archivo limpio para GitHub Pages -->
     
 
     <main class="page-wrapper">
 
         <!-- =================================================================
-             VISTA 1: PORTADA BOTÁNICA (Visible de inmediato al cargar)
+             VISTA 1: PORTADA (Visible inmediatamente al cargar)
              ================================================================= -->
         <section id="cover-view" aria-label="Portada de invitación de boda" class="">
             <div class="cover-card">
                 <div class="cover-frame-outer">
                     <div class="cover-frame-inner">
-                        <span class="corner-accent tl" aria-hidden="true"></span>
-                        <span class="corner-accent tr" aria-hidden="true"></span>
-                        <span class="corner-accent bl" aria-hidden="true"></span>
-                        <span class="corner-accent br" aria-hidden="true"></span>
 
-                        <p class="cover-kicker">Nos Casamos en el Bosque</p>
+                        <!-- Pequeños detalles botánicos de honguitos en las 4 esquinas -->
+                        <svg class="cover-corner-svg tl" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                            <path d="M4 34 C4 18, 12 8, 34 4" stroke="#B89B5E" stroke-width="1" stroke-linecap="round"></path>
+                            <path d="M13 24 C13 19, 14 16, 15 14 L18 14 C19 16, 20 19, 20 24" stroke="#8C6D32" stroke-width="1" fill="#FAF8F3"></path>
+                            <path d="M9 15 C10 9, 13.5 7, 16.5 7 C19.5 7, 23 9, 24 15 C19.5 13.5, 13.5 13.5, 9 15 Z" stroke="#8C6D32" stroke-width="1.1" fill="#F3EEE2"></path>
+                            <circle cx="15" cy="10.5" r="0.9" fill="#B89B5E"></circle>
+                            <path d="M6 26 L11 22 M9 29 L13 26" stroke="#627564" stroke-width="0.9" stroke-linecap="round"></path>
+                        </svg>
+                        <svg class="cover-corner-svg tr" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                            <path d="M4 34 C4 18, 12 8, 34 4" stroke="#B89B5E" stroke-width="1" stroke-linecap="round"></path>
+                            <path d="M13 24 C13 19, 14 16, 15 14 L18 14 C19 16, 20 19, 20 24" stroke="#8C6D32" stroke-width="1" fill="#FAF8F3"></path>
+                            <path d="M9 15 C10 9, 13.5 7, 16.5 7 C19.5 7, 23 9, 24 15 C19.5 13.5, 13.5 13.5, 9 15 Z" stroke="#8C6D32" stroke-width="1.1" fill="#F3EEE2"></path>
+                            <circle cx="15" cy="10.5" r="0.9" fill="#B89B5E"></circle>
+                            <path d="M6 26 L11 22 M9 29 L13 26" stroke="#627564" stroke-width="0.9" stroke-linecap="round"></path>
+                        </svg>
+                        <svg class="cover-corner-svg bl" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                            <path d="M4 34 C4 18, 12 8, 34 4" stroke="#B89B5E" stroke-width="1" stroke-linecap="round"></path>
+                            <path d="M13 24 C13 19, 14 16, 15 14 L18 14 C19 16, 20 19, 20 24" stroke="#8C6D32" stroke-width="1" fill="#FAF8F3"></path>
+                            <path d="M9 15 C10 9, 13.5 7, 16.5 7 C19.5 7, 23 9, 24 15 C19.5 13.5, 13.5 13.5, 9 15 Z" stroke="#8C6D32" stroke-width="1.1" fill="#F3EEE2"></path>
+                            <circle cx="15" cy="10.5" r="0.9" fill="#B89B5E"></circle>
+                            <path d="M6 26 L11 22 M9 29 L13 26" stroke="#627564" stroke-width="0.9" stroke-linecap="round"></path>
+                        </svg>
+                        <svg class="cover-corner-svg br" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                            <path d="M4 34 C4 18, 12 8, 34 4" stroke="#B89B5E" stroke-width="1" stroke-linecap="round"></path>
+                            <path d="M13 24 C13 19, 14 16, 15 14 L18 14 C19 16, 20 19, 20 24" stroke="#8C6D32" stroke-width="1" fill="#FAF8F3"></path>
+                            <path d="M9 15 C10 9, 13.5 7, 16.5 7 C19.5 7, 23 9, 24 15 C19.5 13.5, 13.5 13.5, 9 15 Z" stroke="#8C6D32" stroke-width="1.1" fill="#F3EEE2"></path>
+                            <circle cx="15" cy="10.5" r="0.9" fill="#B89B5E"></circle>
+                            <path d="M6 26 L11 22 M9 29 L13 26" stroke="#627564" stroke-width="0.9" stroke-linecap="round"></path>
+                        </svg>
 
-                        <!-- Grabado botánico en SVG de honguitos y ramitas de pino -->
-                        <div class="cover-illustration" aria-hidden="true">
-                            <svg viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Ramitas de pino -->
-                                <path d="M28 96 C62 84, 88 86, 110 92 C132 86, 158 84, 192 96" stroke="#5A7061" stroke-width="1.2" stroke-linecap="round"></path>
-                                <path d="M46 91 L38 78 M56 89 L50 76 M68 88 L64 76" stroke="#5A7061" stroke-width="1" stroke-linecap="round"></path>
-                                <path d="M174 91 L182 78 M164 89 L170 76 M152 88 L156 76" stroke="#5A7061" stroke-width="1" stroke-linecap="round"></path>
-                                <!-- Honguito principal -->
-                                <path d="M104 91 C104 78, 105 68, 108 56 L118 56 C121 68, 122 78, 122 91" stroke="#9A7B3E" stroke-width="1.4" fill="#FCF9F2"></path>
-                                <path d="M84 57 C86 33, 100 22, 113 22 C126 22, 140 33, 142 57 C126 53, 100 53, 84 57 Z" stroke="#9A7B3E" stroke-width="1.5" fill="#F4EDE0"></path>
-                                <path d="M89 56 C102 60, 124 60, 137 56" stroke="#C6A467" stroke-width="1"></path>
-                                <circle cx="105" cy="36" r="2.2" fill="#C6A467"></circle>
-                                <circle cx="121" cy="33" r="1.8" fill="#C6A467"></circle>
-                                <circle cx="115" cy="43" r="1.5" fill="#C6A467"></circle>
-                                <!-- Honguito pequeño izquierdo -->
-                                <path d="M74 91 C74 82, 75 76, 77 70 L83 70 C85 76, 86 82, 86 91" stroke="#5A7061" stroke-width="1.2" fill="#FCF9F2"></path>
-                                <path d="M64 71 C66 57, 74 52, 80 52 C86 52, 94 57, 96 71 C86 68, 74 68, 64 71 Z" stroke="#5A7061" stroke-width="1.3" fill="#EEF3EE"></path>
-                                <!-- Honguito pequeño derecho -->
-                                <path d="M137 91 C137 83, 138 78, 139 74 L144 74 C145 78, 146 83, 146 91" stroke="#9A7B3E" stroke-width="1.2" fill="#FCF9F2"></path>
-                                <path d="M129 75 C131 64, 137 60, 141.5 60 C146 60, 152 64, 154 75 C146 73, 137 73, 129 75 Z" stroke="#9A7B3E" stroke-width="1.3" fill="#F4EDE0"></path>
-                                <!-- Destellos suaves -->
-                                <circle cx="90" cy="24" r="1.3" fill="#C6A467"></circle>
-                                <circle cx="136" cy="24" r="1.3" fill="#C6A467"></circle>
-                            </svg>
+                        <p class="cover-kicker">Nos Casamos</p>
+
+                        <!-- Fotografía destacada de la pareja: FOTO-BODA1.png -->
+                        <div class="cover-photo-frame" data-couple-photo="0" role="button" tabindex="0" aria-label="Ampliar fotografía de Laura Elena y Francisco José en el bosque">
+                            <div class="cover-photo-inner">
+                                <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/FOTO-BODA1.png" alt="Laura Elena y Francisco José en el bosque con cascada" onerror="this.onerror=null;this.src='https://placehold.co/800x600/F3EEE2/3A4F3C?text=Laura+%26+Francisco';">
+                                <span class="photo-zoom-hint">Ampliar</span>
+                            </div>
                         </div>
 
                         <h1 class="cover-names">
@@ -1308,8 +1467,10 @@
                             <span></span><i></i><span></span>
                         </div>
 
-                        <p class="cover-date">22 · 23 · 24 de Octubre de 2027</p>
-                        <p class="cover-venue">Grand Mazamitla · Jalisco</p>
+                        <p class="cover-date-place">
+                            22 · 23 · 24 de Octubre de 2027<br>
+                            Mazamitla, Jalisco
+                        </p>
 
                         <button type="button" id="openInviteBtn" class="btn-open-invite">
                             Abrir Invitación
@@ -1320,7 +1481,7 @@
         </section>
 
         <!-- =================================================================
-             VISTA 2: TRÍPTICO INTERACTIVO DE 3 PANELES (#triptych-view)
+             VISTA 2: TRÍPTICO DE 3 PANELES (#triptych-view)
              ================================================================= -->
         <section id="triptych-view" class="is-hidden" aria-label="Invitación tríptico de boda">
             <div class="triptych-grid">
@@ -1342,7 +1503,7 @@
                                     <h2 class="panel-title">Itinerario</h2>
                                 </header>
 
-                                <!-- Cuenta regresiva en vivo hacia Sábado 23 de octubre 2027, 19:00 hrs -->
+                                <!-- 1. Cuenta regresiva en tiempo real -->
                                 <div class="countdown-box" aria-label="Cuenta regresiva hacia la boda">
                                     <p class="countdown-label">Cuenta Regresiva · Sábado 23 de Octubre · 7:00 PM</p>
                                     <div class="countdown-grid">
@@ -1355,17 +1516,17 @@
                                             <span class="cd-name">Horas</span>
                                         </div>
                                         <div class="cd-unit">
-                                            <span id="cd-mins" class="cd-value">19</span>
+                                            <span id="cd-mins" class="cd-value">00</span>
                                             <span class="cd-name">Min</span>
                                         </div>
                                         <div class="cd-unit">
-                                            <span id="cd-secs" class="cd-value">45</span>
+                                            <span id="cd-secs" class="cd-value">06</span>
                                             <span class="cd-name">Seg</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Lista de 3 eventos con horarios claros -->
+                                <!-- 2. Tres bloques de itinerario -->
                                 <div class="itinerary-list">
                                     <div class="itinerary-item">
                                         <div class="itinerary-top">
@@ -1373,7 +1534,7 @@
                                             <span class="time-badge">7:00 PM</span>
                                         </div>
                                         <h3 class="itinerary-event">Bienvenida y Fogatita</h3>
-                                        <p class="itinerary-desc">Llegada al bosque y reunión nocturna junto a la fogata para comenzar juntos la celebración.</p>
+                                        <p class="itinerary-desc">Llegada al bosque y reunión nocturna alrededor de la fogata para comenzar juntos la celebración.</p>
                                     </div>
 
                                     <div class="itinerary-item highlight">
@@ -1395,37 +1556,34 @@
                                     </div>
                                 </div>
 
-                                <!-- Ilustración botánica fina: par de honguitos silvestres -->
-                                <div class="botanical-svg-wrap left-mushrooms" aria-hidden="true">
-                                    <svg viewBox="0 0 240 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <!-- Suelo y ramitas de pino -->
-                                        <path d="M26 102 C72 95, 168 95, 214 102" stroke="#C6A467" stroke-width="1" stroke-linecap="round"></path>
-                                        <path d="M52 99 C44 86, 36 80, 26 76" stroke="#5A7061" stroke-width="1.1" stroke-linecap="round"></path>
-                                        <path d="M44 90 L38 80 M39 85 L29 84 M48 94 L46 83" stroke="#5A7061" stroke-width="0.95" stroke-linecap="round"></path>
-                                        <path d="M188 99 C196 86, 204 80, 214 76" stroke="#5A7061" stroke-width="1.1" stroke-linecap="round"></path>
-                                        <path d="M196 90 L202 80 M201 85 L211 84 M192 94 L194 83" stroke="#5A7061" stroke-width="0.95" stroke-linecap="round"></path>
-                                        <!-- Honguito alto izquierdo -->
-                                        <path d="M96 98 C96 82, 98 68, 102 54 L112 54 C115 68, 117 82, 117 98" stroke="#9A7B3E" stroke-width="1.35" fill="#FCF9F2"></path>
-                                        <path d="M77 56 C80 31, 94 20, 107 20 C120 20, 134 31, 137 56 C120 51, 94 51, 77 56 Z" stroke="#9A7B3E" stroke-width="1.45" fill="#F4EDE0"></path>
-                                        <path d="M83 55 C97 60, 117 60, 131 55" stroke="#C6A467" stroke-width="1"></path>
-                                        <path d="M107 52 L107 58 M97 53 L95 57 M117 53 L119 57" stroke="#C6A467" stroke-width="0.8"></path>
-                                        <circle cx="99" cy="34" r="2" fill="#C6A467"></circle>
-                                        <circle cx="114" cy="31" r="1.6" fill="#C6A467"></circle>
-                                        <circle cx="109" cy="42" r="1.4" fill="#C6A467"></circle>
-                                        <!-- Honguito mediano derecho -->
-                                        <path d="M138 98 C138 86, 140 77, 142 68 L150 68 C152 77, 154 86, 154 98" stroke="#5A7061" stroke-width="1.25" fill="#FCF9F2"></path>
-                                        <path d="M124 70 C127 52, 137 45, 146 45 C155 45, 165 52, 168 70 C155 66, 137 66, 124 70 Z" stroke="#5A7061" stroke-width="1.35" fill="#EEF3EE"></path>
-                                        <path d="M129 69 C139 73, 153 73, 163 69" stroke="#5A7061" stroke-width="0.9" opacity="0.65"></path>
-                                        <circle cx="142" cy="55" r="1.6" fill="#5A7061" opacity="0.55"></circle>
-                                        <circle cx="152" cy="58" r="1.2" fill="#5A7061" opacity="0.55"></circle>
-                                        <!-- Puntos sutiles de bosque -->
-                                        <circle cx="72" cy="36" r="1.2" fill="#C6A467"></circle>
-                                        <circle cx="172" cy="44" r="1.2" fill="#C6A467"></circle>
-                                    </svg>
+                                <!-- 3. Fotografía vertical de la pareja: FOTO-BODA2.jpg -->
+                                <div class="vertical-couple-block">
+                                    <div class="arch-photo-frame" data-couple-photo="1" role="button" tabindex="0" aria-label="Ampliar fotografía de nuestra aventura juntos">
+                                        <div class="arch-photo-inner">
+                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/FOTO-BODA2.jpg" alt="Laura Elena y Francisco José en la montaña" onerror="this.onerror=null;this.src='https://placehold.co/600x750/F3EEE2/3A4F3C?text=Nuestra+Aventura';">
+                                            <span class="photo-zoom-hint">Ampliar</span>
+                                        </div>
+                                    </div>
+                                    <p class="couple-photo-caption">Nuestra aventura juntos</p>
+
+                                    <!-- Fino divisor SVG de honguitos silvestres -->
+                                    <div class="mushroom-divider" aria-hidden="true">
+                                        <svg viewBox="0 0 210 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 29 H76 M134 29 H198" stroke="#B89B5E" stroke-width="0.9" stroke-linecap="round"></path>
+                                            <path d="M84 31 C84 25, 85 21, 87 17 L91 17 C93 21, 94 25, 94 31" stroke="#627564" stroke-width="1" fill="#FAF8F3"></path>
+                                            <path d="M77 18 C79 11, 84 8, 89 8 C94 8, 99 11, 101 18 C94 16, 84 16, 77 18 Z" stroke="#627564" stroke-width="1.1" fill="#EDF2EC"></path>
+                                            <path d="M104 31 C104 23, 105 18, 107 13 L113 13 C115 18, 116 23, 116 31" stroke="#8C6D32" stroke-width="1.1" fill="#FAF8F3"></path>
+                                            <path d="M96 14 C98 5, 104 2, 110 2 C116 2, 122 5, 124 14 C116 12, 104 12, 96 14 Z" stroke="#8C6D32" stroke-width="1.2" fill="#F3EEE2"></path>
+                                            <circle cx="107" cy="7.5" r="1.1" fill="#B89B5E"></circle>
+                                            <circle cx="114" cy="9" r="0.9" fill="#B89B5E"></circle>
+                                            <path d="M122 31 C122 26, 123 23, 124 20 L127 20 C128 23, 129 26, 129 31" stroke="#8C6D32" stroke-width="1" fill="#FAF8F3"></path>
+                                            <path d="M117 21 C119 15, 122.5 13, 125.5 13 C128.5 13, 132 15, 134 21 C128.5 19.5, 122.5 19.5, 117 21 Z" stroke="#8C6D32" stroke-width="1.05" fill="#F3EEE2"></path>
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Sede oficial -->
+                            <!-- 4. Sede oficial -->
                             <div class="venue-box">
                                 <p class="venue-kicker">Sede Oficial</p>
                                 <h3 class="venue-name">Grand Mazamitla</h3>
@@ -1463,16 +1621,16 @@
                                     <h2 class="panel-title">Grand Mazamitla</h2>
                                 </header>
 
-                                <!-- Recuadro con nombres -->
+                                <!-- 1. Recuadro con nombres -->
                                 <div class="couple-banner">
                                     <p class="couple-names-sm">Laura Elena González Hernández &amp; Francisco José Osuna Meza</p>
                                     <p class="couple-dates-sm">22 · 23 · 24 de Octubre de 2027</p>
                                 </div>
 
-                                <!-- Galería interactiva con URLs directas en GitHub Pages -->
+                                <!-- 2. Galería interactiva de las 5 fotos del hotel -->
                                 <div class="gallery-container" aria-label="Galería fotográfica de Grand Mazamitla">
                                     <div class="gallery-stage">
-                                        <img id="galleryMainImg" class="gallery-main-img" src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119829825.png" alt="1/5 · Salón de Eventos con Ventanales al Bosque" onerror="this.onerror=null;this.src='https://placehold.co/800x600/F4EDE0/2E473B?text=Grand+Mazamitla';">
+                                        <img id="galleryMainImg" class="gallery-main-img" src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119829825.png" alt="1/5 · Salón de Eventos con Ventanales al Bosque" onerror="this.onerror=null;this.src='https://placehold.co/800x600/F3EEE2/3A4F3C?text=Grand+Mazamitla';">
 
                                         <button type="button" id="galleryExpandBtn" class="gallery-expand-btn">
                                             Ampliar
@@ -1484,61 +1642,56 @@
                                         <div id="galleryCaption" class="gallery-caption">1/5 · Salón de Eventos con Ventanales al Bosque</div>
                                     </div>
 
-                                    <!-- 5 Miniaturas en una fila horizontal -->
                                     <div id="galleryThumbs" class="gallery-thumbs">
                                         <button type="button" class="thumb-btn is-active" data-index="0" aria-label="Ver foto 1">
-                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119829825.png" alt="Miniatura 1" onerror="this.onerror=null;this.src='https://placehold.co/200x150/F4EDE0/2E473B?text=1';">
+                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119829825.png" alt="Miniatura 1" onerror="this.onerror=null;this.src='https://placehold.co/200x150/F3EEE2/3A4F3C?text=1';">
                                         </button>
                                         <button type="button" class="thumb-btn" data-index="1" aria-label="Ver foto 2">
-                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119816102.png" alt="Miniatura 2" onerror="this.onerror=null;this.src='https://placehold.co/200x150/F4EDE0/2E473B?text=2';">
+                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119816102.png" alt="Miniatura 2" onerror="this.onerror=null;this.src='https://placehold.co/200x150/F3EEE2/3A4F3C?text=2';">
                                         </button>
                                         <button type="button" class="thumb-btn" data-index="2" aria-label="Ver foto 3">
-                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119801174.png" alt="Miniatura 3" onerror="this.onerror=null;this.src='https://placehold.co/200x150/F4EDE0/2E473B?text=3';">
+                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119801174.png" alt="Miniatura 3" onerror="this.onerror=null;this.src='https://placehold.co/200x150/F3EEE2/3A4F3C?text=3';">
                                         </button>
                                         <button type="button" class="thumb-btn" data-index="3" aria-label="Ver foto 4">
-                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119786129.png" alt="Miniatura 4" onerror="this.onerror=null;this.src='https://placehold.co/200x150/F4EDE0/2E473B?text=4';">
+                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119786129.png" alt="Miniatura 4" onerror="this.onerror=null;this.src='https://placehold.co/200x150/F3EEE2/3A4F3C?text=4';">
                                         </button>
                                         <button type="button" class="thumb-btn" data-index="4" aria-label="Ver foto 5">
-                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119771774.png" alt="Miniatura 5" onerror="this.onerror=null;this.src='https://placehold.co/200x150/F4EDE0/2E473B?text=5';">
+                                            <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/1795119771774.png" alt="Miniatura 5" onerror="this.onerror=null;this.src='https://placehold.co/200x150/F3EEE2/3A4F3C?text=5';">
                                         </button>
                                     </div>
                                 </div>
 
-                                <!-- Ilustración protagonista: ramillete de 3 honguitos del bosque -->
-                                <div class="botanical-svg-wrap center-mushrooms" aria-hidden="true">
-                                    <svg viewBox="0 0 260 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <!-- Línea ornamental y agujas de pino -->
-                                        <path d="M22 108 C82 100, 178 100, 238 108" stroke="#C6A467" stroke-width="1" stroke-linecap="round"></path>
-                                        <path d="M46 104 C38 89, 30 81, 18 75 M41 95 L32 85 M35 88 L23 86 M47 98 L45 86" stroke="#5A7061" stroke-width="1.05" stroke-linecap="round"></path>
-                                        <path d="M214 104 C222 89, 230 81, 242 75 M219 95 L228 85 M225 88 L237 86 M213 98 L215 86" stroke="#5A7061" stroke-width="1.05" stroke-linecap="round"></path>
-                                        <!-- Ramita trasera central -->
-                                        <path d="M130 102 C126 70, 144 40, 158 22" stroke="#5A7061" stroke-width="0.95" stroke-linecap="round" opacity="0.55"></path>
-                                        <path d="M148 34 L158 30 M142 44 L153 42" stroke="#5A7061" stroke-width="0.9" stroke-linecap="round" opacity="0.55"></path>
-                                        <!-- Honguito central protagonista -->
-                                        <path d="M121 103 C121 84, 123 68, 126 52 L138 52 C141 68, 143 84, 143 103" stroke="#9A7B3E" stroke-width="1.45" fill="#FCF9F2"></path>
-                                        <path d="M98 54 C101 26, 117 15, 132 15 C147 15, 163 26, 166 54 C147 49, 117 49, 98 54 Z" stroke="#9A7B3E" stroke-width="1.55" fill="#F4EDE0"></path>
-                                        <path d="M104 53 C120 59, 144 59, 160 53" stroke="#C6A467" stroke-width="1"></path>
-                                        <path d="M132 50 L132 57 M121 51 L119 56 M143 51 L145 56" stroke="#C6A467" stroke-width="0.85"></path>
-                                        <circle cx="122" cy="31" r="2.2" fill="#C6A467"></circle>
-                                        <circle cx="140" cy="28" r="1.9" fill="#C6A467"></circle>
-                                        <circle cx="133" cy="39" r="1.5" fill="#C6A467"></circle>
+                                <!-- 3. Fotografía horizontal de la pareja: FOTO-BODA1.png -->
+                                <div class="horizontal-couple-frame" data-couple-photo="0" role="button" tabindex="0" aria-label="Ampliar fotografía de Laura y Francisco">
+                                    <div class="horizontal-couple-inner">
+                                        <img src="https://arnespada.github.io/Boda-Laura-y-Francisco/FOTO-BODA1.png" alt="Laura Elena y Francisco José" onerror="this.onerror=null;this.src='https://placehold.co/800x500/F3EEE2/3A4F3C?text=Laura+%26+Francisco';">
+                                        <span class="couple-badge-overlay">Laura &amp; Francisco</span>
+                                        <span class="photo-zoom-hint">Ampliar</span>
+                                    </div>
+                                </div>
+
+                                <!-- 4. Ilustración botánica compacta de honguitos del bosque (~70px) -->
+                                <div class="compact-mushrooms-wrap" aria-hidden="true">
+                                    <svg viewBox="0 0 240 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M24 72 C78 66, 162 66, 216 72" stroke="#B89B5E" stroke-width="1" stroke-linecap="round"></path>
+                                        <path d="M52 69 C46 58, 38 52, 28 48 M47 62 L39 55 M42 58 L32 57" stroke="#627564" stroke-width="1" stroke-linecap="round"></path>
+                                        <path d="M188 69 C194 58, 202 52, 212 48 M193 62 L201 55 M198 58 L208 57" stroke="#627564" stroke-width="1" stroke-linecap="round"></path>
+                                        <!-- Honguito central -->
+                                        <path d="M112 69 C112 56, 114 45, 116 34 L125 34 C127 45, 129 56, 129 69" stroke="#8C6D32" stroke-width="1.3" fill="#FAF8F3"></path>
+                                        <path d="M96 36 C99 17, 110 10, 120.5 10 C131 10, 142 17, 145 36 C131 32, 110 32, 96 36 Z" stroke="#8C6D32" stroke-width="1.35" fill="#F3EEE2"></path>
+                                        <path d="M101 35 C112 39, 129 39, 140 35" stroke="#B89B5E" stroke-width="0.9"></path>
+                                        <circle cx="114" cy="20" r="1.7" fill="#B89B5E"></circle>
+                                        <circle cx="126" cy="18" r="1.4" fill="#B89B5E"></circle>
                                         <!-- Honguito izquierdo -->
-                                        <path d="M84 103 C84 91, 86 81, 88 73 L96 73 C98 81, 100 91, 100 103" stroke="#5A7061" stroke-width="1.3" fill="#FCF9F2"></path>
-                                        <path d="M70 74 C73 56, 83 49, 92 49 C101 49, 111 56, 114 74 C101 70, 83 70, 70 74 Z" stroke="#5A7061" stroke-width="1.35" fill="#EEF3EE"></path>
-                                        <path d="M75 73 C85 77, 99 77, 109 73" stroke="#5A7061" stroke-width="0.9" opacity="0.65"></path>
-                                        <circle cx="88" cy="59" r="1.6" fill="#5A7061" opacity="0.55"></circle>
+                                        <path d="M84 69 C84 60, 86 53, 88 47 L94 47 C96 53, 98 60, 98 69" stroke="#627564" stroke-width="1.15" fill="#FAF8F3"></path>
+                                        <path d="M74 48 C76 36, 84 31, 91 31 C98 31, 106 36, 108 48 C98 45, 84 45, 74 48 Z" stroke="#627564" stroke-width="1.2" fill="#EDF2EC"></path>
                                         <!-- Honguito derecho -->
-                                        <path d="M162 103 C162 93, 163 85, 165 79 L172 79 C174 85, 175 93, 175 103" stroke="#9A7B3E" stroke-width="1.25" fill="#FCF9F2"></path>
-                                        <path d="M150 80 C152 66, 160 60, 168.5 60 C177 60, 185 66, 187 80 C177 77, 160 77, 150 80 Z" stroke="#9A7B3E" stroke-width="1.3" fill="#F4EDE0"></path>
-                                        <circle cx="166" cy="69" r="1.4" fill="#C6A467"></circle>
-                                        <!-- Esporas doradas -->
-                                        <circle cx="96" cy="24" r="1.3" fill="#C6A467"></circle>
-                                        <circle cx="176" cy="36" r="1.3" fill="#C6A467"></circle>
-                                        <circle cx="64" cy="48" r="1.1" fill="#C6A467"></circle>
+                                        <path d="M144 69 C144 62, 145 56, 147 51 L152 51 C154 56, 155 62, 155 69" stroke="#8C6D32" stroke-width="1.1" fill="#FAF8F3"></path>
+                                        <path d="M135 52 C137 42, 143 38, 149.5 38 C156 38, 162 42, 164 52 C156 50, 143 50, 135 52 Z" stroke="#8C6D32" stroke-width="1.15" fill="#F3EEE2"></path>
                                     </svg>
                                 </div>
 
-                                <!-- Tarjeta de Mesa de Regalos -->
+                                <!-- 5. Tarjeta Mesa de Regalos -->
                                 <div class="gift-card" aria-label="Mesa de regalos">
                                     <div class="gift-icon" aria-hidden="true">
                                         <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1551,11 +1704,11 @@
                                     </div>
                                     <h3 class="gift-title">Mesa de Regalos</h3>
                                     <span class="gift-badge">Próximamente</span>
-                                    <p class="gift-text">Muy pronto compartiremos aquí los detalles de nuestra mesa de regalos.</p>
+                                    <p class="gift-text">Muy pronto compartiremos los detalles de nuestra mesa de regalos.</p>
                                 </div>
                             </div>
 
-                            <!-- Frase editorial final -->
+                            <!-- 6. Frase final en cursiva -->
                             <p class="panel-quote">
                                 “Entre pinos, calma y naturaleza, celebrar este fin de semana contigo hará que nuestro recuerdo sea eterno.”
                             </p>
@@ -1564,7 +1717,7 @@
                 </article>
 
                 <!-- =========================================================
-                     PANEL DERECHO — CONFIRMACIÓN DE ASISTENCIA (RSVP)
+                     PANEL DERECHO — CONFIRMACIÓN DE ASISTENCIA
                      ========================================================= -->
                 <article class="panel-card">
                     <div class="panel-frame-outer">
@@ -1580,24 +1733,24 @@
                                     <h2 class="panel-title">Confirmación de Asistencia</h2>
                                 </header>
 
-                                <!-- Caja de tarifa -->
+                                <!-- 1. Tarjeta de tarifa -->
                                 <div class="price-card">
                                     <p class="price-kicker">Estancia Todo el Fin de Semana</p>
                                     <p class="price-amount">$3,500.00 MXN</p>
                                     <p class="price-note">Por persona · Incluye hospedaje y alimentos del 22 al 24 de octubre de 2027 en Grand Mazamitla.</p>
                                 </div>
 
-                                <!-- Aviso importante de hospedaje antes del formulario -->
+                                <!-- 2. Recuadro información importante de hospedaje -->
                                 <div class="lodging-notice" aria-label="Información importante de hospedaje">
                                     <p class="lodging-notice-title">Información Importante de Hospedaje</p>
                                     <ul>
-                                        <li><strong>Habitaciones limitadas:</strong> Te recomendamos apartar tu lugar con anticipación.</li>
-                                        <li>Las habitaciones son para <strong>6 personas</strong> y se compartirán entre invitados.</li>
-                                        <li>Tu estancia <strong>incluye alimentos</strong> durante el fin de semana.</li>
+                                        <li><strong>Habitaciones limitadas</strong> (te recomendamos apartar con anticipación).</li>
+                                        <li>Las habitaciones son para <strong>6 personas</strong>, por lo que serán compartidas entre invitados.</li>
+                                        <li>La estancia <strong>incluye alimentos</strong> durante el fin de semana.</li>
                                     </ul>
                                 </div>
 
-                                <!-- Formulario RSVP -->
+                                <!-- 3. Formulario RSVP -->
                                 <form id="rsvpForm" class="rsvp-form" novalidate="">
                                     <div class="form-group">
                                         <label for="guestName" class="form-label">Nombre Completo o Familia</label>
@@ -1642,7 +1795,7 @@
                                 </form>
                             </div>
 
-                            <!-- Recuadro inferior: atención de hospedaje y pagos -->
+                            <!-- 4. Recuadro atención de hospedaje y pagos -->
                             <div class="hotel-support-box">
                                 <p class="hotel-support-title">Atención de Hospedaje y Pagos</p>
 
@@ -1671,7 +1824,7 @@
 
             </div>
 
-            <!-- Botón inferior centrado para volver a la portada -->
+            <!-- Botón para regresar a la portada -->
             <div class="back-cover-wrap">
                 <button type="button" id="backToCoverBtn" class="btn-back-cover">
                     Volver a la Portada
@@ -1681,12 +1834,12 @@
 
     </main>
 
-    <!-- Lightbox a pantalla completa para la galería -->
+    <!-- Lightbox a pantalla completa (galería del hotel y fotos de la pareja) -->
     <div id="lightbox" class="lightbox is-hidden" role="dialog" aria-modal="true" aria-label="Visor de fotografías">
         <button type="button" id="lightboxCloseBtn" class="lightbox-close" aria-label="Cerrar visor">×</button>
         <button type="button" id="lightboxPrevBtn" class="lightbox-nav prev" aria-label="Foto anterior">‹</button>
         <div class="lightbox-inner">
-            <img id="lightboxImg" class="lightbox-img" src="" alt="Fotografía ampliada de Grand Mazamitla">
+            <img id="lightboxImg" class="lightbox-img" src="" alt="Fotografía ampliada">
             <p id="lightboxCaption" class="lightbox-caption"></p>
         </div>
         <button type="button" id="lightboxNextBtn" class="lightbox-nav next" aria-label="Foto siguiente">›</button>
@@ -1695,44 +1848,68 @@
     <!-- Notificación elegante tipo toast -->
     <div id="toastNotice" class="toast-notice is-hidden" role="status" aria-live="polite"></div>
 
-    <!-- Script único de la aplicación (identificado para exportación limpia) -->
+    <!-- Único script propio de la aplicación -->
     <script data-app-script="true">
         (function () {
             'use strict';
 
-            // Configuración principal del evento
             var PRICE_PER_PERSON = 3500;
             var COUPLE_WA = '523334627774';
             var HOTEL_WA = '523351111018';
             var TARGET_DATE = new Date('2027-10-23T19:00:00-06:00').getTime();
 
-            // Fotografías oficiales alojadas en GitHub Pages
-            var PHOTOS = [
+            // 5 Fotografías oficiales de Grand Mazamitla
+            var HOTEL_PHOTOS = [
                 {
                     url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119829825.png',
                     caption: '1/5 · Salón de Eventos con Ventanales al Bosque'
                 },
                 {
                     url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119816102.png',
-                    caption: '2/5 · Jardines y Entorno Natural'
+                    caption: '2/5 · Jardines y Espacios Rodeados de Pinos'
                 },
                 {
                     url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119801174.png',
-                    caption: '3/5 · Habitaciones y Cabañas'
+                    caption: '3/5 · Áreas Comunes y Arquitectura de Montaña'
                 },
                 {
                     url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119786129.png',
-                    caption: '4/5 · Áreas Comunes en el Bosque'
+                    caption: '4/5 · Habitaciones Acogedoras en el Bosque'
                 },
                 {
                     url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/1795119771774.png',
-                    caption: '5/5 · Vistas y Terraza entre Pinos'
+                    caption: '5/5 · Terraza y Vistas de Grand Mazamitla'
                 }
             ];
 
-            var currentPhotoIndex = 0;
+            // 2 Fotografías de la pareja
+            var COUPLE_PHOTOS = [
+                {
+                    url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/FOTO-BODA1.png',
+                    caption: 'Laura Elena & Francisco José · Entre pinos y cascadas'
+                },
+                {
+                    url: 'https://arnespada.github.io/Boda-Laura-y-Francisco/FOTO-BODA2.jpg',
+                    caption: 'Nuestra aventura juntos · Laura Elena & Francisco José'
+                }
+            ];
+
+            var currentHotelIndex = 0;
+            var activeLightboxSet = HOTEL_PHOTOS;
+            var activeLightboxIndex = 0;
             var toastTimer = null;
             var touchStartX = 0;
+
+            function showToast(message) {
+                var toast = document.getElementById('toastNotice');
+                if (!toast) return;
+                toast.textContent = message;
+                toast.classList.remove('is-hidden');
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(function () {
+                    toast.classList.add('is-hidden');
+                }, 3200);
+            }
 
             function initApp() {
                 try {
@@ -1741,7 +1918,7 @@
                     var openInviteBtn = document.getElementById('openInviteBtn');
                     var backToCoverBtn = document.getElementById('backToCoverBtn');
 
-                    // 1. Navegación entre portada y tríptico
+                    // 1. Cambio limpio entre portada y tríptico
                     if (openInviteBtn && coverView && triptychView) {
                         openInviteBtn.addEventListener('click', function () {
                             coverView.classList.add('is-hidden');
@@ -1758,10 +1935,9 @@
                         });
                     }
 
-                    // 2. Cuenta regresiva en vivo
+                    // 2. Cuenta regresiva en tiempo real
                     function updateCountdown() {
-                        var now = Date.now();
-                        var diff = TARGET_DATE - now;
+                        var diff = TARGET_DATE - Date.now();
                         if (diff < 0) diff = 0;
 
                         var days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -1783,7 +1959,7 @@
                     updateCountdown();
                     setInterval(updateCountdown, 1000);
 
-                    // 3. Guardar fecha en calendario (.ics)
+                    // 3. Descarga de archivo .ics (Guardar Fecha)
                     var saveCalendarBtn = document.getElementById('saveCalendarBtn');
                     if (saveCalendarBtn) {
                         saveCalendarBtn.addEventListener('click', function () {
@@ -1797,7 +1973,7 @@
                                 'DTSTART:20271022T190000',
                                 'DTEND:20271024T120000',
                                 'LOCATION:Grand Mazamitla Mountain Hotel Boutique, Gorriones 6, Fracc. Pinos de Mazamitla, Mazamitla, Jalisco, C.P. 49500',
-                                'DESCRIPTION:Fin de semana de boda. Viernes 22 (7:00 PM): Bienvenida y Fogatita. Sábado 23 (7:00 PM): Ceremonia y Boda Principal. Domingo 24 (9:00 AM): Desayuno de Despedida.',
+                                'DESCRIPTION:Fin de semana de boda en Grand Mazamitla. Viernes 22 de octubre (7:00 PM): Bienvenida y Fogatita. Sábado 23 de octubre (7:00 PM): Ceremonia y Boda Principal. Domingo 24 de octubre (9:00 AM): Desayuno de Despedida.',
                                 'END:VEVENT',
                                 'END:VCALENDAR'
                             ].join('\r\n');
@@ -1811,11 +1987,11 @@
                             link.click();
                             document.body.removeChild(link);
                             setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-                            showToast('Archivo de calendario descargado.');
+                            showToast('Evento guardado en tu calendario (.ics).');
                         });
                     }
 
-                    // 4. Galería interactiva y Lightbox
+                    // 4. Galería del hotel y Lightbox unificado
                     var galleryMainImg = document.getElementById('galleryMainImg');
                     var galleryCaption = document.getElementById('galleryCaption');
                     var galleryPrevBtn = document.getElementById('galleryPrevBtn');
@@ -1830,10 +2006,9 @@
                     var lightboxPrevBtn = document.getElementById('lightboxPrevBtn');
                     var lightboxNextBtn = document.getElementById('lightboxNextBtn');
 
-                    function renderPhoto(index) {
-                        currentPhotoIndex = (index + PHOTOS.length) % PHOTOS.length;
-                        var photo = PHOTOS[currentPhotoIndex];
-
+                    function renderHotelGallery(index) {
+                        currentHotelIndex = (index + HOTEL_PHOTOS.length) % HOTEL_PHOTOS.length;
+                        var photo = HOTEL_PHOTOS[currentHotelIndex];
                         if (galleryMainImg) {
                             galleryMainImg.src = photo.url;
                             galleryMainImg.alt = photo.caption;
@@ -1841,31 +2016,32 @@
                         if (galleryCaption) {
                             galleryCaption.textContent = photo.caption;
                         }
-                        if (lightbox && !lightbox.classList.contains('is-hidden')) {
-                            if (lightboxImg) {
-                                lightboxImg.src = photo.url;
-                                lightboxImg.alt = photo.caption;
-                            }
-                            if (lightboxCaption) {
-                                lightboxCaption.textContent = photo.caption;
-                            }
-                        }
-
                         thumbButtons.forEach(function (btn, idx) {
-                            btn.classList.toggle('is-active', idx === currentPhotoIndex);
+                            btn.classList.toggle('is-active', idx === currentHotelIndex);
                         });
                     }
 
-                    function openLightbox() {
-                        if (!lightbox) return;
-                        var photo = PHOTOS[currentPhotoIndex];
+                    function renderLightboxSlide() {
+                        var item = activeLightboxSet[activeLightboxIndex];
+                        if (!item) return;
                         if (lightboxImg) {
-                            lightboxImg.src = photo.url;
-                            lightboxImg.alt = photo.caption;
+                            lightboxImg.src = item.url;
+                            lightboxImg.alt = item.caption;
                         }
                         if (lightboxCaption) {
-                            lightboxCaption.textContent = photo.caption;
+                            lightboxCaption.textContent = item.caption;
                         }
+                        // Si se navega en la galería del hotel desde el lightbox, sincronizar miniatura
+                        if (activeLightboxSet === HOTEL_PHOTOS) {
+                            renderHotelGallery(activeLightboxIndex);
+                        }
+                    }
+
+                    function openLightbox(photoSet, startIndex) {
+                        if (!lightbox) return;
+                        activeLightboxSet = photoSet;
+                        activeLightboxIndex = (startIndex + photoSet.length) % photoSet.length;
+                        renderLightboxSlide();
                         lightbox.classList.remove('is-hidden');
                         document.body.style.overflow = 'hidden';
                     }
@@ -1876,21 +2052,41 @@
                         document.body.style.overflow = '';
                     }
 
-                    if (galleryPrevBtn) galleryPrevBtn.addEventListener('click', function () { renderPhoto(currentPhotoIndex - 1); });
-                    if (galleryNextBtn) galleryNextBtn.addEventListener('click', function () { renderPhoto(currentPhotoIndex + 1); });
-                    if (galleryExpandBtn) galleryExpandBtn.addEventListener('click', openLightbox);
-                    if (galleryMainImg) galleryMainImg.addEventListener('click', openLightbox);
+                    function stepLightbox(delta) {
+                        activeLightboxIndex = (activeLightboxIndex + delta + activeLightboxSet.length) % activeLightboxSet.length;
+                        renderLightboxSlide();
+                    }
+
+                    if (galleryPrevBtn) galleryPrevBtn.addEventListener('click', function () { renderHotelGallery(currentHotelIndex - 1); });
+                    if (galleryNextBtn) galleryNextBtn.addEventListener('click', function () { renderHotelGallery(currentHotelIndex + 1); });
+                    if (galleryExpandBtn) galleryExpandBtn.addEventListener('click', function () { openLightbox(HOTEL_PHOTOS, currentHotelIndex); });
+                    if (galleryMainImg) galleryMainImg.addEventListener('click', function () { openLightbox(HOTEL_PHOTOS, currentHotelIndex); });
 
                     thumbButtons.forEach(function (btn) {
                         btn.addEventListener('click', function () {
                             var idx = parseInt(btn.getAttribute('data-index'), 10);
-                            if (!isNaN(idx)) renderPhoto(idx);
+                            if (!isNaN(idx)) renderHotelGallery(idx);
+                        });
+                    });
+
+                    // Fotos clicables de la pareja (portada, panel izquierdo y panel central)
+                    var coupleTriggers = document.querySelectorAll('[data-couple-photo]');
+                    coupleTriggers.forEach(function (el) {
+                        var photoIdx = parseInt(el.getAttribute('data-couple-photo'), 10) || 0;
+                        el.addEventListener('click', function () {
+                            openLightbox(COUPLE_PHOTOS, photoIdx);
+                        });
+                        el.addEventListener('keydown', function (e) {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                openLightbox(COUPLE_PHOTOS, photoIdx);
+                            }
                         });
                     });
 
                     if (lightboxCloseBtn) lightboxCloseBtn.addEventListener('click', closeLightbox);
-                    if (lightboxPrevBtn) lightboxPrevBtn.addEventListener('click', function () { renderPhoto(currentPhotoIndex - 1); });
-                    if (lightboxNextBtn) lightboxNextBtn.addEventListener('click', function () { renderPhoto(currentPhotoIndex + 1); });
+                    if (lightboxPrevBtn) lightboxPrevBtn.addEventListener('click', function () { stepLightbox(-1); });
+                    if (lightboxNextBtn) lightboxNextBtn.addEventListener('click', function () { stepLightbox(1); });
 
                     if (lightbox) {
                         lightbox.addEventListener('click', function (e) {
@@ -1907,8 +2103,7 @@
                             if (e.changedTouches && e.changedTouches.length > 0) {
                                 var diffX = e.changedTouches[0].screenX - touchStartX;
                                 if (Math.abs(diffX) > 45) {
-                                    if (diffX < 0) renderPhoto(currentPhotoIndex + 1);
-                                    else renderPhoto(currentPhotoIndex - 1);
+                                    stepLightbox(diffX < 0 ? 1 : -1);
                                 }
                             }
                         }, { passive: true });
@@ -1917,8 +2112,8 @@
                     document.addEventListener('keydown', function (e) {
                         if (!lightbox || lightbox.classList.contains('is-hidden')) return;
                         if (e.key === 'Escape') closeLightbox();
-                        else if (e.key === 'ArrowLeft') renderPhoto(currentPhotoIndex - 1);
-                        else if (e.key === 'ArrowRight') renderPhoto(currentPhotoIndex + 1);
+                        else if (e.key === 'ArrowLeft') stepLightbox(-1);
+                        else if (e.key === 'ArrowRight') stepLightbox(1);
                     });
 
                     // 5. Lógica RSVP (máximo estricto 2 personas y mensaje condicional)
@@ -1956,7 +2151,7 @@
                     if (guestCountSelect) guestCountSelect.addEventListener('change', updateRsvpState);
                     updateRsvpState();
 
-                    // Confirmar asistencia con los novios vía WhatsApp
+                    // Botón Confirmar con los Novios -> WhatsApp 523334627774
                     if (confirmCoupleBtn) {
                         confirmCoupleBtn.addEventListener('click', function () {
                             var name = guestNameInput ? guestNameInput.value.trim() : '';
@@ -1976,7 +2171,7 @@
                                 lines.push('¡Hola Laura Elena y Francisco José! Confirmo mi asistencia a su boda en Grand Mazamitla (22 al 24 de octubre de 2027).');
                                 lines.push('• Invitado / Familia: ' + name);
                                 lines.push('• Asistencia: Sí asistiré');
-                                lines.push('• Personas: ' + count + (count === 1 ? ' persona' : ' personas'));
+                                lines.push('• Número de personas: ' + count + (count === 1 ? ' persona' : ' personas'));
                                 lines.push('• Total estancia (hospedaje y alimentos): ' + total);
                                 if (customMessage) {
                                     lines.push('• Mensaje para los novios: ' + customMessage);
@@ -1992,7 +2187,7 @@
                         });
                     }
 
-                    // Abonar habitación con Grand Mazamitla Mountain Hotel Boutique vía WhatsApp
+                    // Botón Abonar Habitación con Hotel -> WhatsApp 523351111018
                     if (payHotelBtn) {
                         payHotelBtn.addEventListener('click', function () {
                             var name = guestNameInput ? guestNameInput.value.trim() : '';
@@ -2006,9 +2201,9 @@
                             var total = formatMXN(count * PRICE_PER_PERSON);
 
                             var lines = [
-                                'Hola Grand Mazamitla Mountain Hotel Boutique, deseo información para apartar o abonar mi estancia para la boda de Laura Elena González Hernández y Francisco José Osuna Meza (22 al 24 de octubre de 2027).',
+                                'Hola Grand Mazamitla Mountain Hotel Boutique, deseo apartar o abonar mi habitación para la boda de Laura Elena González Hernández y Francisco José Osuna Meza (22 al 24 de octubre de 2027).',
                                 '• Invitado / Familia: ' + name,
-                                '• Personas: ' + count + (count === 1 ? ' persona' : ' personas'),
+                                '• Número de personas: ' + count + (count === 1 ? ' persona' : ' personas'),
                                 '• Total estancia: ' + total
                             ];
 
@@ -2038,7 +2233,7 @@
                                     }
                                 });
 
-                                // Garantizar estado inicial limpio: portada visible, tríptico y modales ocultos
+                                // Restablecer estado inicial: portada visible, tríptico y modales ocultos
                                 var clonedCover = docClone.querySelector('#cover-view');
                                 var clonedTriptych = docClone.querySelector('#triptych-view');
                                 var clonedLightbox = docClone.querySelector('#lightbox');
@@ -2052,21 +2247,21 @@
                                     clonedToast.textContent = '';
                                 }
 
-                                // Restablecer valores por defecto del formulario en el archivo exportado
+                                // Limpiar campos del formulario
                                 var clonedName = docClone.querySelector('#guestName');
                                 var clonedMsg = docClone.querySelector('#guestMessage');
                                 if (clonedName) clonedName.setAttribute('value', '');
                                 if (clonedMsg) clonedMsg.textContent = '';
 
-                                // Asegurar que la primera foto sea la activa
+                                // Asegurar primera foto del hotel como activa
                                 var clonedMainImg = docClone.querySelector('#galleryMainImg');
                                 var clonedCaption = docClone.querySelector('#galleryCaption');
                                 if (clonedMainImg) {
-                                    clonedMainImg.setAttribute('src', PHOTOS[0].url);
-                                    clonedMainImg.setAttribute('alt', PHOTOS[0].caption);
+                                    clonedMainImg.setAttribute('src', HOTEL_PHOTOS[0].url);
+                                    clonedMainImg.setAttribute('alt', HOTEL_PHOTOS[0].caption);
                                 }
                                 if (clonedCaption) {
-                                    clonedCaption.textContent = PHOTOS[0].caption;
+                                    clonedCaption.textContent = HOTEL_PHOTOS[0].caption;
                                 }
 
                                 var cleanHtml = '<!DOCTYPE html>\n' + docClone.outerHTML;
@@ -2086,19 +2281,8 @@
                         });
                     }
                 } catch (err) {
-                    // Evita bloquear la página ante cualquier error inesperado
+                    // Protege la inicialización de cualquier fallo inesperado
                 }
-            }
-
-            function showToast(message) {
-                var toast = document.getElementById('toastNotice');
-                if (!toast) return;
-                toast.textContent = message;
-                toast.classList.remove('is-hidden');
-                if (toastTimer) clearTimeout(toastTimer);
-                toastTimer = setTimeout(function () {
-                    toast.classList.add('is-hidden');
-                }, 3200);
             }
 
             if (document.readyState === 'loading') {
